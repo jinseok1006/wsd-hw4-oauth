@@ -7,8 +7,9 @@ import {
   Alert,
   Box,
 } from "@mui/material";
+import { ROUTES } from "../constants";
 
-export function SignupPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,7 +40,7 @@ export function SignupPage() {
             color="primary"
             fullWidth
             sx={{ mt: 2 }}
-            href="/sign-in"
+            href={ROUTES.signin}
           >
             로그인 페이지로 이동
           </Button>
