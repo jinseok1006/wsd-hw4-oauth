@@ -9,14 +9,18 @@ import {
 } from "@mui/material";
 import { ROUTES } from "../../constants";
 
-export default function SignUp() {
+interface SingUpProps {
+  toggleAuthMode: () => void;
+}
+
+export default function SignUp({ toggleAuthMode }: SingUpProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSignup = (e:React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -87,9 +91,11 @@ export default function SignUp() {
             color="primary"
             fullWidth
             sx={{ mt: 2 }}
+          
           >
             회원가입
           </Button>
+          
         </Box>
       )}
     </Container>
