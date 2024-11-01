@@ -6,49 +6,62 @@ import {
   Typography,
   Alert,
   Box,
+  Link
 } from "@mui/material";
-import { ROUTES } from "../constants";
+import { ROUTES } from "../../constants";
 
-export default function SignUpPage() {
+export default function SignIn() {
+  // 이메일, 비밀번호, 에러 메시지 및 로그인 상태를 위한 상태 관리
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleSignup = (e:React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+  // 로그인 버튼 클릭 시 호출되는 함수
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault(); // 기본 폼 제출 동작 방지
 
-    if (password !== confirmPassword) {
-      setError("비밀번호가 일치하지 않습니다.");
+    // 간단한 유효성 검사
+    if (email === "" || password === "") {
+      setError("이메일과 비밀번호를 입력하세요.");
       return;
     }
 
-    // 예시 회원가입 처리 로직
-    // API 요청 등을 통해 회원가입 구현
-    setSuccess(true);
+    // 예시용으로 간단한 로그인 검증
+    if (email === "test@example.com" && password === "password123") {
+      setIsLoggedIn(true);
+      setError("");
+    } else {
+      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+    }
+  };
+
+  // 로그아웃 함수
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setEmail("");
+    setPassword("");
   };
 
   return (
     <Container maxWidth="xs">
-      {success ? (
+      {isLoggedIn ? (
         <Box textAlign="center" mt={5}>
-          <Typography variant="h5">회원가입이 완료되었습니다!</Typography>
+          <Typography variant="h5">Welcome, {email}!</Typography>
           <Button
             variant="contained"
             color="primary"
+            onClick={handleLogout}
             fullWidth
             sx={{ mt: 2 }}
-            href={ROUTES.signin}
           >
-            로그인 페이지로 이동
+            로그아웃
           </Button>
         </Box>
       ) : (
-        <Box component="form" onSubmit={handleSignup} mt={5}>
+        <Box component="form" onSubmit={handleLogin} mt={5}>
           <Typography variant="h5" align="center" gutterBottom>
-            회원가입
+            로그인
           </Typography>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
@@ -72,15 +85,6 @@ export default function SignUpPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <TextField
-            label="비밀번호 확인"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
           <Button
             type="submit"
             variant="contained"
@@ -88,8 +92,11 @@ export default function SignUpPage() {
             fullWidth
             sx={{ mt: 2 }}
           >
-            회원가입
+            로그인
           </Button>
+          <Box display="flex" justifyContent="space-between" mt={2}>
+            <Link href={ROUTES.signup}>회원가입</Link>
+          </Box>
         </Box>
       )}
     </Container>

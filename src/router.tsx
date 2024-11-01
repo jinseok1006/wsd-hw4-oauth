@@ -5,7 +5,6 @@ import {
   Route,
 } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
 import { ROUTES } from "./constants";
 import WishListPage from "./pages/WishListPage";
@@ -24,7 +23,6 @@ const routes = createRoutesFromElements(
   <Route path={ROUTES.root} element={<Layout />}>
     <Route index element={<HomePage />} />
     <Route path={ROUTES.signin} element={<SignInPage />} />
-    <Route path={ROUTES.signup} element={<SignUpPage />} />
     <Route path={ROUTES.wishlist} element={<WishListPage />} />
   </Route>
 );
