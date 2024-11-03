@@ -6,10 +6,15 @@ import {
   Typography,
   Alert,
   Box,
-  Link
+  Link,
 } from "@mui/material";
+import { ROUTES } from "../../constants";
 
-export function LoginPage() {
+interface SingInProps {
+  toggleAuthMode: () => void;
+}
+
+export default function SignIn({ toggleAuthMode }: SingInProps) {
   // 이메일, 비밀번호, 에러 메시지 및 로그인 상태를 위한 상태 관리
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -94,7 +99,8 @@ export function LoginPage() {
             로그인
           </Button>
           <Box display="flex" justifyContent="space-between" mt={2}>
-            <Link href="/signup">회원가입</Link>
+            {/* <Link  href={ROUTES.signup}>회원가입</Link> */}
+            <Button onClick={toggleAuthMode}>회원가입</Button>
           </Box>
         </Box>
       )}

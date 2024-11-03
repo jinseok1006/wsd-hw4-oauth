@@ -7,15 +7,20 @@ import {
   Alert,
   Box,
 } from "@mui/material";
+import { ROUTES } from "../../constants";
 
-export function SignupPage() {
+interface SingUpProps {
+  toggleAuthMode: () => void;
+}
+
+export default function SignUp({ toggleAuthMode }: SingUpProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSignup = (e:React.FormEvent) => {
+  const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -39,7 +44,7 @@ export function SignupPage() {
             color="primary"
             fullWidth
             sx={{ mt: 2 }}
-            href="/sign-in"
+            href={ROUTES.signin}
           >
             로그인 페이지로 이동
           </Button>
@@ -86,9 +91,11 @@ export function SignupPage() {
             color="primary"
             fullWidth
             sx={{ mt: 2 }}
+          
           >
             회원가입
           </Button>
+          
         </Box>
       )}
     </Container>
