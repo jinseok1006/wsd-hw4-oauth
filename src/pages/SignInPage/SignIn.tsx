@@ -1,109 +1,134 @@
-import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Typography,
-  Alert,
-  Box,
-  Link,
-} from "@mui/material";
-import { ROUTES } from "../../constants";
+import classNames from "classnames/bind";
+import styles from "./signin.module.css";
+import { useState } from 'react';
 
-interface SingInProps {
-  toggleAuthMode: () => void;
-}
+export default function SignIn() {
+  const cx = classNames.bind(styles);
+  const [isForm1Submitted, setIsForm1Submitted] = useState(false);
+  const [isForm1Goback, setIsForm1Goback] = useState(false);
+  const [isForm2Pull, setIsForm2Pull] = useState(false);
+  const [isForm2Push, setIsForm2Push] = useState(false);
+  const [isForm3Active, setIsForm3Active] = useState(false);
 
-export default function SignIn({ toggleAuthMode }: SingInProps) {
-  // 이메일, 비밀번호, 에러 메시지 및 로그인 상태를 위한 상태 관리
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // 로그인 버튼 클릭 시 호출되는 함수
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
-
-    // 간단한 유효성 검사
-    if (email === "" || password === "") {
-      setError("이메일과 비밀번호를 입력하세요.");
-      return;
-    }
-
-    // 예시용으로 간단한 로그인 검증
-    if (email === "test@example.com" && password === "password123") {
-      setIsLoggedIn(true);
-      setError("");
-    } else {
-      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
-    }
+  const handleSignUp1Submit = (e) => {
+    e.preventDefault();
+    setIsForm1Goback(false);
+    setIsForm1Submitted(true);
+    setIsForm2Push(false);
+    setIsForm2Pull(true);
   };
 
-  // 로그아웃 함수
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setEmail("");
-    setPassword("");
+  const handleLogInClick = () => {
+    setIsForm3Active(true);
+  };
+
+  const handleGoToSignupClick = () => {
+    setIsForm3Active(false);
+  };
+
+  const handleBackClick = () => {
+    setIsForm1Submitted(false);
+    setIsForm1Goback(true);
+    setIsForm2Pull(false);
+    setIsForm2Push(true);
   };
 
   return (
-    <Container maxWidth="xs">
-      {isLoggedIn ? (
-        <Box textAlign="center" mt={5}>
-          <Typography variant="h5">Welcome, {email}!</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLogout}
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            로그아웃
-          </Button>
-        </Box>
-      ) : (
-        <Box component="form" onSubmit={handleLogin} mt={5}>
-          <Typography variant="h5" align="center" gutterBottom>
-            로그인
-          </Typography>
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
-          <TextField
-            label="이메일"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            label="비밀번호"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
-            로그인
-          </Button>
-          <Box display="flex" justifyContent="space-between" mt={2}>
-            {/* <Link  href={ROUTES.signup}>회원가입</Link> */}
-            <Button onClick={toggleAuthMode}>회원가입</Button>
-          </Box>
-        </Box>
-      )}
-    </Container>
+    <div className={cx("container")}>
+      <div className={cx("form-container", "form-1", {
+        submitted: isForm1Submitted,
+        goback: isForm1Goback
+      })}>
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path fill="white" fill-rule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)" />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1>Create an Account</h1>
+
+          <form id="sign-up-1" action="" onSubmit={handleSignUp1Submit}>
+            <div className={cx("form-group")}>
+              <input required id="name" type="text" />
+              <label htmlFor="name">Name</label>
+            </div>
+
+            <div className={cx("form-group")}>
+              <input required id="email" type="text" />
+              <label htmlFor="email">Email</label>
+            </div>
+
+            <input type="submit" value="Get Started" />
+          </form>
+
+          <span className={cx("login")}>Already have an account? <a id="log-in" onClick={handleLogInClick}>Log in.</a></span>
+        </div>
+      </div>
+
+      <div className={cx("form-container", "form-2", {
+        pull: isForm2Pull,
+        push: isForm2Push
+      })}>
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path fill="white" fill-rule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)" />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1>Set Your Password</h1>
+
+          <form id="sign-up-2" action="">
+            <div className={cx("form-group")}>
+              <input required id="pass" type="password" />
+              <label htmlFor="pass">Password</label>
+            </div>
+
+            <div className={cx("form-group")}>
+              <input required id="pass2" type="text" />
+              <label htmlFor="pass2">Confirm Password</label>
+            </div>
+
+            <input type="submit" value="Sign Up" />
+          </form>
+
+          <span id="back" className={cx("login")}><a onClick={handleBackClick}>Go back.</a></span>
+        </div>
+      </div>
+
+      <div className={cx("form-container", "form-3", {
+        active: isForm3Active
+      })}>
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path fill="white" fill-rule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)" />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1>Login</h1>
+
+          <form id="log-in-1" action="">
+            <div className={cx("form-group")}>
+              <input required id="emailin" type="text" />
+              <label htmlFor="emailin">Email</label>
+            </div>
+
+            <div className={cx("form-group")}>
+              <input required id="passin" type="password" />
+              <label htmlFor="passin">Password</label>
+            </div>
+
+            <input type="submit" value="Log in" />
+          </form>
+
+          <span className={cx("login")}>No account? <a id="go-to-signup" onClick={handleGoToSignupClick}>Sign up.</a></span>
+        </div>
+      </div>
+    </div>
   );
 }
