@@ -1,5 +1,6 @@
 import appbarStyle from "./appbar.module.css";
 import classNames from "classnames/bind";
+import { Link } from "react-router-dom";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -15,10 +16,19 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import Drawer from "./Drawer";
 
-function ResponsiveAppBar() {
+import { ROUTES, PAGES } from "../constants";
+
+const settings = ["Logout"];
+
+export default function ResponsiveAppBar() {
+  const [drawerOpen, setOpen] = React.useState(false);
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -26,9 +36,6 @@ function ResponsiveAppBar() {
     null
   );
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -46,16 +53,26 @@ function ResponsiveAppBar() {
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           {/* logo */}
-          <Box component="img" src="logo.png" alt="logo" height="45px" sx={{mx:3}}/>
+          <Link to={ROUTES.root}>
+            <Box
+              component="img"
+              src="logo.png"
+              alt="logo"
+              height="35px"
+              sx={{ mx: 3 }}
+            />
+          </Link>
           {/* nav menus */}
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {PAGES.map((page) => (
               <Button
-                key={page}
+                component={Link}
+                key={page.title}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ display: "block", color: "#fff", minWidth: "inherit" }}
+                to={page.route}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>
@@ -96,13 +113,13 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           {/* menu button for mobile */}
-          <Box sx={{display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={toggleDrawer(!drawerOpen)}
               color="inherit"
             >
               <MenuIcon />
@@ -110,63 +127,10 @@ function ResponsiveAppBar() {
           </Box>
         </Toolbar>
       </Container>
+      <Drawer open={drawerOpen} toggleDrawer={toggleDrawer} />
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
 
-function AppbarOld() {
-  const cx = classNames.bind(appbarStyle);
 
-  return (
-    <nav className={cx("appbar")}>
-      <div className={cx("left")}>
-        <div className={cx("logo")}>
-          <a href="#">
-            <img src="logo.png" alt="" />
-          </a>
-        </div>
-        <div className={cx("mobile-menu")}>메뉴</div>
-        <ul className={cx("menu-list")}>
-          <li>
-            <a href="#">홈</a>
-          </li>
-          <li>
-            <a href="#">시리즈</a>
-          </li>
-          <li>
-            <a href="#">영화</a>
-          </li>
-          <li>
-            <a href="#">NEW! 요즘 대세 콘텐츠</a>
-          </li>
-          <li>
-            <a href="#">내가 찜한 콘텐츠</a>
-          </li>
-        </ul>
-      </div>
-      <div className={cx("right")}>
-        <div className={cx("icon", "search")}>
-          <div className={cx("search-bar")}>
-            <i className={cx("fa-solid", "fa-magnifying-glass")}></i>
-            <input type="text" placeholder="제목, 사람, 장르" />
-          </div>
-        </div>
-        <div className={cx("icon", "kids")}>
-          <a href="#">키즈</a>
-        </div>
-        <div className={cx("icon", "bell")}>
-          <a href="#">
-            <i className={cx("fa-solid", "fa-bell")}></i>
-          </a>
-        </div>
-        <div className={cx("icon", "profile")}>
-          <a href="#">
-            <div className={cx("avatar-box")}></div>
-            <i className={cx("fa-solid", "fa-caret-down")}></i>
-          </a>
-        </div>
-      </div>
-    </nav>
-  );
-}
+

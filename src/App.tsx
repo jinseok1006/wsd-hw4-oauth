@@ -14,18 +14,17 @@ theme = createTheme(theme, {
   palette: {
     primary: {
       main: "#141414",
-      contrastText: '#fefefe'
     },
+    background: {
+      default: '#141414'
+    }
   },
-  text: {
-    primary: "#373D47"
-  }
 });
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
 }
