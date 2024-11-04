@@ -3,6 +3,8 @@ import styles from "./index.module.css";
 import { useState } from "react";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
+// TODO: 반응형
+// TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
 
 export default function SignIn() {
   const cx = classNames.bind(styles);
