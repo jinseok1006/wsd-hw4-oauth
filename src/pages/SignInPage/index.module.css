@@ -28,22 +28,22 @@
     0 5px 15px -5px rgba(0, 0, 0, 0.4);
   border-radius: 20px;
 }
-.form-1 {
+.sign-in-form {
   z-index: 2;
 }
-.form-1.submitted {
+.sign-in-form.submitted {
   animation: switchback 1.2s forwards;
 }
-.form-1.goback {
+.sign-in-form.goback {
   animation: switchfront 1.2s forwards;
 }
-.form-2 {
+.sign-up-form {
   z-index: 1;
 }
-.form-2.pull {
+.sign-up-form.pull {
   animation: switchfront 1.2s forwards;
 }
-.form-2.push {
+.sign-up-form.push {
   animation: switchback 1.2s forwards;
 }
 /* .form-2 .form-image {
