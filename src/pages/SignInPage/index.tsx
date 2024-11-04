@@ -49,12 +49,12 @@ export default function SignIn() {
 
           <form id="sign-up-1" action="" onSubmit={(e) => e.preventDefault()}>
             <div className={cx("form-group")}>
-              <input required id="name" type="text" />
+              <input required id="name" type="email" />
               <label htmlFor="name">Email</label>
             </div>
 
             <div className={cx("form-group")}>
-              <input required id="email" type="text" />
+              <input required id="email" type="password" />
               <label htmlFor="email">Password</label>
             </div>
 
@@ -104,7 +104,7 @@ export default function SignIn() {
             </div>
 
             <div className={cx("form-group")}>
-              <input required id="pass2" type="text" />
+              <input required id="pass2" type="password" />
               <label htmlFor="pass2">Confirm Password</label>
             </div>
 
