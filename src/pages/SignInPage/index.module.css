@@ -1,11 +1,8 @@
 :root {
   --primary-color: #33383c;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
-* {
-  box-sizing: border-box;
-}
 
 .container {
   height: 100vh;
@@ -39,6 +36,7 @@
 }
 .sign-up-form {
   z-index: 1;
+  transform: scale(0.7);
 }
 .sign-up-form.pull {
   animation: switchfront 1.2s forwards;
@@ -74,7 +72,7 @@
   left: 0;
   right: 0;
 }
-h1 {
+.container h1 {
   margin: 0;
   margin-bottom: 30px;
   color: var(--primary-color);
@@ -110,7 +108,7 @@ h1 {
   cursor: text;
   transition: transform 0.3s, color 0.3s;
 }
-input[type="submit"] {
+.container input[type="submit"] {
   width: 100%;
   padding: 15px;
   text-align: center;
@@ -123,12 +121,12 @@ input[type="submit"] {
   transition: background 0.3s;
   cursor: pointer;
 }
-input[type="submit"]:hover {
+.container input[type="submit"]:hover {
   background: #fff;
   outline: 2px solid var(--primary-color);
   color: var(--primary-color);
 }
-input[type="submit"]:focus {
+.container input[type="submit"]:focus {
   outline: none;
 }
 .login {
@@ -165,13 +163,13 @@ input[type="submit"]:focus {
     z-index: 1;
   }
   100% {
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) scale(0.7);
     z-index: 1;
   }
 }
 @keyframes switchfront {
   0% {
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) scale(0.7);
     z-index: 1;
   }
   25% {
