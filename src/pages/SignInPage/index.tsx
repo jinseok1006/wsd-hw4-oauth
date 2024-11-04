@@ -3,6 +3,8 @@ import styles from "./index.module.css";
 import { useState } from "react";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
+// TODO: 반응형
+// TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
 
 export default function SignIn() {
   const cx = classNames.bind(styles);
@@ -58,13 +60,13 @@ export default function SignIn() {
               <label htmlFor="email">Password</label>
             </div>
 
-            <input type="submit" value="Get Started" />
+            <input type="submit" value="🔑로그인!!" />
           </form>
 
           <span className={cx("login")}>
-            No account?{" "}
+            아직 계정이 없으신가요?{" "}
             <a id="log-in" onClick={handleSignInToSignUpClick}>
-              Sign up.
+              회원가입
             </a>
           </span>
         </div>
@@ -108,11 +110,11 @@ export default function SignIn() {
               <label htmlFor="pass2">Confirm Password</label>
             </div>
 
-            <input type="submit" value="Sign Up" />
+            <input type="submit" value="🔐회원가입!!" />
           </form>
 
           <span id="back" className={cx("login")}>
-            <a onClick={handleSignUpToSignInClick}>Already have an account? </a>
+            <a onClick={handleSignUpToSignInClick}>이미 계정이 있으신가요? </a>
           </span>
         </div>
       </div>

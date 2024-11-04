@@ -1,5 +1,6 @@
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
 
-import SignIn from "./pages/SignInPage";
 export default function App() {
-  return <SignIn/>
+  return <RouterProvider router={router} />;
 }
