@@ -8,7 +8,7 @@ export default function SignIn() {
   const [isForm1Goback, setIsForm1Goback] = useState(false);
   const [isForm2Pull, setIsForm2Pull] = useState(false);
   const [isForm2Push, setIsForm2Push] = useState(false);
-  const [isForm3Active, setIsForm3Active] = useState(false);
+  // const [isForm3Active, setIsForm3Active] = useState(false);
 
   const handleSignUp1Submit = (e) => {
     e.preventDefault();
@@ -18,13 +18,13 @@ export default function SignIn() {
     setIsForm2Pull(true);
   };
 
-  const handleLogInClick = () => {
-    setIsForm3Active(true);
-  };
+  // const handleLogInClick = () => {
+  //   setIsForm3Active(true);
+  // };
 
-  const handleGoToSignupClick = () => {
-    setIsForm3Active(false);
-  };
+  // const handleGoToSignupClick = () => {
+  //   setIsForm3Active(false);
+  // };
 
   const handleBackClick = () => {
     setIsForm1Submitted(false);
@@ -49,7 +49,7 @@ export default function SignIn() {
         <div className={cx("padding-wrap")}>
           <h1>Create an Account</h1>
 
-          <form id="sign-up-1" action="" onSubmit={handleSignUp1Submit}>
+          <form id="sign-up-1" action="" onSubmit={(e)=>e.preventDefault()}>
             <div className={cx("form-group")}>
               <input required id="name" type="text" />
               <label htmlFor="name">Name</label>
@@ -63,7 +63,7 @@ export default function SignIn() {
             <input type="submit" value="Get Started" />
           </form>
 
-          <span className={cx("login")}>Already have an account? <a id="log-in" onClick={handleLogInClick}>Log in.</a></span>
+          <span className={cx("login")}>Already have an account? <a id="log-in" onClick={handleSignUp1Submit}>Log in.</a></span>
         </div>
       </div>
 
@@ -99,7 +99,7 @@ export default function SignIn() {
         </div>
       </div>
 
-      <div className={cx("form-container", "form-3", {
+      {/* <div className={cx("form-container", "form-3", {
         active: isForm3Active
       })}>
         <div className={cx("form-image")}>
@@ -128,7 +128,7 @@ export default function SignIn() {
 
           <span className={cx("login")}>No account? <a id="go-to-signup" onClick={handleGoToSignupClick}>Sign up.</a></span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
