@@ -10,6 +10,11 @@
   );
 }
 
+.appbar a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .appbar .left {
   display: flex;
   margin-left: 2em;

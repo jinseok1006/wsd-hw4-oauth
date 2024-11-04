@@ -45,8 +45,8 @@ export default function HomePage() {
       </main>
       <section>
         <MovieSlider page={0} title="한국이 만든 콘텐츠" />
-        <MovieSlider page={0} title="지금 뜨는 콘텐츠" />
-        <MovieSlider page={0} title="오늘 한국의 TOP 10 콘텐츠" />
+        <MovieSlider page={1} title="지금 뜨는 콘텐츠" />
+        <MovieSlider page={2} title="오늘 한국의 TOP 10 콘텐츠" />
       </section>
       <footer>
         <div className={cx("wrap")}>

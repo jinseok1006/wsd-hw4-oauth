@@ -1,4 +1,3 @@
-import logoImg from "../../assets/logo.png";
 import appbarStyle from "./appbar.module.css";
 import classNames from "classnames/bind";
 

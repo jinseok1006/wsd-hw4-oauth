@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import classNames from "classnames/bind";
+import styles from "./index.module.css";
+import { Box } from "@mui/material";
 
 interface Movie {
   id: number;
@@ -17,6 +20,7 @@ export default function MovieSlider({
   title: string;
   page: number;
 }) {
+  const cx = classNames.bind(styles);
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
@@ -29,19 +33,20 @@ export default function MovieSlider({
   }, [page]);
 
   return (
-    <div className="content-list">
+    <div className={cx("content-list")}>
       <h1>{title}</h1>
       <Swiper
-        modules={[Navigation]}
-        slidesPerView={7}
+        modules={[Navigation, Mousewheel]}
+        slidesPerView={"auto"}
         navigation
-        slidesPerGroup={5} 
+        spaceBetween={30}
+        slidesPerGroup={5}
+        mousewheel={true}
+        zoom={true}
       >
         {movies.map((movie) => (
-          <SwiperSlide key={movie.id}>
-            <div className="item">
-              <img src={movie.medium_cover_image} alt={movie.title} />
-            </div>
+          <SwiperSlide key={movie.id} className={cx("item")}>
+            <img src={movie.medium_cover_image} alt={movie.title} />
           </SwiperSlide>
         ))}
       </Swiper>
