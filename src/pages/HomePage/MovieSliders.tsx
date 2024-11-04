@@ -1,17 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./index.module.css";
+import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 
-interface Moive {
+interface Movie {
   id: number;
   medium_cover_image: string;
   title: string;
 }
 
-export default function MovieSlider({ page }: { page: number }) {
-  const cx = classNames.bind(styles);
-  const [movies, setMovies] = useState<Moive[]>([]);
-  const sliderRef = useRef<HTMLDivElement>(null);
+export default function MovieSlider({
+  title,
+  page,
+}: {
+  title: string;
+  page: number;
+}) {
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     fetch(
@@ -22,65 +28,22 @@ export default function MovieSlider({ page }: { page: number }) {
       .catch((error) => console.error("Error fetching movies:", error));
   }, [page]);
 
-  const scrollSlider = (offset: number) => {
-    sliderRef.current?.scrollBy({ left: offset, behavior: "smooth" });
-  };
-
   return (
-    <div className={cx("content-list")}>
-      <h1>한국이 만든 콘텐츠</h1>
-
-      <div className={cx("slider")}>
+    <div className="content-list">
+      <h1>{title}</h1>
+      <Swiper
+        modules={[Navigation]}
+        slidesPerView={8}
+        navigation
+      >
         {movies.map((movie) => (
-          <div key={movie.id} className="item">
-            <img src={movie.medium_cover_image} alt={movie.title} />
-          </div>
+          <SwiperSlide key={movie.id}>
+            <div className="item">
+              <img src={movie.medium_cover_image} alt={movie.title} />
+            </div>
+          </SwiperSlide>
         ))}
-      </div>
-      <button
-        className={cx("prev")}
-        onClick={() => scrollSlider(-(sliderRef.current?.offsetWidth ?? 0))}
-      >
-        <i className={cx("fa-solid", "fa-angle-right", "prev-arrow")}></i>
-      </button>
-      <button
-        className={cx("next")}
-        onClick={() => scrollSlider(sliderRef.current?.offsetWidth ?? 0)}
-      >
-        <i className={cx("fa-solid", "fa-angle-right")}></i>
-      </button>
+      </Swiper>
     </div>
   );
 }
-
-// <div className="movie-slider-container">
-//   <button
-//     className="prev"
-//     onClick={() => scrollSlider(-(sliderRef.current?.offsetWidth ?? 0))}
-//   >
-//     Prev
-//   </button>
-//   <div className="slider" ref={sliderRef}>
-//     {movies.map((movie) => (
-//       <div key={movie.id} className="item">
-//         <img src={movie.medium_cover_image} alt={movie.title} />
-//       </div>
-//     ))}
-//   </div>
-//   <button
-//     className="next"
-//     onClick={() => scrollSlider(sliderRef.current?.offsetWidth ?? 0)}
-//   >
-//     Next
-//   </button>
-// </div>
-
-// export default function MovieSliders() {
-//   return (
-//     <div>
-//       {[1, 2, 3].map((page) => (
-//         <MovieSlider key={page} page={page} />
-//       ))}
-//     </div>
-//   );
-// }
