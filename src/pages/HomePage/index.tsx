@@ -1,6 +1,6 @@
+import Appbar from "../../components/Appbar";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
-import logoImg from "../../assets/logo.png";
 import MovieSlider from "./MovieSliders";
 /*
  https://nyagm.tistory.com/68
@@ -9,60 +9,13 @@ import MovieSlider from "./MovieSliders";
 // slider js로 변경하기
 // mui로 헤더 푸터 메인 컴포넌트로 변경
 
+
 export default function HomePage() {
   const cx = classNames.bind(styles);
 
   return (
     <div className={cx("container")}>
-      <nav>
-        <div className={cx("left")}>
-          <div className={cx("logo")}>
-            <a href="#">
-              <img src={logoImg} alt="" />
-            </a>
-          </div>
-          <div className={cx("mobile-menu")}>메뉴</div>
-          <ul className={cx("menu-list")}>
-            <li>
-              <a href="#">홈</a>
-            </li>
-            <li>
-              <a href="#">시리즈</a>
-            </li>
-            <li>
-              <a href="#">영화</a>
-            </li>
-            <li>
-              <a href="#">NEW! 요즘 대세 콘텐츠</a>
-            </li>
-            <li>
-              <a href="#">내가 찜한 콘텐츠</a>
-            </li>
-          </ul>
-        </div>
-        <div className={cx("right")}>
-          <div className={cx("icon", "search")}>
-            <div className={cx("search-bar")}>
-              <i className={cx("fa-solid", "fa-magnifying-glass")}></i>
-              <input type="text" placeholder="제목, 사람, 장르" />
-            </div>
-          </div>
-          <div className={cx("icon", "kids")}>
-            <a href="#">키즈</a>
-          </div>
-          <div className={cx("icon", "bell")}>
-            <a href="#">
-              <i className={cx("fa-solid", "fa-bell")}></i>
-            </a>
-          </div>
-          <div className={cx("icon", "profile")}>
-            <a href="#">
-              <div className={cx("avatar-box")}></div>
-              <i className={cx("fa-solid", "fa-caret-down")}></i>
-            </a>
-          </div>
-        </div>
-      </nav>
+      <Appbar />
       <main>
         <div className={cx("video")}>
           <video src="./video/doctor.mp4" autoPlay muted loop></video>
@@ -91,9 +44,9 @@ export default function HomePage() {
         </div>
       </main>
       <section>
-        <MovieSlider page={0} title="한국이 만든 콘텐츠"/>
-        <MovieSlider page={0} title="지금 뜨는 콘텐츠"/>
-        <MovieSlider page={0} title="오늘 한국의 TOP 10 콘텐츠"/>
+        <MovieSlider page={0} title="한국이 만든 콘텐츠" />
+        <MovieSlider page={0} title="지금 뜨는 콘텐츠" />
+        <MovieSlider page={0} title="오늘 한국의 TOP 10 콘텐츠" />
       </section>
       <footer>
         <div className={cx("wrap")}>

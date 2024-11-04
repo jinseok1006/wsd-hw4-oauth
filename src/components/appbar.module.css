@@ -1,0 +1,107 @@
+.appbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.3em;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 10%,
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.appbar .left {
+  display: flex;
+  margin-left: 2em;
+}
+
+.appbar .left .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  padding: 0.5em;
+  width: 8rem;
+}
+
+.appbar .left .logo a {
+  width: 100%;
+}
+
+.appbar .left .logo a img {
+  max-width: 100%;
+}
+
+.appbar .left .mobile-menu {
+  display: none;
+}
+
+.appbar .left .menu-list {
+  display: flex;
+}
+
+.appbar .left .menu-list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0.2em 1em 0.5em 1em;
+}
+
+.appbar .left .menu-list li a {
+  font-size: 0.8rem;
+}
+
+.appbar .right {
+  display: flex;
+  margin-right: 2em;
+}
+
+.appbar .right .icon {
+  padding: 0.5em 1em 0.5em 1em;
+}
+
+.appbar .right .profile {
+  padding: 0;
+}
+
+.appbar .right .profile a {
+  display: flex;
+  align-items: center;
+}
+
+.appbar .right .profile a .avatar-box {
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.appbar .right .profile i {
+  transition: all 300ms;
+}
+
+.appbar .right .profile:hover i {
+  transform: rotate(180deg);
+}
+
+.appbar .right .search {
+  border: 1px solid white;
+  background-color: black;
+}
+
+.appbar .right .search .search-bar {
+  display: flex;
+}
+
+.appbar .right .search .search-bar i {
+  margin-right: 0.5em;
+}
+
+.appbar .right .search .search-bar input {
+  background-color: transparent;
+  border: none;
+  color: #333;
+  outline: none;
+}

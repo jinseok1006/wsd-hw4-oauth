@@ -33,8 +33,9 @@ export default function MovieSlider({
       <h1>{title}</h1>
       <Swiper
         modules={[Navigation]}
-        slidesPerView={8}
+        slidesPerView={7}
         navigation
+        slidesPerGroup={5} 
       >
         {movies.map((movie) => (
           <SwiperSlide key={movie.id}>
