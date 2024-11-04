@@ -1,17 +1,121 @@
-import React, { useState } from "react";
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
+import classNames from "classnames/bind";
+import styles from "./index.module.css";
+import { useState } from "react";
 
-export default function SignInPage() {
-  const [authMode, setAuthMode] = useState("login"); // 'login' 또는 'signup' 상태를 관리합니다.
+// https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 
-  const toggleAuthMode = () => {
-    setAuthMode((prevMode) => (prevMode === "login" ? "signup" : "login"));
+export default function SignIn() {
+  const cx = classNames.bind(styles);
+  const [isSignInFormActive, setIsSignInFormActive] = useState(false);
+  const [isReturningToSignIn, setIsReturningToSignIn] = useState(false);
+  const [isSignUpFormActive, setIsSignUpFormActive] = useState(false);
+  const [isReturningToSignUp, setIsReturningToSignUp] = useState(false);
+
+  const handleSignInToSignUpClick = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsReturningToSignIn(false);
+    setIsSignInFormActive(true);
+    setIsReturningToSignUp(false);
+    setIsSignUpFormActive(true);
   };
 
-  if (authMode === "signup") {
-    return <SignUp toggleAuthMode={toggleAuthMode} />;
-  }
+  const handleSignUpToSignInClick = () => {
+    setIsSignInFormActive(false);
+    setIsReturningToSignIn(true);
+    setIsSignUpFormActive(false);
+    setIsReturningToSignUp(true);
+  };
 
-  return <SignIn toggleAuthMode={toggleAuthMode} />;
+  return (
+    <div className={cx("container")}>
+      <div
+        className={cx("form-container", "sign-in-form", {
+          submitted: isSignInFormActive,
+          goback: isReturningToSignIn,
+        })}
+      >
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path
+              fill="white"
+              fill-rule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)"
+            />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1>Sign In</h1>
+
+          <form id="sign-up-1" action="" onSubmit={(e) => e.preventDefault()}>
+            <div className={cx("form-group")}>
+              <input required id="name" type="email" />
+              <label htmlFor="name">Email</label>
+            </div>
+
+            <div className={cx("form-group")}>
+              <input required id="email" type="password" />
+              <label htmlFor="email">Password</label>
+            </div>
+
+            <input type="submit" value="Get Started" />
+          </form>
+
+          <span className={cx("login")}>
+            No account?{" "}
+            <a id="log-in" onClick={handleSignInToSignUpClick}>
+              Sign up.
+            </a>
+          </span>
+        </div>
+      </div>
+
+      <div
+        className={cx("form-container", "sign-up-form", {
+          pull: isSignUpFormActive,
+          push: isReturningToSignUp,
+        })}
+      >
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path
+              fill="white"
+              fill-rule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)"
+            />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1>Create an Account</h1>
+
+          <form id="sign-up-2" action="">
+            <div className={cx("form-group")}>
+              <input required id="name" type="text" />
+              <label htmlFor="name">Name</label>
+            </div>
+            <div className={cx("form-group")}>
+              <input required id="email" type="email" />
+              <label htmlFor="pass">Email</label>
+            </div>
+            <div className={cx("form-group")}>
+              <input required id="pass" type="password" />
+              <label htmlFor="pass">Password</label>
+            </div>
+
+            <div className={cx("form-group")}>
+              <input required id="pass2" type="password" />
+              <label htmlFor="pass2">Confirm Password</label>
+            </div>
+
+            <input type="submit" value="Sign Up" />
+          </form>
+
+          <span id="back" className={cx("login")}>
+            <a onClick={handleSignUpToSignInClick}>Already have an account? </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
 }
