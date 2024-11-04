@@ -186,6 +186,7 @@
   display: flex;
   align-items: center;
   gap: 0.8em;
+  color: #fff;
 }
 
 .container main .description .buttons .detail i {

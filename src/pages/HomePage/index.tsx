@@ -1,9 +1,13 @@
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
-import logoImg from '../../assets/logo.png';
+import logoImg from "../../assets/logo.png";
+import MovieSlider from "./MovieSliders";
 /*
  https://nyagm.tistory.com/68
  */
+
+// slider js로 변경하기
+// mui로 헤더 푸터 메인 컴포넌트로 변경
 
 export default function HomePage() {
   const cx = classNames.bind(styles);
@@ -87,36 +91,9 @@ export default function HomePage() {
         </div>
       </main>
       <section>
-        <div className={cx("content-list")}>
-          <h1>한국이 만든 콘텐츠</h1>
-          <div className={cx("slider")}></div>
-          <div className={cx("prev")}>
-            <i className={cx("fa-solid", "fa-angle-right", "prev-arrow")}></i>
-          </div>
-          <div className={cx("next")}>
-            <i className={cx("fa-solid", "fa-angle-right")}></i>
-          </div>
-        </div>
-        <div className={cx("content-list")}>
-          <h1>지금 뜨는 콘텐츠</h1>
-          <div className={cx("slider")}></div>
-          <div className={cx("prev")}>
-            <i className={cx("fa-solid", "fa-angle-right", "prev-arrow")}></i>
-          </div>
-          <div className={cx("next")}>
-            <i className={cx("fa-solid", "fa-angle-right")}></i>
-          </div>
-        </div>
-        <div className={cx("content-list")}>
-          <h1>오늘 한국의 TOP 10 콘텐츠</h1>
-          <div className={cx("slider")}></div>
-          <div className={cx("prev")}>
-            <i className={cx("fa-solid", "fa-angle-right", "prev-arrow")}></i>
-          </div>
-          <div className={cx("next")}>
-            <i className={cx("fa-solid", "fa-angle-right")}></i>
-          </div>
-        </div>
+        <MovieSlider page={0} title="한국이 만든 콘텐츠"/>
+        <MovieSlider page={0} title="지금 뜨는 콘텐츠"/>
+        <MovieSlider page={0} title="오늘 한국의 TOP 10 콘텐츠"/>
       </section>
       <footer>
         <div className={cx("wrap")}>

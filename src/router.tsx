@@ -10,7 +10,7 @@ import WishListPage from "./pages/WishListPage";
 import PopularPage from "./pages/PopularPage";
 import SearchPage from "./pages/SearchPage";
 import Layout from "./components/Layout";
-
+import Test from "./pages/HomePage/MovieSliders";
 
 const routes = createRoutesFromElements(
   <Route path={ROUTES.root} element={<Layout />}>
@@ -19,6 +19,7 @@ const routes = createRoutesFromElements(
     <Route path={ROUTES.wishlist} element={<WishListPage />} />
     <Route path={ROUTES.popular} element={<PopularPage />} />
     <Route path={ROUTES.search} element={<SearchPage />} />
+    {/* <Route path="test" element={<Test />} /> */}
   </Route>
 );
 
