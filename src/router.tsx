@@ -18,7 +18,6 @@ const routes = createRoutesFromElements(
     <Route path={ROUTES.wishlist} element={<WishListPage />} />
     <Route path={ROUTES.popular} element={<PopularPage />} />
     <Route path={ROUTES.search} element={<SearchPage />} />
-    {/* <Route path="test" element={<Test />} /> */}
   </Route>
 );
 

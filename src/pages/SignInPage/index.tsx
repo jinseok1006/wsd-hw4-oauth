@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 반응형
@@ -27,6 +27,16 @@ export default function SignIn() {
     setIsSignUpFormActive(false);
     setIsReturningToSignUp(true);
   };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 스크롤 금지
+    document.body.style.overflow = "hidden";
+
+    // 컴포넌트가 언마운트될 때 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
   return (
     <div className={cx("container")}>

@@ -31,6 +31,8 @@ export default function MovieSlider({
       .catch((error) => console.error("Error fetching movies:", error));
   }, [page]);
 
+  const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
+
   return (
     <div className={cx("content-list")}>
       <h1>{title}</h1>
@@ -44,8 +46,12 @@ export default function MovieSlider({
         zoom={true}
       >
         {movies.map((movie) => (
-          <SwiperSlide key={movie.id} className={cx("item")} >
-            <img src={movie.medium_cover_image} alt={movie.title} style={{height: '100%'}}/>
+          <SwiperSlide key={movie.id} className={cx("item")} style={slideStyle}>
+            <img
+              src={movie.medium_cover_image}
+              alt={movie.title}
+              style={{ height: "100%" }}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

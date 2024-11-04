@@ -1,4 +1,4 @@
-import Appbar from "../../components/Appbar";
+
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import MovieSlider from "./MovieSliders";
@@ -15,7 +15,6 @@ export default function HomePage() {
 
   return (
     <div className={cx("container")}>
-      <Appbar />
       <main>
         <div className={cx("video")}>
           <video src="./video/doctor.mp4" autoPlay muted loop></video>
