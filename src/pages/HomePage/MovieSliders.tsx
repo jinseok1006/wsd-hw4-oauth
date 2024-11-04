@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
-import { Box } from "@mui/material";
 
 interface Movie {
   id: number;
@@ -39,14 +38,14 @@ export default function MovieSlider({
         modules={[Navigation, Mousewheel]}
         slidesPerView={"auto"}
         navigation
-        spaceBetween={30}
+        spaceBetween={10}
         slidesPerGroup={5}
         mousewheel={true}
         zoom={true}
       >
         {movies.map((movie) => (
-          <SwiperSlide key={movie.id} className={cx("item")}>
-            <img src={movie.medium_cover_image} alt={movie.title} />
+          <SwiperSlide key={movie.id} className={cx("item")} >
+            <img src={movie.medium_cover_image} alt={movie.title} style={{height: '100%'}}/>
           </SwiperSlide>
         ))}
       </Swiper>

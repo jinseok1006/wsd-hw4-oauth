@@ -139,8 +139,9 @@
 }
 
 .container section .content-list .item {
-  width: 230px;
-  object-fit: cover;
+  width: auto;
+  height: 300px;
+  /* object-fit: cover; */
   transition: transform 0.3s, box-shadow 0.3s; /* 애니메이션 효과 추가 */
 }
 
