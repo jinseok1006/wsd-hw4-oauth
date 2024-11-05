@@ -16,10 +16,10 @@ export default function HomePage() {
   return (
     <div className={cx("container")}>
       <main>
-        <div className={cx("video")}>
+        <div className={cx("video")} style={{backgroundColor:'#808080'}}>
           <video src="./video/doctor.mp4" autoPlay muted loop></video>
         </div>
-        <div className={cx("description")}>
+        <div className={cx("description")} >
           <h1>Doctor Strange 2</h1>
           <h3>매주 새로운 트레일러 공개</h3>
           <p>

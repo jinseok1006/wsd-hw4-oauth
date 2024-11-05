@@ -40,7 +40,7 @@ export default function MovieSlider({
         modules={[Navigation, Mousewheel]}
         slidesPerView={"auto"}
         navigation
-        spaceBetween={10}
+        spaceBetween={20}
         slidesPerGroup={5}
         mousewheel={true}
         zoom={true}

@@ -1,5 +1,4 @@
-import appbarStyle from "./appbar.module.css";
-import classNames from "classnames/bind";
+
 import { Link } from "react-router-dom";
 
 import * as React from "react";
@@ -11,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
@@ -24,32 +22,39 @@ const settings = ["Logout"];
 
 export default function ResponsiveAppBar() {
   const [drawerOpen, setOpen] = React.useState(false);
-
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  // const { pathname } = useLocation();
+  // const appbarBackgroundColor =
+  //   pathname === "/"
+  //     ? "linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))"
+  //     : undefined;
+
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={
+        {
+          bgcolor: "#404040",
+          transition: 'background-color 0.3s ease',
+          ':hover': {
+            bgcolor:'#262626'
+          }
+        }
+      }
+    >
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           {/* logo */}
@@ -68,8 +73,15 @@ export default function ResponsiveAppBar() {
               <Button
                 component={Link}
                 key={page.title}
-                onClick={handleCloseNavMenu}
-                sx={{ display: "block", color: "#fff", minWidth: "inherit" }}
+                sx={{
+                  color: "#a1a1aa",
+                  minWidth: "inherit",
+
+                  ":hover": {
+                    fontWeight: 900,
+                    color: "#fff",
+                  },
+                }}
                 to={page.route}
               >
                 {page.title}
@@ -83,9 +95,10 @@ export default function ResponsiveAppBar() {
           {/* user button */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+              <Button sx={{color:"#fff"}} variant="text" component={Link} to={ROUTES.signin}>login</Button>
+              {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <PersonIcon sx={{ color: "#fff" }} />
+              </IconButton> */}
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
@@ -132,5 +145,8 @@ export default function ResponsiveAppBar() {
   );
 }
 
+// function AppbarButton(props) {
+//   return <Button >
 
-
+//   </Button>;
+// }

@@ -12,12 +12,13 @@ let theme = createTheme({
 
 theme = createTheme(theme, {
   palette: {
-    primary: {
-      main: "#141414",
+    mode:'dark',
+    primary: { 
+      main: "#333",
     },
-    background: {
-      default: '#141414'
-    }
+    // background: {
+    //   default: '#141414'
+    // }
   },
 });
 
