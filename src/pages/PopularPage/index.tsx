@@ -60,10 +60,32 @@ export default function PopularPage() {
   );
 }
 
+interface Movie {
+  title: string;
+  src: string;
+}
+
+function fetchData() {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res(
+        Array.from({ length: 20 }, () => ({ title: "안녕", src: "/inf1.jpg" }))
+      );
+    }, 1500);
+  }) satisfies Promise<Movie[]>;
+}
+
 function InfiniteScrollMovies() {
-  const [movies, setMovies] = useState<number[]>(
-    Array.from({ length: 20 }, (_, i) => i)
-  );
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    if (movies.length === 0) {
+      (async () => {
+        const data = await fetchData();
+        setMovies([...movies, ...data]);
+      })();
+    }
+  }, [movies]);
 
   const fetchMoreData = () => {
     // a fake async api call like which sends
@@ -71,7 +93,10 @@ function InfiniteScrollMovies() {
     setTimeout(() => {
       setMovies([
         ...movies,
-        ...Array.from({ length: 20 }, (_, i) => movies.length + i),
+        ...Array.from({ length: 20 }, () => ({
+          title: "안녕",
+          src: "/inf1.jpg",
+        })),
       ]);
     }, 1500);
   };
@@ -83,9 +108,30 @@ function InfiniteScrollMovies() {
       hasMore={true}
       loader={<div>loading...</div>}
     >
-      {movies.map((movie) => (
-        <div key={movie} style={{height: '300px'}}>movie - {movie}</div>
-      ))}
+      <Grid container spacing={2}>
+        {movies.map((movie, index) => (
+          <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
+            <Box
+              component="img"
+              src={movie.src}
+              alt={movie.title}
+              sx={{
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+                borderRadius: 1,
+                transition: "transform 0.5s ease",
+                ":hover": {
+                  transform: `scale(1.05)`,
+                },
+              }}
+            />
+            <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
+              {movie.title}
+            </Typography>
+          </Grid>
+        ))}
+      </Grid>
     </InfiniteScroll>
   );
 }
