@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid2";
 import { Box, Container, ButtonGroup, Button, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const images = [
   "image1.jpg",
@@ -23,18 +24,14 @@ const images = [
   "image16.jpg",
 ];
 
-
 export default function PopularPage() {
-  const [viewMode, setViewMode] = useState("infinite"); // 초기 모드를 무한 스크롤로 설정
+  const [viewMode, setViewMode] = useState("pagination"); // 초기 모드를 무한 스크롤로 설정
 
   const handleViewChange = (mode: string) => {
     setViewMode(mode);
   };
-  const containerRef=useRef<HTMLDivElement>(null);
-  useEffect(()=> {
-    
-  }, []);
-
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {}, []);
 
   return (
     <Container maxWidth="xl" sx={{ height: "90svh" }} ref={containerRef}>
@@ -42,38 +39,61 @@ export default function PopularPage() {
       <Box display="flex" justifyContent="flex-end" sx={{ my: 2 }}>
         <ButtonGroup variant="contained" aria-label="view mode buttons">
           <Button
-            onClick={() => handleViewChange("infinite")}
-            sx={{ color: `${viewMode === "infinite" ? "primary" : "default"}` }}
-          >
-            <MenuIcon />
-          </Button>
-          <Button
             onClick={() => handleViewChange("pagination")}
             sx={{
-              color: `${viewMode === "pagination" ? "primary" : "default"}`,
+              bgcolor: viewMode === "pagination" ? "red" : "default",
             }}
           >
             <BackupTableIcon />
           </Button>
+          <Button
+            onClick={() => handleViewChange("infinite")}
+            sx={{ bgcolor: viewMode === "infinite" ? "red" : "default" }}
+          >
+            <MenuIcon />
+          </Button>
         </ButtonGroup>
       </Box>
 
-      <GridMovies />
+      {viewMode === "pagination" ? <GridMovies /> : <InfiniteScrollMovies />}
     </Container>
   );
 }
 
-function InfiniteScroll() {
-  return <div></div>;
+function InfiniteScrollMovies() {
+  const [movies, setMovies] = useState<number[]>(
+    Array.from({ length: 20 }, (_, i) => i)
+  );
+
+  const fetchMoreData = () => {
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+      setMovies([
+        ...movies,
+        ...Array.from({ length: 20 }, (_, i) => movies.length + i),
+      ]);
+    }, 1500);
+  };
+
+  return (
+    <InfiniteScroll
+      dataLength={movies.length}
+      next={fetchMoreData}
+      hasMore={true}
+      loader={<div>loading...</div>}
+    >
+      {movies.map((movie) => (
+        <div key={movie} style={{height: '300px'}}>movie - {movie}</div>
+      ))}
+    </InfiniteScroll>
+  );
 }
 
-function GridMovies({}, ) {
+function GridMovies() {
   useEffect(() => {
     // 컴포넌트가 마운트될 때 스크롤 금지
     document.body.style.overflow = "hidden";
-
-    
-
 
     // 컴포넌트가 언마운트될 때 원래 상태로 복구
     return () => {
