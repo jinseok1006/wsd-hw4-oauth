@@ -3,13 +3,9 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 0.3em;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.7) 10%,
-    rgba(0, 0, 0, 0)
-  );
+  background-color: #141414;
 }
-
+qwe
 .appbar a {
   text-decoration: none;
   color: #fff;

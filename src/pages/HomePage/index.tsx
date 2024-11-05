@@ -1,4 +1,4 @@
-import Appbar from "../../components/Appbar";
+
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import MovieSlider from "./MovieSliders";
@@ -15,12 +15,11 @@ export default function HomePage() {
 
   return (
     <div className={cx("container")}>
-      <Appbar />
       <main>
-        <div className={cx("video")}>
+        <div className={cx("video")} style={{backgroundColor:'#808080'}}>
           <video src="./video/doctor.mp4" autoPlay muted loop></video>
         </div>
-        <div className={cx("description")}>
+        <div className={cx("description")} >
           <h1>Doctor Strange 2</h1>
           <h3>매주 새로운 트레일러 공개</h3>
           <p>

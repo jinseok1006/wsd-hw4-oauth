@@ -3,19 +3,17 @@
   /* overflow: hidden; */
 }
 
-
 .container {
-  height: 100vh;
+  height:100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 .form-container {
   -webkit-transform: translate3d(0, 0, 0);
   position: absolute;
-  top: auto;
   left: auto;
   right: auto;
   width: 100%;
