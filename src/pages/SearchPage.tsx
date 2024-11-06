@@ -8,6 +8,7 @@ import {
   Container,
   Typography,
   Fab,
+  useMediaQuery,
 } from "@mui/material";
 import {
   FilterList as FilterListIcon,
@@ -18,6 +19,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import ScrollTop from "../components/ScrollTop";
+import { useTheme } from "@emotion/react";
 
 const LANGUAGES = ["언어 (전체)", "영어", "한국어"] as const;
 const RATINGS = [
@@ -215,9 +217,24 @@ const MovieFilter = ({
   handleFilterChange,
   handleResetFilters,
 }: MovieFilterProps) => {
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { rating, genre, language } = filters;
   return (
-    <Box display="flex" alignItems="center" gap={2} p={2}>
+    <Box
+      display="flex"
+      gap={2}
+      p={2}
+      flexWrap="wrap"
+      sx={{
+        flexDirection: {
+          xs: "column",
+          sm: "row",
+        },
+        alignItems: { sm: "center", xs: "stretch" },
+        width:{xs:'100%', sm:'inherit'}
+      }}
+    >
       {/* 평점 필터 */}
       <FormControl>
         <InputLabel>평점</InputLabel>
@@ -227,6 +244,7 @@ const MovieFilter = ({
           name="rating"
           onChange={handleFilterChange}
           startAdornment={<FilterListIcon />}
+          fullWidth={true}
         >
           {RATINGS.map((option) => (
             <MenuItem key={option} value={option}>

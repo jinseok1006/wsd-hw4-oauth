@@ -42,6 +42,7 @@ export default function ResponsiveAppBar() {
   //     ? "linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))"
   //     : undefined;
 
+  // absolute로하면 scrolltop이 안먹음..
   return (
     <>
     <HideOnScroll>
