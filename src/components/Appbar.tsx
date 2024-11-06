@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 import * as React from "react";
@@ -45,26 +44,24 @@ export default function ResponsiveAppBar() {
   return (
     <AppBar
       position="static"
-      sx={
-        {
-          bgcolor: "#404040",
-          transition: 'background-color 0.3s ease',
-          ':hover': {
-            bgcolor:'#262626'
-          }
-        }
-      }
+      sx={{
+        transition: "background-color 0.3s ease",
+        ":hover": {
+          bgcolor: "#000",
+        },
+      }}
     >
       <Container maxWidth={false}>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters 
+        id='back-to-top-anchor'
+        >
           {/* logo */}
           <Link to={ROUTES.root}>
             <Box
               component="img"
               src="logo.png"
               alt="logo"
-              height="35px"
-              sx={{ mx: 3 }}
+              sx={{ mx: 3, height: "35px", verticalAlign: "middle" }}
             />
           </Link>
           {/* nav menus */}
@@ -95,7 +92,14 @@ export default function ResponsiveAppBar() {
           {/* user button */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <Button sx={{color:"#fff"}} variant="text" component={Link} to={ROUTES.signin}>login</Button>
+              <Button
+                sx={{ color: "#fff" }}
+                variant="text"
+                component={Link}
+                to={ROUTES.signin}
+              >
+                login
+              </Button>
               {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <PersonIcon sx={{ color: "#fff" }} />
               </IconButton> */}

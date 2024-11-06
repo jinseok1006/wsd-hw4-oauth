@@ -50,7 +50,7 @@ export default function SignIn() {
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
             <path
               fill="white"
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
               transform="matrix(-1 0 0 1 1600 0)"
             />
@@ -61,13 +61,13 @@ export default function SignIn() {
 
           <form id="sign-up-1" action="" onSubmit={(e) => e.preventDefault()}>
             <div className={cx("form-group")}>
-              <input required id="name" type="email" />
-              <label htmlFor="name">Email</label>
+              <input required id="signin-name" type="email" />
+              <label htmlFor="signin-name">Email</label>
             </div>
 
             <div className={cx("form-group")}>
-              <input required id="email" type="password" />
-              <label htmlFor="email">Password</label>
+              <input required id="signin-pass" type="password" />
+              <label htmlFor="signin-pass">Password</label>
             </div>
 
             <input type="submit" value="🔑로그인!!" />
@@ -92,7 +92,7 @@ export default function SignIn() {
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
             <path
               fill="white"
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
               transform="matrix(-1 0 0 1 1600 0)"
             />
@@ -108,7 +108,7 @@ export default function SignIn() {
             </div>
             <div className={cx("form-group")}>
               <input required id="email" type="email" />
-              <label htmlFor="pass">Email</label>
+              <label htmlFor="email">Email</label>
             </div>
             <div className={cx("form-group")}>
               <input required id="pass" type="password" />
