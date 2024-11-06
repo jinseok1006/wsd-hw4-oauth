@@ -217,8 +217,6 @@ const MovieFilter = ({
   handleFilterChange,
   handleResetFilters,
 }: MovieFilterProps) => {
-  const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.up("sm"));
   const { rating, genre, language } = filters;
   return (
     <Box
