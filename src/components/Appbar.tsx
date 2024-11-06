@@ -8,19 +8,19 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import PersonIcon from "@mui/icons-material/Person";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 import Drawer from "./Drawer";
 
 import { ROUTES, PAGES } from "../constants";
 import HideOnScroll from "./HideOnScroll";
-
-const settings = ["Logout"];
+import { useSessionStore } from "../store/useSessionStore";
 
 export default function ResponsiveAppBar() {
+  const {user, setUser} = useSessionStore();
   const [drawerOpen, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -36,13 +36,11 @@ export default function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  // const { pathname } = useLocation();
-  // const appbarBackgroundColor =
-  //   pathname === "/"
-  //     ? "linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))"
-  //     : undefined;
+  const handleLogout = () => {
+    setUser(null);
+    handleCloseUserMenu();
+  };
 
-  // absolute로하면 scrolltop이 안먹음..
   return (
     <>
       <HideOnScroll>
@@ -93,7 +91,11 @@ export default function ResponsiveAppBar() {
 
               {/* user button */}
               <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
+                {user ? (
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <PersonIcon sx={{ color: "#fff" }} />
+                  </IconButton>
+                ) : (
                   <Button
                     sx={{ color: "#fff" }}
                     variant="text"
@@ -102,10 +104,9 @@ export default function ResponsiveAppBar() {
                   >
                     login
                   </Button>
-                  {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <PersonIcon sx={{ color: "#fff" }} />
-              </IconButton> */}
-                </Tooltip>
+                )}
+
+                {/* 로그인 사용자 메뉴 */}
                 <Menu
                   sx={{ mt: "45px" }}
                   id="menu-appbar"
@@ -122,13 +123,9 @@ export default function ResponsiveAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography sx={{ textAlign: "center" }}>
-                        {setting}
-                      </Typography>
-                    </MenuItem>
-                  ))}
+                  <MenuItem key="logout" onClick={handleLogout}>
+                    <Typography sx={{ textAlign: "center" }}>Logout</Typography>
+                  </MenuItem>
                 </Menu>
               </Box>
               {/* menu button for mobile */}
