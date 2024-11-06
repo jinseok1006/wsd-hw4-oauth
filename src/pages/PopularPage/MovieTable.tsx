@@ -1,63 +1,159 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Box, Typography } from "@mui/material";
-
-const images = [
-  "image1.jpg",
-  "image2.jpg",
-  "image3.jpg",
-  "image4.jpg",
-  "image5.jpg",
-  "image6.jpg",
-  "image7.jpg",
-  "image8.jpg",
-  "image9.jpg",
-  "image10.jpg",
-  "image11.jpg",
-  "image12.jpg",
-  "image13.jpg",
-  "image14.jpg",
-  "image15.jpg",
-  "image16.jpg",
-];
-
+import { Box, Button, Pagination, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function MovieTable() {
+  const tableViewRef = useRef<HTMLDivElement>(null);
+  const [tableViewSize, setTableViewSize] = useState({
+    width: 0,
+    height: 0,
+  });
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 스크롤 금지
-    document.body.style.overflow = "hidden";
+    const updateSize = () => {
+      if (tableViewRef.current) {
+        const width = tableViewRef.current.clientWidth;
+        const height = window.innerHeight - 64 - 68 - 96;
+        console.log(document.body.clientHeight);
+        setTableViewSize({
+          width,
+          height,
+        });
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => {
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
 
-    // 컴포넌트가 언마운트될 때 원래 상태로 복구
+
+
+  // const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [page, setPage] = useState(1);
+  const onPageChange = (e: React.ChangeEvent<unknown>, newPage: number) =>
+    setPage(newPage);
+
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.up("sm")); // tablet
+
+  // mobile img 103.66 x 152.42
+  // tablet img 161.9 x 238.07
+  // pc img 172 x 252.94
+
+  const getImgSize = () => {
+    if (isSm) {
+      // 태블릿 화면
+      return { width: 161.9, height: 238.07 };
+    } else {
+      // 모바일 화면
+      return { width: 103.66, height: 152.42 };
+    }
+  };
+  const imgSize = getImgSize(); // { width: 103.66, height: 152.42 } 등의 값을 반환
+
+  const GAP = 2;
+
+  const getNumImg = () => {
+    // 화면 크기별 이미지 크기 설정
+
+    // 한 행(row)에 배치될 이미지 수와 열(column)에 배치될 이미지 수 계산
+    const gapSize = GAP * 2;
+    const titleHeight = 28;
+    const columns = Math.floor(tableViewSize.width / (imgSize.width + gapSize+10));
+    console.log('columns', columns, 'tableViewSize.width', tableViewSize.width, 'imgSize.width+gapsize', imgSize.width+gapSize );
+    const rows = Math.floor(
+      tableViewSize.height / (imgSize.height + titleHeight + gapSize)
+    );
+
+    return { columns, rows };
+  };
+  //188.42
+  // 컴포넌트가 마운트될 때 스크롤 금지
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
+  }, []);
+  const numImg = getNumImg();
+  // console.log(numImg);
+  const itemsPerPage = numImg.columns * numImg.rows;
+
+  // useEffect(() => {
+  //   console.log(tableViewSize);
+  //   console.log(numImg);
+  // }, [tableViewSize]);
+
+  const [movies, setMovies] = useState(
+    Array.from({ length: 250 }, () => ({
+      title: "제목",
+      src: "/inf1.jpg",
+    }))
+  );
 
   return (
-    <Grid container spacing={2}>
-      {images.map((src, index) => (
-        <Grid size={{ md: 3, sm: 4, xs: 6 }} key={index}>
-          <Box
-            component="img"
-            src="/popular.svg"
-            alt={`Image ${index + 1}`}
-            sx={{
-              width: "100%", // 가로폭을 100%로 설정
-              height: "auto", // 비율에 맞춰 높이 자동 조절
-              objectFit: "cover",
-              borderRadius: 1,
-              transition: "transform 0.5s ease",
-              ":hover": {
-                transform: `scale(1.05)`,
-              },
-            }}
-          />
-          <Typography variant="subtitle1" align="center">
-            제목제목
-          </Typography>
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        gap={GAP}
+        justifyContent="center"
+        alignContent="center"
+        ref={tableViewRef}
+        sx={{ height: tableViewSize.height }}
+      >
+        {movies.slice(0, itemsPerPage).map((src, index) => (
+          <Box key={index}>
+            <Box
+              component="img"
+              src="/inf1.jpg"
+              sx={{
+                width: imgSize.width, // 가로폭을 100%로 설정
+                height: imgSize.height, // 비율에 맞춰 높이 자동 조절
+                objectFit: "cover",
+                borderRadius: 2,
+                transition: "transform 0.5s ease",
+                ":hover": {
+                  transform: `scale(1.05)`,
+                },
+              }}
+            />
+            <Typography variant="subtitle1" align="center">
+              제목제목
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+      <Box
+        pt={5}
+        pb={3}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Pagination
+          count={10}
+          page={page}
+          onChange={onPageChange}
+          siblingCount={1}
+          boundaryCount={0}
+          variant="outlined"
+          shape="rounded"
+        />
+        {/* <Button variant="outlined">
+          이전
+        </Button>
+        <Typography>
+          {page} / {10}
+        </Typography>
+        <Button variant="outlined">
+          다음
+        </Button> */}
+      </Box>
+    </>
   );
 }
-

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Box, Container, ButtonGroup, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
@@ -13,9 +13,13 @@ export default function PopularPage() {
   };
   const containerRef = useRef<HTMLDivElement>(null);
 
+
   return (
-    <Container maxWidth="xl" sx={{ height: "90svh" }} ref={containerRef}>
-      {/* 버튼 그룹을 오른쪽으로 정렬 */}
+    <Container
+      maxWidth="xl"
+      ref={containerRef}
+    >
+      {/* view mode 버튼그룹 */}
       <Box display="flex" justifyContent="flex-end" sx={{ my: 2 }}>
         <ButtonGroup variant="contained" aria-label="view mode buttons">
           <Button
@@ -32,8 +36,12 @@ export default function PopularPage() {
           </Button>
         </ButtonGroup>
       </Box>
-
-      {viewMode === "pagination" ? <MovieTable /> : <MovieInfiniteScroll />}
+      {/* 테이블뷰 or 무한스크롤뷰 */}
+      {viewMode === "pagination" ? (
+        <MovieTable />
+      ) : (
+        <MovieInfiniteScroll />
+      )}
     </Container>
   );
 }

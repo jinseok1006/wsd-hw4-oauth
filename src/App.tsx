@@ -10,11 +10,11 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: '#333',
+      main: "#333",
     },
     secondary: {
-     main: '#123' 
-    }
+      main: "#123",
+    },
   },
   typography: {
     fontFamily,
@@ -39,8 +39,10 @@ const theme = createTheme({
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
+    {/* <> */}
       <CssBaseline />
       <RouterProvider router={router} />
+    {/* </> */}
     </ThemeProvider>
   );
 }

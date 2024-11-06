@@ -8,6 +8,7 @@ import {
   Container,
   Typography,
   Fab,
+  useMediaQuery,
 } from "@mui/material";
 import {
   FilterList as FilterListIcon,
@@ -18,6 +19,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import ScrollTop from "../components/ScrollTop";
+import { useTheme } from "@emotion/react";
 
 const LANGUAGES = ["언어 (전체)", "영어", "한국어"] as const;
 const RATINGS = [
@@ -121,25 +123,18 @@ export default function SearchPage() {
   };
 
   return (
-    <>
-      <Container maxWidth={false}>
-        <Box display="flex" flexDirection="row-reverse">
-          <MovieFilter
-            filters={filters}
-            handleFilterChange={handleFilterChange}
-            handleResetFilters={handleResetFilters}
-          />
-        </Box>
-        <Container maxWidth="lg">
-          <MovieInfiniteScroll fetchMoreData={fetchMoreData} movies={movies} />
-        </Container>
+    <Container maxWidth={false}>
+      <Box display="flex" flexDirection="row-reverse">
+        <MovieFilter
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          handleResetFilters={handleResetFilters}
+        />
+      </Box>
+      <Container maxWidth="lg">
+        <MovieInfiniteScroll fetchMoreData={fetchMoreData} movies={movies} />
       </Container>
-      <ScrollTop>
-        <Fab size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
-    </>
+    </Container>
   );
 }
 
@@ -165,42 +160,49 @@ function MovieInfiniteScroll({
   movies: Movie[];
 }) {
   return (
-    <InfiniteScroll
-      dataLength={movies.length}
-      next={fetchMoreData}
-      hasMore={true}
-      loader={<div>loading...</div>}
-      endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
-        </p>
-      }
-    >
-      <Grid container spacing={2}>
-        {movies.map((movie, index) => (
-          <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
-            <Box
-              component="img"
-              src={movie.src}
-              alt={movie.title}
-              sx={{
-                width: "100%",
-                height: "auto",
-                objectFit: "cover",
-                borderRadius: 1,
-                transition: "transform 0.5s ease",
-                ":hover": {
-                  transform: `scale(1.05)`,
-                },
-              }}
-            />
-            <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
-              {movie.title}
-            </Typography>
-          </Grid>
-        ))}
-      </Grid>
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll
+        dataLength={movies.length}
+        next={fetchMoreData}
+        hasMore={true}
+        loader={<div>loading...</div>}
+        endMessage={
+          <p style={{ textAlign: "center" }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+      >
+        <Grid container spacing={2}>
+          {movies.map((movie, index) => (
+            <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
+              <Box
+                component="img"
+                src={movie.src}
+                alt={movie.title}
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  objectFit: "cover",
+                  borderRadius: 1,
+                  transition: "transform 0.5s ease",
+                  ":hover": {
+                    transform: `scale(1.05)`,
+                  },
+                }}
+              />
+              <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
+                {movie.title}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </InfiniteScroll>
+      <ScrollTop>
+        <Fab size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+    </>
   );
 }
 
@@ -217,7 +219,20 @@ const MovieFilter = ({
 }: MovieFilterProps) => {
   const { rating, genre, language } = filters;
   return (
-    <Box display="flex" alignItems="center" gap={2} p={2}>
+    <Box
+      display="flex"
+      gap={2}
+      p={2}
+      flexWrap="wrap"
+      sx={{
+        flexDirection: {
+          xs: "column",
+          sm: "row",
+        },
+        alignItems: { sm: "center", xs: "stretch" },
+        width:{xs:'100%', sm:'inherit'}
+      }}
+    >
       {/* 평점 필터 */}
       <FormControl>
         <InputLabel>평점</InputLabel>
@@ -227,6 +242,7 @@ const MovieFilter = ({
           name="rating"
           onChange={handleFilterChange}
           startAdornment={<FilterListIcon />}
+          fullWidth={true}
         >
           {RATINGS.map((option) => (
             <MenuItem key={option} value={option}>
