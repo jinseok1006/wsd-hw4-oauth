@@ -72,12 +72,12 @@ export default function MovieTable() {
   };
   //188.42
   // 컴포넌트가 마운트될 때 스크롤 금지
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, []);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   const numImg = getNumImg();
   // console.log(numImg);
   const itemsPerPage = numImg.columns * numImg.rows;
