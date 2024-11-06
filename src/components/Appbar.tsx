@@ -16,6 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Drawer from "./Drawer";
 
 import { ROUTES, PAGES } from "../constants";
+import HideOnScroll from "./HideOnScroll";
 
 const settings = ["Logout"];
 
@@ -42,115 +43,114 @@ export default function ResponsiveAppBar() {
   //     : undefined;
 
   return (
-    <AppBar
-      position="static"
-      sx={{
-        transition: "background-color 0.3s ease",
-        ":hover": {
-          bgcolor: "#000",
-        },
-      }}
-    >
-      <Container maxWidth={false}>
-        <Toolbar disableGutters 
-        id='back-to-top-anchor'
-        >
-          {/* logo */}
-          <Link to={ROUTES.root}>
-            <Box
-              component="img"
-              src="logo.png"
-              alt="logo"
-              sx={{ mx: 3, height: "35px", verticalAlign: "middle" }}
-            />
-          </Link>
-          {/* nav menus */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {PAGES.map((page) => (
-              <Button
-                component={Link}
-                key={page.title}
-                sx={{
-                  color: "#a1a1aa",
-                  minWidth: "inherit",
+    <>
+    <HideOnScroll>
+      <AppBar
+        // position="static"
+        sx={{
+          transition: "background-color 0.3s ease",
+          ":hover": {
+            bgcolor: "#000",
+          },
+        }}
+      >
+        <Container maxWidth={false}>
+          <Toolbar disableGutters id="back-to-top-anchor">
+            {/* logo */}
+            <Link to={ROUTES.root}>
+              <Box
+                component="img"
+                src="logo.png"
+                alt="logo"
+                sx={{ mx: 3, height: "35px", verticalAlign: "middle" }}
+              />
+            </Link>
+            {/* nav menus */}
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {PAGES.map((page) => (
+                <Button
+                  component={Link}
+                  key={page.title}
+                  sx={{
+                    color: "#a1a1aa",
+                    minWidth: "inherit",
 
-                  ":hover": {
-                    fontWeight: 900,
-                    color: "#fff",
-                  },
-                }}
-                to={page.route}
-              >
-                {page.title}
-              </Button>
-            ))}
-          </Box>
+                    ":hover": {
+                      fontWeight: 900,
+                      color: "#fff",
+                    },
+                  }}
+                  to={page.route}
+                >
+                  {page.title}
+                </Button>
+              ))}
+            </Box>
 
-          {/* spacer  */}
-          <Box sx={{ flex: 1 }} />
+            {/* spacer  */}
+            <Box sx={{ flex: 1 }} />
 
-          {/* user button */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <Button
-                sx={{ color: "#fff" }}
-                variant="text"
-                component={Link}
-                to={ROUTES.signin}
-              >
-                login
-              </Button>
-              {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            {/* user button */}
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <Button
+                  sx={{ color: "#fff" }}
+                  variant="text"
+                  component={Link}
+                  to={ROUTES.signin}
+                >
+                  login
+                </Button>
+                {/* <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <PersonIcon sx={{ color: "#fff" }} />
               </IconButton> */}
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: "center" }}>
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-          {/* menu button for mobile */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={toggleDrawer(!drawerOpen)}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </Container>
-      <Drawer open={drawerOpen} toggleDrawer={toggleDrawer} />
-    </AppBar>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography sx={{ textAlign: "center" }}>
+                      {setting}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            {/* menu button for mobile */}
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={toggleDrawer(!drawerOpen)}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </Container>
+        <Drawer open={drawerOpen} toggleDrawer={toggleDrawer} />
+      </AppBar>
+    </HideOnScroll>
+    {/* absolute appbar로 인한 content top margin 추가 */}
+    <Toolbar/>
+    </>
   );
 }
 
-// function AppbarButton(props) {
-//   return <Button >
-
-//   </Button>;
-// }
