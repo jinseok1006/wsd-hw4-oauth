@@ -52,7 +52,9 @@ export default function ResponsiveAppBar() {
       }}
     >
       <Container maxWidth={false}>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters 
+        id='back-to-top-anchor'
+        >
           {/* logo */}
           <Link to={ROUTES.root}>
             <Box

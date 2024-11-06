@@ -6,12 +6,18 @@ import {
   Button,
   Box,
   Container,
+  Typography,
+  Fab,
 } from "@mui/material";
 import {
   FilterList as FilterListIcon,
+  KeyboardArrowUp as KeyboardArrowUpIcon,
   Refresh as RefreshIcon,
 } from "@mui/icons-material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Grid from "@mui/material/Grid2";
+import ScrollTop from "../components/ScrollTop";
 
 const LANGUAGES = ["언어 (전체)", "영어", "한국어"] as const;
 const RATINGS = [
@@ -52,23 +58,22 @@ const initialFilterState: FilterState = {
 export default function SearchPage() {
   const [filters, setFilters] = useState(initialFilterState);
 
-  const [movies, setMovies] = useState([
-    // 예시 영화 데이터
-    {
-      id: 1,
-      title: "Movie A",
-      rating: 9,
-      genre: "Action",
-      language: "English",
-    },
-    {
-      id: 2,
-      title: "Movie B",
-      rating: 8,
-      genre: "Adventure",
-      language: "Korean",
-    },
-    // 추가 영화...
+  const [movies, setMovies] = useState<Movie[]>([
+    // // 예시 영화 데이터
+    // {
+    //   id: 1,
+    //   title: "Movie A",
+    //   rating: 9,
+    //   genre: "Action",
+    //   language: "English",
+    // },
+    // {
+    //   id: 2,
+    //   title: "Movie B",
+    //   rating: 8,
+    //   genre: "Adventure",
+    //   language: "Korean",
+    // },
   ]);
 
   // 필터 변경 시 호출되는 함수
@@ -101,23 +106,103 @@ export default function SearchPage() {
     // });
   }, [filters]);
 
-  return (
-    <Container maxWidth={false}>
-      <Box display="flex" flexDirection="row-reverse">
-        <MovieFilter
-          filters={filters}
-          handleFilterChange={handleFilterChange}
-          handleResetFilters={handleResetFilters}
-        />
-      </Box>
+  useEffect(() => {
+    if (movies.length === 0) {
+      (async () => {
+        const data = await fetchData();
+        setMovies([...movies, ...data]);
+      })();
+    }
+  }, [movies]);
 
-    </Container>
+  const fetchMoreData = async () => {
+    const moreMovies = await fetchData();
+    setMovies([...movies, ...moreMovies]);
+  };
+
+  return (
+    <>
+      <Container maxWidth={false}>
+        <Box display="flex" flexDirection="row-reverse">
+          <MovieFilter
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+            handleResetFilters={handleResetFilters}
+          />
+        </Box>
+        <Container maxWidth="lg">
+          <MovieInfiniteScroll fetchMoreData={fetchMoreData} movies={movies} />
+        </Container>
+      </Container>
+      <ScrollTop>
+        <Fab size="small" aria-label="scroll back to top">
+          <KeyboardArrowUpIcon />
+        </Fab>
+      </ScrollTop>
+    </>
   );
 }
 
-// function MovieInfiniteScroll() {
-  
-// }
+interface Movie {
+  title: string;
+  src: string;
+}
+function fetchData() {
+  return new Promise((res) => {
+    setTimeout(() => {
+      res(
+        Array.from({ length: 20 }, () => ({ title: "안녕", src: "/inf1.jpg" }))
+      );
+    }, 1500);
+  }) satisfies Promise<Movie[]>;
+}
+
+function MovieInfiniteScroll({
+  fetchMoreData,
+  movies,
+}: {
+  fetchMoreData: () => void;
+  movies: Movie[];
+}) {
+  return (
+    <InfiniteScroll
+      dataLength={movies.length}
+      next={fetchMoreData}
+      hasMore={true}
+      loader={<div>loading...</div>}
+      endMessage={
+        <p style={{ textAlign: 'center' }}>
+          <b>Yay! You have seen it all</b>
+        </p>
+      }
+    >
+      <Grid container spacing={2}>
+        {movies.map((movie, index) => (
+          <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
+            <Box
+              component="img"
+              src={movie.src}
+              alt={movie.title}
+              sx={{
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+                borderRadius: 1,
+                transition: "transform 0.5s ease",
+                ":hover": {
+                  transform: `scale(1.05)`,
+                },
+              }}
+            />
+            <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
+              {movie.title}
+            </Typography>
+          </Grid>
+        ))}
+      </Grid>
+    </InfiniteScroll>
+  );
+}
 
 interface MovieFilterProps {
   filters: FilterState;
@@ -199,5 +284,3 @@ const MovieFilter = ({
     </Box>
   );
 };
-
-
