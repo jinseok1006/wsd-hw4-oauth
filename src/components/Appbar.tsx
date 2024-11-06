@@ -49,10 +49,10 @@ export default function ResponsiveAppBar() {
         <AppBar
           // position="static"
           sx={{
-            transition: "background-color 0.3s ease",
-            ":hover": {
-              bgcolor: "#000",
-            },
+            transition: "background-color 1s ease",
+            // ":hover": {
+            //   bgcolor: "#000",
+            // },
           }}
         >
           <Container maxWidth={false}>
