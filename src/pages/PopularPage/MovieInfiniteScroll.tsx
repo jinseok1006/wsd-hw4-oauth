@@ -47,7 +47,7 @@ export default function MovieInfiniteScroll() {
       >
         <Grid container spacing={2}>
           {movies.map((movie, index) => (
-            <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
+            <Grid size={{ md: 1.5, sm: 2.4, xs: 4 }} key={index}>
               <Box
                 component="img"
                 src={movie.src}
