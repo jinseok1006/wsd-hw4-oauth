@@ -5,8 +5,7 @@ interface SessionState {
   setUser: (user: { email: string } | null) => void;
 }
 
-export const useSessionStore = create<SessionState>((set) => ({
+export const useSessionStore = create<SessionState>()((set) => ({
   user: null,
   setUser: (user) => set({ user }),
 }));
-

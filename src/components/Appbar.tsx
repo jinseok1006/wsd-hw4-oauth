@@ -20,7 +20,7 @@ import HideOnScroll from "./HideOnScroll";
 import { useSessionStore } from "../store/useSessionStore";
 
 export default function ResponsiveAppBar() {
-  const {user, setUser} = useSessionStore();
+  const { user, setUser } = useSessionStore();
   const [drawerOpen, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -54,14 +54,14 @@ export default function ResponsiveAppBar() {
           }}
         >
           <Container maxWidth={false}>
-            <Toolbar disableGutters>
+            <Toolbar>
               {/* logo */}
               <Link to={ROUTES.root}>
                 <Box
                   component="img"
                   src="logo.png"
                   alt="logo"
-                  sx={{ mx: 3, height: "35px", verticalAlign: "middle" }}
+                  sx={{ mr: 1, height: "35px", verticalAlign: "middle" }}
                 />
               </Link>
               {/* nav menus */}
@@ -92,9 +92,14 @@ export default function ResponsiveAppBar() {
               {/* user button */}
               <Box sx={{ flexGrow: 0 }}>
                 {user ? (
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <PersonIcon sx={{ color: "#fff" }} />
-                  </IconButton>
+                  <Box display='flex' justifyContent='center' >
+                    <Typography sx={{ color: "#fff", mr: 2 }}>
+                      {user.email.split("@")[0]}
+                    </Typography>
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <PersonIcon sx={{ color: "#fff" }} />
+                    </IconButton>
+                  </Box>
                 ) : (
                   <Button
                     sx={{ color: "#fff" }}

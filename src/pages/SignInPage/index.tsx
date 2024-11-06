@@ -1,7 +1,14 @@
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import { useState, useEffect } from "react";
-import { Box, Button, Checkbox, Link, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Link,
+  Typography,
+} from "@mui/material";
 import { useSessionStore } from "../../store/useSessionStore";
 import { useNavigate } from "react-router-dom";
 
@@ -235,6 +242,20 @@ function SignInForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useSessionStore((state) => state.setUser);
+  const [rememberMe, setRememberMe] = useState(true);
+  const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(e.target.checked);
+  };
+
+  
+  // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 rememberedEmail을 가져옴
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem("rememberedEmail");
+    if (rememberedEmail) {
+      setEmail(rememberedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   // input에 대한 change handler 추가
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -257,8 +278,13 @@ function SignInForm({
 
     if (user) {
       setUser({ email: user.email });
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+
       navigate("/");
-      // 로그인 성공 후 필요한 작업 수행 (예: 페이지 이동)
     } else {
       alert("이메일 또는 비밀번호가 일치하지 않습니다.");
     }
@@ -308,6 +334,26 @@ function SignInForm({
             />
             <label htmlFor="signin-pass">Password</label>
           </div>
+
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={2}
+          >
+            <FormControlLabel
+              control={<Checkbox id="remember-me" onChange={handleRememberMeChange} checked={rememberMe}/>}
+              label="Remember me"
+            />
+
+            <Link
+              href="/forgot-password"
+              variant="body2"
+              sx={{ color: "#5d6381" }}
+            >
+              Forgot Password?
+            </Link>
+          </Box>
 
           <input type="submit" value="🔑로그인!!" />
         </form>
