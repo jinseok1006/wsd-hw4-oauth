@@ -1,47 +1,23 @@
-import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { Box, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ScrollTop from "../../components/ScrollTop";
 import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
-interface Movie {
-  title: string;
-  src: string;
-}
+import { Movie, TMDB_IMAGE } from "../../api";
 
-function fetchData() {
-  return new Promise((res) => {
-    setTimeout(() => {
-      res(
-        Array.from({ length: 20 }, () => ({ title: "안녕", src: "/inf1.jpg" }))
-      );
-    }, 1500);
-  }) satisfies Promise<Movie[]>;
-}
-
-export default function MovieInfiniteScroll() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-
-  useEffect(() => {
-    if (movies.length === 0) {
-      (async () => {
-        const data = await fetchData();
-        setMovies([...movies, ...data]);
-      })();
-    }
-  }, [movies]);
-
-  const fetchMoreData = async () => {
-    const moreMovies = await fetchData();
-    setMovies([...movies, ...moreMovies]);
-  };
-
+export default function MovieInfiniteScroll({
+  movies,
+  setAdditionalMovies,
+}: {
+  movies: Movie[];
+  setAdditionalMovies: () => void;
+}) {
   return (
     <>
       <InfiniteScroll
         dataLength={movies.length}
-        next={fetchMoreData}
+        next={setAdditionalMovies}
         hasMore={true}
         loader={<div>loading...</div>}
       >
@@ -50,7 +26,7 @@ export default function MovieInfiniteScroll() {
             <Grid size={{ md: 1.5, sm: 2.4, xs: 4 }} key={index}>
               <Box
                 component="img"
-                src={movie.src}
+                src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
                 alt={movie.title}
                 sx={{
                   width: "100%",

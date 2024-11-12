@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   MenuItem,
   FormControl,
@@ -8,7 +8,6 @@ import {
   Container,
   Typography,
   Fab,
-  useMediaQuery,
 } from "@mui/material";
 import {
   FilterList as FilterListIcon,
@@ -19,7 +18,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import ScrollTop from "../components/ScrollTop";
-import { useTheme } from "@emotion/react";
+import api, { Movie, MovieResponse, TMDB_IMAGE } from "../api";
+import { useSessionStore } from "../store/useSessionStore";
+import { useShallow } from "zustand/react/shallow";
 
 const LANGUAGES = ["언어 (전체)", "영어", "한국어"] as const;
 const RATINGS = [
@@ -45,6 +46,36 @@ const GENRES = [
   "스릴러",
 ] as const;
 
+const LanguageCode = {
+  "언어 (전체)": "en",
+  영어: "en",
+  한국어: "ko",
+} as const;
+
+const GenreCode = {
+  "장르 (전체)": null, // 전체일 경우 null
+  액션: 28,
+  모험: 12,
+  코미디: 35,
+  드라마: 18,
+  판타지: 14,
+  호러: 27,
+  로맨스: 10749,
+  "공상 과학": 878,
+  스릴러: 53,
+};
+
+const voteCode = {
+  "평점 (전체)": null,
+  "9-10": [9, 10],
+  "8-9": [8, 9],
+  "7-8": [7, 8],
+  "6-7": [6, 7],
+  "5-6": [5, 6],
+  "4-5": [4, 5],
+  "4점 이하": [0, 4],
+};
+
 interface FilterState {
   rating: (typeof RATINGS)[number];
   genre: (typeof GENRES)[number];
@@ -60,23 +91,10 @@ const initialFilterState: FilterState = {
 export default function SearchPage() {
   const [filters, setFilters] = useState(initialFilterState);
 
-  const [movies, setMovies] = useState<Movie[]>([
-    // // 예시 영화 데이터
-    // {
-    //   id: 1,
-    //   title: "Movie A",
-    //   rating: 9,
-    //   genre: "Action",
-    //   language: "English",
-    // },
-    // {
-    //   id: 2,
-    //   title: "Movie B",
-    //   rating: 8,
-    //   genre: "Adventure",
-    //   language: "Korean",
-    // },
-  ]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const user = useSessionStore(useShallow((state) => state.user));
+  const page = useRef(1);
+  // const [page, setPage] = useState(1);
 
   // 필터 변경 시 호출되는 함수
   const handleFilterChange = (e: SelectChangeEvent) => {
@@ -88,42 +106,50 @@ export default function SearchPage() {
     setFilters(initialFilterState);
   };
 
-  useEffect(() => {
-    // 여기서 필터에 따라 영화 목록을 필터링하는 로직 추가
-    // const filteredMovies = movies.filter((movie) => {
-    //   const matchesRating =
-    //     newFilters.rating === "Rating (All)" ||
-    //     (newFilters.rating === "9-10" && movie.rating >= 9) ||
-    //     (newFilters.rating === "8-9" &&
-    //       movie.rating >= 8 &&
-    //       movie.rating < 9) ||
-    //     // 추가 평점 필터...
-    //     (newFilters.rating === "Below 4" && movie.rating < 4);
-    //   const matchesGenre =
-    //     newFilters.genre === "Genre (All)" || movie.genre === newFilters.genre;
-    //   const matchesLanguage =
-    //     newFilters.language === "Language (All)" ||
-    //     movie.language === newFilters.language;
-    //   return matchesRating && matchesGenre && matchesLanguage;
-    // });
-  }, [filters]);
-
-  useEffect(() => {
-    if (movies.length === 0) {
-      (async () => {
-        const data = await fetchData();
-        setMovies([...movies, ...data]);
-      })();
+  const setAdditionalMovies = async () => {
+    const moreMovies = await fetchMoreMovies();
+    if (moreMovies) {
+      setMovies([...movies, ...moreMovies.results]);
     }
-  }, [movies]);
-
-  const fetchMoreData = async () => {
-    const moreMovies = await fetchData();
-    setMovies([...movies, ...moreMovies]);
   };
 
+  const setNewMovies = async () => {
+    const newMovies = await fetchMoreMovies();
+    if (newMovies) {
+      setMovies([...newMovies.results]);
+    }
+  };
+
+  useEffect(() => {
+    page.current = 1;
+    setNewMovies();
+  }, [filters.rating, filters.genre, filters.language]);
+
+  const fetchMoreMovies = async () => {
+    if (user) {
+      return api
+        .get("discover/movie", {
+          searchParams: {
+            api_key: user.apiKey,
+            page: page.current++,
+            with_genres: GenreCode[filters.genre] ?? "",
+            with_original_language: LanguageCode[filters.language],
+            include_adult: false,
+            "vote_average.gte": voteCode[filters.rating]?.[0] ?? "",
+            "vote_average.lte": voteCode[filters.rating]?.[1] ?? "",
+          },
+        })
+        .json<MovieResponse>();
+    }
+  };
+
+  // useEffect(() => {
+  //   initMovies();
+  //   setAdditionalMovies();
+  // }, [filters.rating, filters.genre, filters.language]);
+
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} disableGutters>
       <Box display="flex" flexDirection="row-reverse">
         <MovieFilter
           filters={filters}
@@ -131,39 +157,25 @@ export default function SearchPage() {
           handleResetFilters={handleResetFilters}
         />
       </Box>
-      <Container maxWidth="lg">
-        <MovieInfiniteScroll fetchMoreData={fetchMoreData} movies={movies} />
+      <Container maxWidth="lg" disableGutters>
+        <MovieInfiniteScroll next={setAdditionalMovies} movies={movies} />
       </Container>
     </Container>
   );
 }
 
-interface Movie {
-  title: string;
-  src: string;
-}
-function fetchData() {
-  return new Promise((res) => {
-    setTimeout(() => {
-      res(
-        Array.from({ length: 20 }, () => ({ title: "안녕", src: "/inf1.jpg" }))
-      );
-    }, 1500);
-  }) satisfies Promise<Movie[]>;
-}
-
 function MovieInfiniteScroll({
-  fetchMoreData,
   movies,
+  next,
 }: {
-  fetchMoreData: () => void;
   movies: Movie[];
+  next: () => void;
 }) {
   return (
     <>
       <InfiniteScroll
         dataLength={movies.length}
-        next={fetchMoreData}
+        next={next}
         hasMore={true}
         loader={<div>loading...</div>}
         endMessage={
@@ -172,12 +184,12 @@ function MovieInfiniteScroll({
           </p>
         }
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{pt:2, px:2}}>
           {movies.map((movie, index) => (
             <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
               <Box
                 component="img"
-                src={movie.src}
+                src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
                 alt={movie.title}
                 sx={{
                   width: "100%",
@@ -190,7 +202,13 @@ function MovieInfiniteScroll({
                   },
                 }}
               />
-              <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
+              <Typography
+                variant="subtitle1"
+                align="center"
+                textOverflow="ellipsis"
+                overflow="hidden"
+                whiteSpace="nowrap"
+              >
                 {movie.title}
               </Typography>
             </Grid>
@@ -230,7 +248,7 @@ const MovieFilter = ({
           sm: "row",
         },
         alignItems: { sm: "center", xs: "stretch" },
-        width:{xs:'100%', sm:'inherit'}
+        width: { xs: "100%", sm: "inherit" },
       }}
     >
       {/* 평점 필터 */}
@@ -262,9 +280,9 @@ const MovieFilter = ({
           onChange={handleFilterChange}
           startAdornment={<FilterListIcon />}
         >
-          {GENRES.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
+          {GENRES.map((genre) => (
+            <MenuItem key={genre} value={genre}>
+              {genre}
             </MenuItem>
           ))}
         </Select>

@@ -32,6 +32,8 @@ function App() {
   );
 }
 
+
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 function TestProvider() {
   const { setUser } = useSessionStore((state) => ({
     setUser: state.setUser,
@@ -41,7 +43,7 @@ function TestProvider() {
     () =>
       setUser({
         email: "testuser@gmail.com",
-        apiKey: "a3cc1a4a22418d752417e992c6a6cfed",
+        apiKey: TMDB_API_KEY,
       }),
     [setUser]
   );

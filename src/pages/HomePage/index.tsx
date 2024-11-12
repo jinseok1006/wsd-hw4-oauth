@@ -4,9 +4,10 @@ import MovieSlider from "./MovieSliders";
 import { useSessionStore } from "../../store/useSessionStore";
 
 import { useAsync } from "react-use";
-import ky from "ky";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
-import { useEffect } from "react";
+
+import { useShallow } from "zustand/react/shallow";
+
 /*
  https://nyagm.tistory.com/68
  */
@@ -17,62 +18,68 @@ import { useEffect } from "react";
 export default function HomePage() {
   const cx = classNames.bind(styles);
 
-  const user = useSessionStore((state) => state.user);
+  const user = useSessionStore(useShallow((state) => state.user));
 
-  const fetchMovies = async (endpoint: string) => {
+  const PopularMovies = useAsync(async () => {
     if (user) {
-      const response = await api.get(endpoint, {
-        searchParams: {
-          api_key: user.apiKey,
-        },
-      });
-      return response.json<MovieResponse>();
+      return api
+        .get("movie/popular", {
+          searchParams: {
+            api_key: user.apiKey,
+          },
+        })
+        .json<MovieResponse>();
     }
-  };
+  }, [user]);
 
-  const PopularMovies = useAsync(
-    () => fetchMovies("movie/popular"),
-    [user]
-  );
-  const nowPlayingMovies = useAsync(
-    () => fetchMovies("movie/now_playing"),
-    [user]
-  );
-  const actionMovies = useAsync(
-    () => fetchMovies("discover/movie"),
-    [user]
-  );
+  const tvShowMovies = useAsync(async () => {
+    if (user) {
+      return api
+        .get("discover/tv", {
+          searchParams: {
+            api_key: user.apiKey,
+          },
+        })
+        .json<MovieResponse>();
+    }
+  }, [user]);
 
-  useEffect(() => {
-    console.log(
-      PopularMovies.value,
-      nowPlayingMovies.value,
-      actionMovies.value
-    );
-  }, [PopularMovies, nowPlayingMovies, actionMovies]);
+  const animationMovies = useAsync(async () => {
+    if (user) {
+      return api
+        .get("discover/movie", {
+          searchParams: {
+            api_key: user.apiKey,
+            with_genres:16,
+          },
+        })
+        .json<MovieResponse>();
+    }
+  }, [user]);
+
 
   if (
     PopularMovies.loading ||
-    nowPlayingMovies.loading ||
-    actionMovies.loading
+    tvShowMovies.loading ||
+    animationMovies.loading
   ) {
     return <div>loading...</div>;
   }
 
-  if (PopularMovies.error || nowPlayingMovies.error || actionMovies.error) {
+  if (PopularMovies.error || tvShowMovies.error || animationMovies.error) {
     if (PopularMovies.error) {
       console.error(PopularMovies.error.message);
     }
-    if (nowPlayingMovies.error) {
-      console.error(nowPlayingMovies.error.message);
+    if (tvShowMovies.error) {
+      console.error(tvShowMovies.error.message);
     }
-    if (actionMovies.error) {
-      console.error(actionMovies.error.message);
+    if (animationMovies.error) {
+      console.error(animationMovies.error.message);
     }
     return <div>error...</div>;
   }
 
-  if (!PopularMovies.value || !nowPlayingMovies.value || !actionMovies.value) {
+  if (!PopularMovies.value || !tvShowMovies.value || !animationMovies.value) {
     return <div>No popular movies found.</div>;
   }
 
@@ -109,10 +116,10 @@ export default function HomePage() {
           movies={PopularMovies.value.results}
         />
         <MovieSlider
-          title="현재 상영작"
-          movies={nowPlayingMovies.value.results}
+          title="TV 시리즈"
+          movies={tvShowMovies.value.results}
         />
-        <MovieSlider title="액션 영화" movies={actionMovies.value.results} />
+        <MovieSlider title="애니메이션 영화" movies={animationMovies.value.results} />
       </section>
       <footer>
         <div className={cx("wrap")}>
