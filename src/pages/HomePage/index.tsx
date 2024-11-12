@@ -7,6 +7,7 @@ import { useAsync } from "react-use";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 
 import { useShallow } from "zustand/react/shallow";
+import { useEffect } from "react";
 
 /*
  https://nyagm.tistory.com/68
@@ -19,6 +20,15 @@ export default function HomePage() {
   const cx = classNames.bind(styles);
 
   const user = useSessionStore(useShallow((state) => state.user));
+
+  useEffect(() => {
+    console.log("mount!");
+    return () => {
+      console.log("unmount?");
+    };
+  }, []);
+
+  
 
   const PopularMovies = useAsync(async () => {
     if (user) {

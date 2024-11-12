@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Container, ButtonGroup, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
@@ -14,7 +14,7 @@ export default function PopularPage() {
   };
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [movies, setAdditionalMovies] = useMovie(true, 120);
+  const [movies, setAdditionalMovies] = useMovie(true);
 
   return (
     <Container maxWidth="xl" ref={containerRef}>

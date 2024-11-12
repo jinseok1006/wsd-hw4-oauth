@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import { Movie, TMDB_IMAGE } from "../../api";
+import { useEffect } from "react";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
 
@@ -19,6 +20,12 @@ export default function MovieSlider({
   const cx = classNames.bind(styles);
 
 
+  useEffect(() => {
+    console.log("mount!");
+    return () => {
+      console.log("unmount?");
+    };
+  }, []);
   
 
   return (

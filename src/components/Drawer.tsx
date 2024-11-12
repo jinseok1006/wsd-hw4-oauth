@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import * as React from "react";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
