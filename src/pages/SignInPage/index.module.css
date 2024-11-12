@@ -4,7 +4,7 @@
 }
 
 .container {
-  height:100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@
   transform: translateY(0);
 }
 .padding-wrap {
-  padding: 20px 50px 40px;
+  padding: 20px 40px 40px;
 }
 .form-image {
   width: 100%;
@@ -72,7 +72,7 @@
   right: 0;
 }
 .container h1 {
-  margin:0;
+  margin: 0;
   font-size: 24px;
   padding-bottom: 32px;
   color: white;
@@ -81,7 +81,7 @@
   width: 100%;
   position: relative;
   margin-bottom: 24px;
-  color:white;
+  color: white;
 }
 .form-group input {
   border: 0;
@@ -96,15 +96,12 @@
   outline: none;
   border-color: var(--primary-color);
 }
-.form-group input:focus + label {
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
   transform: scale(0.8) translateY(-140%);
-  /* color: var(--primary-color); */
+  color: white;
 }
-.form-group input:valid + label {
-  transform: scale(0.8) translateY(-140%);
-  color: var(--primary-color);
-  color:white;
-}
+
 .form-group label {
   position: absolute;
   top: 8px;

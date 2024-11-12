@@ -1,7 +1,12 @@
-
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import MovieSlider from "./MovieSliders";
+import { useSessionStore } from "../../store/useSessionStore";
+
+import { useAsync } from "react-use";
+import ky from "ky";
+import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
+import { useEffect } from "react";
 /*
  https://nyagm.tistory.com/68
  */
@@ -9,24 +14,80 @@ import MovieSlider from "./MovieSliders";
 // slider js로 변경하기
 // mui로 헤더 푸터 메인 컴포넌트로 변경
 
-
 export default function HomePage() {
   const cx = classNames.bind(styles);
+
+  const user = useSessionStore((state) => state.user);
+
+  const fetchMovies = async (endpoint: string) => {
+    if (user) {
+      const response = await api.get(endpoint, {
+        searchParams: {
+          api_key: user.apiKey,
+        },
+      });
+      return response.json<MovieResponse>();
+    }
+  };
+
+  const PopularMovies = useAsync(
+    () => fetchMovies("movie/popular"),
+    [user]
+  );
+  const nowPlayingMovies = useAsync(
+    () => fetchMovies("movie/now_playing"),
+    [user]
+  );
+  const actionMovies = useAsync(
+    () => fetchMovies("discover/movie"),
+    [user]
+  );
+
+  useEffect(() => {
+    console.log(
+      PopularMovies.value,
+      nowPlayingMovies.value,
+      actionMovies.value
+    );
+  }, [PopularMovies, nowPlayingMovies, actionMovies]);
+
+  if (
+    PopularMovies.loading ||
+    nowPlayingMovies.loading ||
+    actionMovies.loading
+  ) {
+    return <div>loading...</div>;
+  }
+
+  if (PopularMovies.error || nowPlayingMovies.error || actionMovies.error) {
+    if (PopularMovies.error) {
+      console.error(PopularMovies.error.message);
+    }
+    if (nowPlayingMovies.error) {
+      console.error(nowPlayingMovies.error.message);
+    }
+    if (actionMovies.error) {
+      console.error(actionMovies.error.message);
+    }
+    return <div>error...</div>;
+  }
+
+  if (!PopularMovies.value || !nowPlayingMovies.value || !actionMovies.value) {
+    return <div>No popular movies found.</div>;
+  }
+
+  const movie = PopularMovies.value.results[0];
 
   return (
     <div className={cx("container")}>
       <main>
-        <div className={cx("video")} style={{backgroundColor:'#808080'}}>
-          <video src="./video/doctor.mp4" autoPlay muted loop></video>
+        <div className={cx("video")}>
+          <img src={`${TMDB_IMAGE}/original/${movie.backdrop_path}`}></img>
         </div>
-        <div className={cx("description")} >
-          <h1>Doctor Strange 2</h1>
-          <h3>매주 새로운 트레일러 공개</h3>
-          <p>
-            5월, 차원의 경계가 무너지고 닥터 스트레인지가 온다 전 세계를 뒤흔들
-            역대급 멀티버스 전쟁의 시작! [닥터 스트레인지: 대혼돈의 멀티버스]
-            티저 예고편 공개!
-          </p>
+        <div className={cx("description")}>
+          <h1>{movie.title}</h1>
+
+          <p>{movie.overview}</p>
           <div className={cx("buttons")}>
             <button className={cx("play")}>
               <i className={cx("fa-solid", "fa-play")}></i>
@@ -43,9 +104,15 @@ export default function HomePage() {
         </div>
       </main>
       <section>
-        <MovieSlider page={0} title="한국이 만든 콘텐츠" />
-        <MovieSlider page={1} title="지금 뜨는 콘텐츠" />
-        <MovieSlider page={2} title="오늘 한국의 TOP 10 콘텐츠" />
+        <MovieSlider
+          title="지금 뜨는 콘텐츠"
+          movies={PopularMovies.value.results}
+        />
+        <MovieSlider
+          title="현재 상영작"
+          movies={nowPlayingMovies.value.results}
+        />
+        <MovieSlider title="액션 영화" movies={actionMovies.value.results} />
       </section>
       <footer>
         <div className={cx("wrap")}>
