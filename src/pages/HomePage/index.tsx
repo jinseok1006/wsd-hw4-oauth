@@ -21,12 +21,7 @@ export default function HomePage() {
 
   const user = useSessionStore(useShallow((state) => state.user));
 
-  useEffect(() => {
-    console.log("mount!");
-    return () => {
-      console.log("unmount?");
-    };
-  }, []);
+
 
   
 

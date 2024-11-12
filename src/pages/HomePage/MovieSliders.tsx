@@ -1,4 +1,3 @@
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Mousewheel } from "swiper/modules";
 import "swiper/css";
@@ -7,6 +6,9 @@ import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import { Movie, TMDB_IMAGE } from "../../api";
 import { useEffect } from "react";
+import { Box } from "@mui/material";
+import useWishlist from "../../store/useWishlistStore";
+import MoviePoster from "../../components/MoviePoster";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
 
@@ -19,14 +21,14 @@ export default function MovieSlider({
 }) {
   const cx = classNames.bind(styles);
 
-
   useEffect(() => {
     console.log("mount!");
     return () => {
       console.log("unmount?");
     };
   }, []);
-  
+
+  const { wishlist, toggleWishlist } = useWishlist();
 
   return (
     <div className={cx("content-list")}>
@@ -42,11 +44,7 @@ export default function MovieSlider({
       >
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} className={cx("item")} style={slideStyle}>
-            <img
-              src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
-              alt={movie.title}
-              style={{ height: "100%" }}
-            />
+            <MoviePoster movie={movie} />
           </SwiperSlide>
         ))}
       </Swiper>

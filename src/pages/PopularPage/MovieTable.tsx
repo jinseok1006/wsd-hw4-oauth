@@ -3,6 +3,7 @@ import { Box, Pagination, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
+import MoviePoster from "../../components/MoviePoster";
 
 export default function MovieTable({ movies }: { movies: Movie[] }) {
   const tableViewRef = useRef<HTMLDivElement>(null);
@@ -31,7 +32,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
 
   // const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
-  const onPageChange = (e: React.ChangeEvent<unknown>, newPage: number) =>{
+  const onPageChange = (e: React.ChangeEvent<unknown>, newPage: number) => {
     e.preventDefault();
     setPage(newPage);
   };
@@ -94,7 +95,6 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
   const currentIdx = (page - 1) * itemsPerPage;
 
   const pageCount = Math.ceil(movies.length / itemsPerPage);
-  
 
   return (
     <>
@@ -125,6 +125,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
                   },
                 }}
               />
+          
               <Typography
                 variant="subtitle1"
                 align="center"
