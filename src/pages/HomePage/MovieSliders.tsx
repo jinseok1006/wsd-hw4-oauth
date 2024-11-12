@@ -5,33 +5,21 @@ import "swiper/css";
 import "swiper/css/navigation";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
+import { Movie, TMDB_IMAGE } from "../../api";
 
-interface Movie {
-  id: number;
-  medium_cover_image: string;
-  title: string;
-}
+const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
 
 export default function MovieSlider({
   title,
-  page,
+  movies,
 }: {
   title: string;
-  page: number;
+  movies: Movie[];
 }) {
   const cx = classNames.bind(styles);
-  const [movies, setMovies] = useState<Movie[]>([]);
 
-  useEffect(() => {
-    fetch(
-      `https://yts.mx/api/v2/list_movies.json?limit=20&sort_by=rating&page=${page}`
-    )
-      .then((response) => response.json())
-      .then((data) => setMovies(data.data.movies))
-      .catch((error) => console.error("Error fetching movies:", error));
-  }, [page]);
 
-  const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
+  
 
   return (
     <div className={cx("content-list")}>
@@ -48,7 +36,7 @@ export default function MovieSlider({
         {movies.map((movie) => (
           <SwiperSlide key={movie.id} className={cx("item")} style={slideStyle}>
             <img
-              src={movie.medium_cover_image}
+              src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
               alt={movie.title}
               style={{ height: "100%" }}
             />
@@ -58,3 +46,14 @@ export default function MovieSlider({
     </div>
   );
 }
+
+// const [movies, setMovies] = useState<Movie[]>([]);
+
+// useEffect(() => {
+//   fetch(
+//     `https://yts.mx/api/v2/list_movies.json?limit=20&sort_by=rating&page=${page}`
+//   )
+//     .then((response) => response.json())
+//     .then((data) => setMovies(data.data.movies))
+//     .catch((error) => console.error("Error fetching movies:", error));
+// }, [page]);

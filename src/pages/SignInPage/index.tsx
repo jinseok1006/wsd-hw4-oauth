@@ -10,13 +10,26 @@ import {
   Typography,
 } from "@mui/material";
 import { useSessionStore } from "../../store/useSessionStore";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
 
-export default function SignIn() {
+export default function SignInContainer() {
+  const location = useLocation();
+  const from = location.state?.from;
+  const user = useSessionStore((state) => state.user);
+
+  if (from && user) {
+    return <Navigate to={from} replace />;
+  }
+
+  return <SignIn />;
+}
+
+function SignIn() {
   const cx = classNames.bind(styles);
+
   const [isSignInFormActive, setIsSignInFormActive] = useState(false);
   const [isReturningToSignIn, setIsReturningToSignIn] = useState(false);
 
@@ -247,7 +260,6 @@ function SignInForm({
     setRememberMe(e.target.checked);
   };
 
-  
   // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 rememberedEmail을 가져옴
   useEffect(() => {
     const rememberedEmail = localStorage.getItem("rememberedEmail");
@@ -277,7 +289,10 @@ function SignInForm({
     );
 
     if (user) {
-      setUser({ email: user.email });
+      // 전역상태에 유저 정보 저장
+      setUser({ email: user.email, apiKey: user.password });
+
+      // rememberMe 핸들링
       if (rememberMe) {
         localStorage.setItem("rememberedEmail", email);
       } else {
@@ -342,7 +357,13 @@ function SignInForm({
             mb={2}
           >
             <FormControlLabel
-              control={<Checkbox id="remember-me" onChange={handleRememberMeChange} checked={rememberMe}/>}
+              control={
+                <Checkbox
+                  id="remember-me"
+                  onChange={handleRememberMeChange}
+                  checked={rememberMe}
+                />
+              }
               label="Remember me"
             />
 
