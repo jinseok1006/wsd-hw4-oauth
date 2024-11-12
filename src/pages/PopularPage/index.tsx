@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Box, Container, ButtonGroup, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import BackupTableIcon from "@mui/icons-material/BackupTable";
 import MovieInfiniteScroll from "./MovieInfiniteScroll";
 import MovieTable from "./MovieTable";
+import useMovie from "../../hooks/useMovie";
 
 export default function PopularPage() {
   const [viewMode, setViewMode] = useState("pagination"); // 초기 모드를 무한 스크롤로 설정
@@ -13,12 +14,10 @@ export default function PopularPage() {
   };
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [movies, setAdditionalMovies] = useMovie(true, 120);
 
   return (
-    <Container
-      maxWidth="xl"
-      ref={containerRef}
-    >
+    <Container maxWidth="xl" ref={containerRef}>
       {/* view mode 버튼그룹 */}
       <Box display="flex" justifyContent="flex-end" sx={{ my: 2 }}>
         <ButtonGroup variant="contained" aria-label="view mode buttons">
@@ -38,9 +37,12 @@ export default function PopularPage() {
       </Box>
       {/* 테이블뷰 or 무한스크롤뷰 */}
       {viewMode === "pagination" ? (
-        <MovieTable />
+        <MovieTable movies={movies} />
       ) : (
-        <MovieInfiniteScroll />
+        <MovieInfiniteScroll
+          movies={movies}
+          setAdditionalMovies={setAdditionalMovies}
+        />
       )}
     </Container>
   );

@@ -3,8 +3,9 @@ import Grid from "@mui/material/Grid2";
 import { Box, Button, Pagination, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Movie, TMDB_IMAGE } from "../../api";
 
-export default function MovieTable() {
+export default function MovieTable({ movies }: { movies: Movie[] }) {
   const tableViewRef = useRef<HTMLDivElement>(null);
   const [tableViewSize, setTableViewSize] = useState({
     width: 0,
@@ -28,8 +29,6 @@ export default function MovieTable() {
       window.removeEventListener("resize", updateSize);
     };
   }, []);
-
-
 
   // const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
@@ -62,8 +61,17 @@ export default function MovieTable() {
     // 한 행(row)에 배치될 이미지 수와 열(column)에 배치될 이미지 수 계산
     const gapSize = GAP * 2;
     const titleHeight = 28;
-    const columns = Math.floor(tableViewSize.width / (imgSize.width + gapSize+10));
-    console.log('columns', columns, 'tableViewSize.width', tableViewSize.width, 'imgSize.width+gapsize', imgSize.width+gapSize );
+    const columns = Math.floor(
+      tableViewSize.width / (imgSize.width + gapSize + 10)
+    );
+    console.log(
+      "columns",
+      columns,
+      "tableViewSize.width",
+      tableViewSize.width,
+      "imgSize.width+gapsize",
+      imgSize.width + gapSize
+    );
     const rows = Math.floor(
       tableViewSize.height / (imgSize.height + titleHeight + gapSize)
     );
@@ -82,17 +90,7 @@ export default function MovieTable() {
   // console.log(numImg);
   const itemsPerPage = numImg.columns * numImg.rows;
 
-  // useEffect(() => {
-  //   console.log(tableViewSize);
-  //   console.log(numImg);
-  // }, [tableViewSize]);
-
-  const [movies, setMovies] = useState(
-    Array.from({ length: 250 }, () => ({
-      title: "제목",
-      src: "/inf1.jpg",
-    }))
-  );
+  const currentIdx = (page - 1) * itemsPerPage;
 
   return (
     <>
@@ -105,11 +103,11 @@ export default function MovieTable() {
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
       >
-        {movies.slice(0, itemsPerPage).map((src, index) => (
+        {movies.slice(currentIdx, currentIdx+itemsPerPage).map((movie, index) => (
           <Box key={index}>
             <Box
               component="img"
-              src="/inf1.jpg"
+              src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
               sx={{
                 width: imgSize.width, // 가로폭을 100%로 설정
                 height: imgSize.height, // 비율에 맞춰 높이 자동 조절
@@ -121,8 +119,15 @@ export default function MovieTable() {
                 },
               }}
             />
-            <Typography variant="subtitle1" align="center">
-              제목제목
+            <Typography
+              variant="subtitle1"
+              align="center"
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+              width={imgSize.width}
+            >
+              {movie.title}
             </Typography>
           </Box>
         ))}
@@ -136,7 +141,7 @@ export default function MovieTable() {
         gap={2}
       >
         <Pagination
-          count={10}
+          count={Math.ceil(movies.length / itemsPerPage)}
           page={page}
           onChange={onPageChange}
           siblingCount={1}

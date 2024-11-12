@@ -33,7 +33,7 @@ function App() {
 }
 
 
-const TMDB_API_KEY = import.meta.env.TMDB_API_KEY;
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 function TestProvider() {
   const { setUser } = useSessionStore((state) => ({
     setUser: state.setUser,

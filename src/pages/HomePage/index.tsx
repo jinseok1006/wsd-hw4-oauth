@@ -5,7 +5,7 @@ import { useSessionStore } from "../../store/useSessionStore";
 
 import { useAsync } from "react-use";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
-import { useEffect } from "react";
+
 import { useShallow } from "zustand/react/shallow";
 
 /*
