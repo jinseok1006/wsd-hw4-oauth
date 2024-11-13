@@ -1,28 +1,26 @@
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Outlet,
   Route,
 } from "react-router-dom";
-import { LoginPage } from "./pages/LoginPage";
-import { SignupPage } from "./pages/SignupPage";
+import { ROUTES } from "./constants";
+import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
-
-const Layout = () => {
-    return (
-      <>
-        {/* <Navbar /> */}
-        <Outlet />
-        {/* <Footer /> */}
-      </>
-    )
-  }
+import WishListPage from "./pages/WishListPage";
+import PopularPage from "./pages/PopularPage";
+import SearchPage from "./pages/SearchPage";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const routes = createRoutesFromElements(
-  <Route path="/" element={<Layout />}>
-    <Route index element={<HomePage />} />
-    <Route path="signin" element={<LoginPage />} />
-    <Route path="signup" element={<SignupPage />} />
+  <Route path={ROUTES.root} element={<Layout />}>
+    <Route path={ROUTES.signin} element={<SignInPage />} />
+    <Route element={<ProtectedRoute />}>
+      <Route index element={<HomePage />} />
+      <Route path={ROUTES.wishlist} element={<WishListPage />} />
+      <Route path={ROUTES.popular} element={<PopularPage />} />
+      <Route path={ROUTES.search} element={<SearchPage />} />
+    </Route>
   </Route>
 );
 
