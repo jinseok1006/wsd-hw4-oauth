@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import SimpleDialog from "../../components/SimpleDialog";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
@@ -61,19 +62,32 @@ function SignIn() {
     };
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
+  const [open, setOpen] = useState(false); // simple dialog
+  const openDialog = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
-    <div className={cx("container")}>
-      <SignInForm
-        isReturningToSignIn={isReturningToSignIn}
-        isSignInFormActive={isSignInFormActive}
-        handleSignInToSignUpClick={handleSignInToSignUpClick}
-      />
-      <SignUpForm
-        isReturningToSignUp={isReturningToSignIn}
-        isSignUpFormActive={isSignInFormActive}
-        handleSignUpToSignInClick={handleSignUpToSignInClick}
-      />
-    </div>
+    <>
+      <div className={cx("container")}>
+        <SignInForm
+          isReturningToSignIn={isReturningToSignIn}
+          isSignInFormActive={isSignInFormActive}
+          handleSignInToSignUpClick={handleSignInToSignUpClick}
+          handleDialogOpen={openDialog}
+        />
+        <SignUpForm
+          isReturningToSignUp={isReturningToSignIn}
+          isSignUpFormActive={isSignInFormActive}
+          handleSignUpToSignInClick={handleSignUpToSignInClick}
+        />
+      </div>
+      <SimpleDialog open={open} onClose={handleClose} />
+    </>
   );
 }
 function SignUpForm({
@@ -130,112 +144,116 @@ function SignUpForm({
     setAgreeToTerms(false);
 
     // 회원가입 성공 후 알림 (옵션)
-    alert("회원가입 성공!"); // 모달로 수정예정
+
+    // alert("회원가입 성공!"); // 모달로 수정예정
+    openDialog();
 
     // 회원가입 후 로그인 페이지로 이동하는 함수 호출 (선택 사항)
     handleSignUpToSignInClick();
   };
 
   return (
-    <div
-      className={cx("form-container", "sign-up-form", {
-        pull: isSignUpFormActive,
-        push: isReturningToSignUp,
-      })}
-    >
-      <div className={cx("form-image")}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
-          <path
-            fill="#232323"
-            fillRule="evenodd"
-            d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
-            transform="matrix(-1 0 0 1 1600 0)"
-          />
-        </svg>
-      </div>
-      <div className={cx("padding-wrap")}>
-        <h1 style={{ paddingBottom: "16px" }}>Create an Account</h1>
+    <>
+      <div
+        className={cx("form-container", "sign-up-form", {
+          pull: isSignUpFormActive,
+          push: isReturningToSignUp,
+        })}
+      >
+        <div className={cx("form-image")}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 148">
+            <path
+              fill="#232323"
+              fillRule="evenodd"
+              d="M.005 121C311 121 409.898-.25 811 0c400 0 500 121 789 121v77H0s.005-48 .005-77z"
+              transform="matrix(-1 0 0 1 1600 0)"
+            />
+          </svg>
+        </div>
+        <div className={cx("padding-wrap")}>
+          <h1 style={{ paddingBottom: "16px" }}>Create an Account</h1>
 
-        <form id="sign-up-2" onSubmit={handleSignUpSubmit}>
-          <div className={cx("form-group")} style={{ marginBottom: 20 }}>
-            <input
-              required
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder=""
-            />
-            <label htmlFor="email">Email</label>
-          </div>
-          <div className={cx("form-group")} style={{ marginBottom: 20 }}>
-            <input
-              required
-              id="pass"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder=""
-            />
-            <label htmlFor="pass">Password</label>
-          </div>
-          <div className={cx("form-group")} style={{ marginBottom: 20 }}>
-            <input
-              required
-              id="pass2"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder=""
-            />
-            <label htmlFor="pass2">Confirm Password</label>
-          </div>
-          {/* 약관 동의 체크박스 추가 */}
-          <div style={{ marginBottom: 20 }}>
-            <Checkbox
-              required
-              checked={agreeToTerms}
-              onChange={(e) => setAgreeToTerms(e.target.checked)}
-              color="primary"
-              id="agreeToTerms"
-            />
-            <label htmlFor="agreeToTerms">
-              회원가입을 위한 약관에 동의합니다.
-            </label>
-          </div>
-          {/* 체크박스를 선택하지 않으면 버튼 비활성화 */}
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              borderRadius: 12,
-              py: 1.25,
-              bgcolor: "#33383c",
-            }}
-            disabled={
-              !agreeToTerms ||
-              email.length === 0 ||
-              password.length === 0 ||
-              confirmPassword.length === 0
-            }
-          >
-            회원가입
-          </Button>
-        </form>
+          <form id="sign-up-2" onSubmit={handleSignUpSubmit}>
+            <div className={cx("form-group")} style={{ marginBottom: 20 }}>
+              <input
+                required
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder=""
+              />
+              <label htmlFor="email">Email</label>
+            </div>
+            <div className={cx("form-group")} style={{ marginBottom: 20 }}>
+              <input
+                required
+                id="pass"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder=""
+              />
+              <label htmlFor="pass">Password</label>
+            </div>
+            <div className={cx("form-group")} style={{ marginBottom: 20 }}>
+              <input
+                required
+                id="pass2"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder=""
+              />
+              <label htmlFor="pass2">Confirm Password</label>
+            </div>
+            {/* 약관 동의 체크박스 추가 */}
+            <div style={{ marginBottom: 20 }}>
+              <Checkbox
+                required
+                checked={agreeToTerms}
+                onChange={(e) => setAgreeToTerms(e.target.checked)}
+                color="primary"
+                id="agreeToTerms"
+              />
+              <label htmlFor="agreeToTerms">
+                회원가입을 위한 약관에 동의합니다.
+              </label>
+            </div>
+            {/* 체크박스를 선택하지 않으면 버튼 비활성화 */}
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                borderRadius: 12,
+                py: 1.25,
+                bgcolor: "#33383c",
+              }}
+              disabled={
+                !agreeToTerms ||
+                email.length === 0 ||
+                password.length === 0 ||
+                confirmPassword.length === 0
+              }
+            >
+              회원가입
+            </Button>
+          </form>
 
-        <Box display="flex" justifyContent="center">
-          <Link
-            component="button"
-            onClick={handleSignUpToSignInClick}
-            variant="body2"
-            sx={{ color: "#5d6381", textAlign: "center", mt: 1 }}
-          >
-            이미 계정이 있으신가요?
-          </Link>
-        </Box>
+          <Box display="flex" justifyContent="center">
+            <Link
+              component="button"
+              onClick={handleSignUpToSignInClick}
+              variant="body2"
+              sx={{ color: "#5d6381", textAlign: "center", mt: 1 }}
+            >
+              이미 계정이 있으신가요?
+            </Link>
+          </Box>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -243,10 +261,12 @@ function SignInForm({
   isReturningToSignIn,
   isSignInFormActive,
   handleSignInToSignUpClick,
+handleDialogOpen
 }: {
   isSignInFormActive: boolean;
   isReturningToSignIn: boolean;
   handleSignInToSignUpClick: (e: React.FormEvent) => void;
+  handleDialogOpen: () => void;
 }) {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
@@ -301,7 +321,8 @@ function SignInForm({
 
       navigate("/");
     } else {
-      alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+      // alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+      handleDialogOpen();
     }
   };
 

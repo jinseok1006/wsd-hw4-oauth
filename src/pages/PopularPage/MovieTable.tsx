@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
 import MoviePoster from "../HomePage/MoviePoster";
+import MoviePosterInf from "../../components/MoviePosterInf";
 
 export default function MovieTable({ movies }: { movies: Movie[] }) {
   const tableViewRef = useRef<HTMLDivElement>(null);
@@ -111,31 +112,8 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
           .slice(currentIdx, currentIdx + itemsPerPage)
           .map((movie, index) => (
             <Box key={index}>
-              <Box
-                component="img"
-                src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
-                sx={{
-                  width: imgSize.width, // 가로폭을 100%로 설정
-                  height: imgSize.height, // 비율에 맞춰 높이 자동 조절
-                  objectFit: "cover",
-                  borderRadius: 2,
-                  transition: "transform 0.5s ease",
-                  ":hover": {
-                    transform: `scale(1.05)`,
-                  },
-                }}
-              />
-          
-              <Typography
-                variant="subtitle1"
-                align="center"
-                textOverflow="ellipsis"
-                overflow="hidden"
-                whiteSpace="nowrap"
-                width={imgSize.width}
-              >
-                {movie.title}
-              </Typography>
+
+              <MoviePosterInf movie={movie} width={imgSize.width} height={imgSize.height} />
             </Box>
           ))}
       </Box>

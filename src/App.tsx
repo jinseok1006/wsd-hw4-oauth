@@ -50,4 +50,4 @@ function TestProvider() {
   return <App />;
 }
 
-export default TestProvider;
+export default App;
