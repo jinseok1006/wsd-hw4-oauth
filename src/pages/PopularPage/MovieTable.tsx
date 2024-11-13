@@ -3,7 +3,7 @@ import { Box, Pagination, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
-import MoviePoster from "../../components/MoviePoster";
+import MoviePoster from "../HomePage/MoviePoster";
 
 export default function MovieTable({ movies }: { movies: Movie[] }) {
   const tableViewRef = useRef<HTMLDivElement>(null);

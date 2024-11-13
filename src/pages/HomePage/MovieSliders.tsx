@@ -8,7 +8,7 @@ import { Movie, TMDB_IMAGE } from "../../api";
 import { useEffect } from "react";
 import { Box } from "@mui/material";
 import useWishlist from "../../store/useWishlistStore";
-import MoviePoster from "../../components/MoviePoster";
+import MoviePoster from "./MoviePoster";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
 
@@ -27,8 +27,6 @@ export default function MovieSlider({
       console.log("unmount?");
     };
   }, []);
-
-  const { wishlist, toggleWishlist } = useWishlist();
 
   return (
     <div className={cx("content-list")}>

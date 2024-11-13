@@ -5,6 +5,7 @@ import ScrollTop from "../../components/ScrollTop";
 import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie, TMDB_IMAGE } from "../../api";
+import MoviePosterInf from "../../components/MoviePosterInf";
 
 export default function MovieInfiniteScroll({
   movies,
@@ -24,7 +25,7 @@ export default function MovieInfiniteScroll({
         <Grid container spacing={2}>
           {movies.map((movie, index) => (
             <Grid size={{ md: 1.5, sm: 2.4, xs: 4 }} key={index}>
-              <Box
+              {/* <Box
                 component="img"
                 src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
                 alt={movie.title}
@@ -41,7 +42,8 @@ export default function MovieInfiniteScroll({
               />
               <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
                 {movie.title}
-              </Typography>
+              </Typography> */}
+              <MoviePosterInf movie={movie} />
             </Grid>
           ))}
         </Grid>
