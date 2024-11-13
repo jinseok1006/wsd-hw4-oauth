@@ -3,9 +3,9 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
+import { ROUTES } from "./constants";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
-import { ROUTES } from "./constants";
 import WishListPage from "./pages/WishListPage";
 import PopularPage from "./pages/PopularPage";
 import SearchPage from "./pages/SearchPage";

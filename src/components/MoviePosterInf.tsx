@@ -8,7 +8,17 @@ export default function MoviePosterInf({ movie }: { movie: Movie }) {
   const isWishlisted = includeWishlist(movie);
 
   return (
-    <Box onClick={() => toggleWishlist(movie)} sx={{ height: "100%",position:'relative' }}>
+    <Box
+      onClick={() => toggleWishlist(movie)}
+      sx={{
+        height: "100%",
+        position: "relative",
+        transition: "transform 0.5s ease",
+        ":hover": {
+          transform: `scale(1.05)`,
+        },
+      }}
+    >
       <Box
         component="img"
         src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
@@ -18,13 +28,15 @@ export default function MoviePosterInf({ movie }: { movie: Movie }) {
           height: "auto",
           objectFit: "cover",
           borderRadius: 1,
-          transition: "transform 0.5s ease",
-          ":hover": {
-            transform: `scale(1.05)`,
-          },
         }}
       />
-      <Typography variant="subtitle1" align="center" sx={{ mt: 1 }}>
+      <Typography
+        variant="subtitle1"
+        align="center"
+        textOverflow="ellipsis"
+        overflow="hidden"
+        whiteSpace="nowrap"
+      >
         {movie.title}
       </Typography>
       {isWishlisted ? (
@@ -37,6 +49,7 @@ export default function MoviePosterInf({ movie }: { movie: Movie }) {
             background: "black",
             padding: 1,
             opacity: 0.7,
+            borderRadius: 1,
           }}
         >
           ❤️
