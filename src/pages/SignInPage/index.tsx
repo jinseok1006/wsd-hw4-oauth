@@ -147,6 +147,9 @@ function SignUpForm({
     // 회원가입 성공 후 알림 (옵션)
 
     // alert("회원가입 성공!"); // 모달로 수정예정
+    setDialog("회원가입 성공", "회원가입이 완료되었습니다.");
+    openDialog();
+
 
     // 회원가입 후 로그인 페이지로 이동하는 함수 호출 (선택 사항)
     handleSignUpToSignInClick();
@@ -323,6 +326,10 @@ function SignInForm({
         localStorage.removeItem("rememberedEmail");
       }
 
+      // alert("로그인 성공!");
+      setDialog("로그인 성공", "로그인이 완료되었습니다.");
+      openDialog();
+      
       navigate("/");
     } else {
       // alert("이메일 또는 비밀번호가 일치하지 않습니다.");

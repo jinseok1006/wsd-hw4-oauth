@@ -110,30 +110,6 @@ function MovieInfiniteScroll({
         <Grid container spacing={2} sx={{ pt: 2, px: 2 }}>
           {movies.map((movie, index) => (
             <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
-              {/* <Box
-                component="img"
-                src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
-                alt={movie.title}
-                sx={{
-                  width: "100%",
-                  height: "auto",
-                  objectFit: "cover",
-                  borderRadius: 1,
-                  transition: "transform 0.5s ease",
-                  ":hover": {
-                    transform: `scale(1.05)`,
-                  },
-                }}
-              />
-              <Typography
-                variant="subtitle1"
-                align="center"
-                textOverflow="ellipsis"
-                overflow="hidden"
-                whiteSpace="nowrap"
-              >
-                {movie.title}
-              </Typography> */}
               <MoviePosterInf movie={movie} />
             </Grid>
           ))}
