@@ -1,24 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Button,
-  Box,
-  Container,
-  Typography,
-  Fab,
-} from "@mui/material";
-import {
-  FilterList as FilterListIcon,
-  KeyboardArrowUp as KeyboardArrowUpIcon,
-  Refresh as RefreshIcon,
-} from "@mui/icons-material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Box, Container, Fab } from "@mui/material";
+import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
+import { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import ScrollTop from "../../components/ScrollTop";
-import api, { Movie, MovieResponse, TMDB_IMAGE } from "../../api";
+import api, { Movie, MovieResponse } from "../../api";
 import { useSessionStore } from "../../store/useSessionStore";
 import { useShallow } from "zustand/react/shallow";
 import MovieFilter, {
@@ -83,7 +70,6 @@ export default function SearchPage() {
         .json<MovieResponse>();
     }
   };
-
 
   return (
     <Container maxWidth={false} disableGutters>

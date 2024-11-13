@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import MoviePosterInf from "../components/MoviePosterInf";
@@ -12,7 +11,7 @@ export default function WishListPage() {
 
   return (
     <>
-      <Container maxWidth='xl'>
+      <Container maxWidth="xl">
         <InfiniteScroll
           dataLength={wishlist.length}
           next={() => {}}

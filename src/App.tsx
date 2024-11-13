@@ -2,10 +2,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./router";
 import { createTheme, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import { useSessionStore } from "./store/useSessionStore";
-import { useEffect } from "react";
 import SimpleDialog from "./components/SimpleDialog";
-import useDialogStore from "./store/useDialogStore";
 
 const fontFamily =
   '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif';
@@ -35,22 +32,22 @@ function App() {
   );
 }
 
-const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-function TestProvider() {
-  const { setUser } = useSessionStore((state) => ({
-    setUser: state.setUser,
-  }));
+// const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+// function TestProvider() {
+//   const { setUser } = useSessionStore((state) => ({
+//     setUser: state.setUser,
+//   }));
 
-  useEffect(
-    () =>
-      setUser({
-        email: "testuser@gmail.com",
-        apiKey: TMDB_API_KEY,
-      }),
-    [setUser]
-  );
+//   useEffect(
+//     () =>
+//       setUser({
+//         email: "testuser@gmail.com",
+//         apiKey: TMDB_API_KEY,
+//       }),
+//     [setUser]
+//   );
 
-  return <App />;
-}
+//   return <App />;
+// }
 
 export default App;

@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Movie, TMDB_IMAGE } from "../../api";
-import MoviePoster from "../HomePage/MoviePoster";
+import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 
 export default function MovieTable({ movies }: { movies: Movie[] }) {

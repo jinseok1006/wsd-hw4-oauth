@@ -4,10 +4,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
-import { Movie, TMDB_IMAGE } from "../../api";
+import { Movie } from "../../api";
 import { useEffect } from "react";
-import { Box } from "@mui/material";
-import useWishlist from "../../store/useWishlistStore";
+
 import MoviePoster from "./MoviePoster";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };

@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import SimpleDialog from "../../components/SimpleDialog";
 import useDialogStore from "../../store/useDialogStore";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form

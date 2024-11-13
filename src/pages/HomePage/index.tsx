@@ -7,7 +7,6 @@ import { useAsync } from "react-use";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 
 import { useShallow } from "zustand/react/shallow";
-import { useEffect } from "react";
 
 /*
  https://nyagm.tistory.com/68

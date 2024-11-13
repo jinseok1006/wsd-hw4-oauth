@@ -1,10 +1,9 @@
 import Grid from "@mui/material/Grid2";
-import { Box, Typography } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ScrollTop from "../../components/ScrollTop";
 import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
-import { Movie, TMDB_IMAGE } from "../../api";
+import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 
 
