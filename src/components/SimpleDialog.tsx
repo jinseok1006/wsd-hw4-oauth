@@ -6,33 +6,42 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import useDialogStore from "../store/useDialogStore";
 
 export interface SimpleDialogProps {
   open: boolean;
   onClose: () => void;
+  title: string;
+  desc: string;
 }
 
-export default function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, open } = props;
+export default function SimpleDialog() {
+  const { isDialogOpen, dialogTitle, dialogDesc, closeDialog } = useDialogStore(
+    (state) => ({
+      isDialogOpen: state.isOpen,
+      dialogTitle: state.title,
+      dialogDesc: state.desc,
+      closeDialog: state.close,
+    })
+  );
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
+      open={isDialogOpen}
+      onClose={closeDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
+          {dialogDesc}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>확인</Button>
+        <Button onClick={closeDialog} variant="text" color="inherit">
+          확인
+        </Button>
       </DialogActions>
     </Dialog>
   );

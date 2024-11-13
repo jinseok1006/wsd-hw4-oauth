@@ -4,6 +4,8 @@ import { createTheme, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import { useSessionStore } from "./store/useSessionStore";
 import { useEffect } from "react";
+import SimpleDialog from "./components/SimpleDialog";
+import useDialogStore from "./store/useDialogStore";
 
 const fontFamily =
   '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif';
@@ -28,6 +30,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <RouterProvider router={router} />
+      <SimpleDialog />
     </ThemeProvider>
   );
 }

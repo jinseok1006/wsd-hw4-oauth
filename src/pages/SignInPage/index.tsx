@@ -12,6 +12,7 @@ import {
 import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import SimpleDialog from "../../components/SimpleDialog";
+import useDialogStore from "../../store/useDialogStore";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
@@ -62,15 +63,6 @@ function SignIn() {
     };
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
-  const [open, setOpen] = useState(false); // simple dialog
-  const openDialog = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-
   return (
     <>
       <div className={cx("container")}>
@@ -78,7 +70,6 @@ function SignIn() {
           isReturningToSignIn={isReturningToSignIn}
           isSignInFormActive={isSignInFormActive}
           handleSignInToSignUpClick={handleSignInToSignUpClick}
-          handleDialogOpen={openDialog}
         />
         <SignUpForm
           isReturningToSignUp={isReturningToSignIn}
@@ -86,7 +77,6 @@ function SignIn() {
           handleSignUpToSignInClick={handleSignUpToSignInClick}
         />
       </div>
-      <SimpleDialog open={open} onClose={handleClose} />
     </>
   );
 }
@@ -104,6 +94,13 @@ function SignUpForm({
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false); // 약관 동의 상태 추가
+
+  // 다이얼로그 상태
+  const { openDialog, setDialog } = useDialogStore((state) => ({
+    openDialog: state.open,
+    setDialog: state.set,
+  }));
+
 
   const handleSignUpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,11 +120,16 @@ function SignUpForm({
     );
 
     if (userExists) {
-      alert("이미 존재하는 이메일입니다.");
+      // alert("이미 존재하는 이메일입니다.");
+      setDialog("회원가입 실패", "이미 존재하는 이메일입니다.");
+      openDialog();
+      
       return;
     }
     if (password !== confirmPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      // alert("비밀번호가 일치하지 않습니다.");
+      setDialog("회원가입 실패", "비밀번호가 일치하지 않습니다.");
+      openDialog();
       return;
     }
 
@@ -146,7 +148,6 @@ function SignUpForm({
     // 회원가입 성공 후 알림 (옵션)
 
     // alert("회원가입 성공!"); // 모달로 수정예정
-    openDialog();
 
     // 회원가입 후 로그인 페이지로 이동하는 함수 호출 (선택 사항)
     handleSignUpToSignInClick();
@@ -261,12 +262,10 @@ function SignInForm({
   isReturningToSignIn,
   isSignInFormActive,
   handleSignInToSignUpClick,
-handleDialogOpen
 }: {
   isSignInFormActive: boolean;
   isReturningToSignIn: boolean;
   handleSignInToSignUpClick: (e: React.FormEvent) => void;
-  handleDialogOpen: () => void;
 }) {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
@@ -279,6 +278,12 @@ handleDialogOpen
   const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
   };
+
+  // 다이얼로그 상태
+  const { openDialog, setDialog } = useDialogStore((state) => ({
+    openDialog: state.open,
+    setDialog: state.set,
+  }));
 
   // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 rememberedEmail을 가져옴
   useEffect(() => {
@@ -322,7 +327,8 @@ handleDialogOpen
       navigate("/");
     } else {
       // alert("이메일 또는 비밀번호가 일치하지 않습니다.");
-      handleDialogOpen();
+      setDialog("로그인 실패", "이메일 또는 비밀번호가 일치하지 않습니다.");
+      openDialog();
     }
   };
 
