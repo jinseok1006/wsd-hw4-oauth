@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import Grid from "@mui/material/Grid2";
-import { Box, Button, Pagination, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Pagination, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
+import MoviePoster from "../HomePage/MoviePoster";
+import MoviePosterInf from "../../components/MoviePosterInf";
 
 export default function MovieTable({ movies }: { movies: Movie[] }) {
   const tableViewRef = useRef<HTMLDivElement>(null);
@@ -16,14 +17,14 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
       if (tableViewRef.current) {
         const width = tableViewRef.current.clientWidth;
         const height = window.innerHeight - 64 - 68 - 96;
-        console.log(document.body.clientHeight);
+
         setTableViewSize({
           width,
           height,
         });
       }
     };
-    updateSize();
+    updateSize(); //총 2번실행?
     window.addEventListener("resize", updateSize);
     return () => {
       window.removeEventListener("resize", updateSize);
@@ -32,8 +33,10 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
 
   // const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
-  const onPageChange = (e: React.ChangeEvent<unknown>, newPage: number) =>
+  const onPageChange = (e: React.ChangeEvent<unknown>, newPage: number) => {
+    e.preventDefault();
     setPage(newPage);
+  };
 
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm")); // tablet
@@ -64,14 +67,14 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
     const columns = Math.floor(
       tableViewSize.width / (imgSize.width + gapSize + 10)
     );
-    console.log(
-      "columns",
-      columns,
-      "tableViewSize.width",
-      tableViewSize.width,
-      "imgSize.width+gapsize",
-      imgSize.width + gapSize
-    );
+    // console.log(
+    //   "columns",
+    //   columns,
+    //   "tableViewSize.width",
+    //   tableViewSize.width,
+    //   "imgSize.width+gapsize",
+    //   imgSize.width + gapSize
+    // );
     const rows = Math.floor(
       tableViewSize.height / (imgSize.height + titleHeight + gapSize)
     );
@@ -92,6 +95,8 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
 
   const currentIdx = (page - 1) * itemsPerPage;
 
+  const pageCount = Math.ceil(movies.length / itemsPerPage);
+
   return (
     <>
       <Box
@@ -103,34 +108,14 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
       >
-        {movies.slice(currentIdx, currentIdx+itemsPerPage).map((movie, index) => (
-          <Box key={index}>
-            <Box
-              component="img"
-              src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
-              sx={{
-                width: imgSize.width, // 가로폭을 100%로 설정
-                height: imgSize.height, // 비율에 맞춰 높이 자동 조절
-                objectFit: "cover",
-                borderRadius: 2,
-                transition: "transform 0.5s ease",
-                ":hover": {
-                  transform: `scale(1.05)`,
-                },
-              }}
-            />
-            <Typography
-              variant="subtitle1"
-              align="center"
-              textOverflow="ellipsis"
-              overflow="hidden"
-              whiteSpace="nowrap"
-              width={imgSize.width}
-            >
-              {movie.title}
-            </Typography>
-          </Box>
-        ))}
+        {movies
+          .slice(currentIdx, currentIdx + itemsPerPage)
+          .map((movie, index) => (
+            <Box key={index}>
+
+              <MoviePosterInf movie={movie} width={imgSize.width} height={imgSize.height} />
+            </Box>
+          ))}
       </Box>
       <Box
         pt={5}
@@ -141,7 +126,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
         gap={2}
       >
         <Pagination
-          count={Math.ceil(movies.length / itemsPerPage)}
+          count={isNaN(pageCount) ? 1 : pageCount}
           page={page}
           onChange={onPageChange}
           siblingCount={1}
@@ -149,15 +134,6 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
           variant="outlined"
           shape="rounded"
         />
-        {/* <Button variant="outlined">
-          이전
-        </Button>
-        <Typography>
-          {page} / {10}
-        </Typography>
-        <Button variant="outlined">
-          다음
-        </Button> */}
       </Box>
     </>
   );

@@ -3,10 +3,11 @@ import { useSessionStore } from "../store/useSessionStore";
 import { useShallow } from "zustand/react/shallow";
 import api, { Movie, MovieResponse } from "../api";
 
-export default function useMovie(mounted: boolean, perPage = 20) {
+export default function useMovie(mounted: boolean) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const user = useSessionStore(useShallow((state) => state.user));
   const page = useRef(1);
+  const fetched = useRef(false);
 
   const setAdditionalMovies = async () => {
     const moreMovies = await fetchMoreMovies();
@@ -22,7 +23,6 @@ export default function useMovie(mounted: boolean, perPage = 20) {
           searchParams: {
             api_key: user.apiKey,
             page: page.current++,
-            per_page: perPage,
           },
         })
         .json<MovieResponse>();
@@ -30,11 +30,12 @@ export default function useMovie(mounted: boolean, perPage = 20) {
   };
 
   useEffect(() => {
-    if (mounted) {
+    if (mounted && !fetched.current) {
+      fetched.current = true;
       page.current = 1;
       for (let i = 0; i < 6; i++) setAdditionalMovies();
     }
-  }, []);
+  }, [fetched]);
 
   return [movies, setAdditionalMovies] as const;
 }

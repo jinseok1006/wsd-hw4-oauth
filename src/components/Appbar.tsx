@@ -20,7 +20,7 @@ import HideOnScroll from "./HideOnScroll";
 import { useSessionStore } from "../store/useSessionStore";
 
 export default function ResponsiveAppBar() {
-  const { user, setUser } = useSessionStore();
+  const { user, logout } = useSessionStore();
   const [drawerOpen, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -37,9 +37,12 @@ export default function ResponsiveAppBar() {
   };
 
   const handleLogout = () => {
-    setUser(null);
+    logout();
     handleCloseUserMenu();
   };
+
+
+
 
   return (
     <>
