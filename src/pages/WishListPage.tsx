@@ -6,19 +6,22 @@ import { Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import useWishlistStore from "../store/useWishlistStore";
 
+// const scrollStyle={
+//   marginT
+// }
 export default function WishListPage() {
   const wishlist = useWishlistStore((state) => state.wishlist);
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" >
         <InfiniteScroll
           dataLength={wishlist.length}
           next={() => {}}
           hasMore={false}
           loader={<div>loading...</div>}
         >
-          <Grid container spacing={2} sx={{ pt: 2, px: 2 }}>
+          <Grid container spacing={2} sx={{ py: 2, px: 2 }}>
             {wishlist.map((movie, index) => (
               <Grid size={{ xs: 4, sm: 3, md: 1.5 }} key={index}>
                 <MoviePosterInf movie={movie} />
