@@ -1,12 +1,14 @@
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import MovieSlider from "./MovieSliders";
-import { useSessionStore } from "../../store/useSessionStore";
+import { User, useSessionStore } from "../../store/useSessionStore";
 
 import { useAsync } from "react-use";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 
 import { useShallow } from "zustand/react/shallow";
+import { AsyncState } from "react-use/lib/useAsyncFn";
+import CircularIndeterminate from "../../components/CircularIndeterminate";
 
 /*
  https://nyagm.tistory.com/68
@@ -19,86 +21,36 @@ export default function HomePage() {
   const cx = classNames.bind(styles);
 
   const user = useSessionStore(useShallow((state) => state.user));
+  const { popularMovies, tvShowMovies, animationMovies, loading, error } =
+    useFetchMovies(user);
 
-
-
-  
-
-  const PopularMovies = useAsync(async () => {
-    if (user) {
-      return api
-        .get("movie/popular", {
-          searchParams: {
-            api_key: user.apiKey,
-          },
-        })
-        .json<MovieResponse>();
-    }
-  }, [user]);
-
-  const tvShowMovies = useAsync(async () => {
-    if (user) {
-      return api
-        .get("discover/tv", {
-          searchParams: {
-            api_key: user.apiKey,
-          },
-        })
-        .json<MovieResponse>();
-    }
-  }, [user]);
-
-  const animationMovies = useAsync(async () => {
-    if (user) {
-      return api
-        .get("discover/movie", {
-          searchParams: {
-            api_key: user.apiKey,
-            with_genres:16,
-          },
-        })
-        .json<MovieResponse>();
-    }
-  }, [user]);
-
-
-  if (
-    PopularMovies.loading ||
-    tvShowMovies.loading ||
-    animationMovies.loading
-  ) {
-    return <div>loading...</div>;
+  if (loading) {
+    return <CircularIndeterminate />;
   }
 
-  if (PopularMovies.error || tvShowMovies.error || animationMovies.error) {
-    if (PopularMovies.error) {
-      console.error(PopularMovies.error.message);
-    }
-    if (tvShowMovies.error) {
-      console.error(tvShowMovies.error.message);
-    }
-    if (animationMovies.error) {
-      console.error(animationMovies.error.message);
-    }
-    return <div>error...</div>;
+  if (error) {
+    console.error(error);
+    return <div>error!</div>;
   }
 
-  if (!PopularMovies.value || !tvShowMovies.value || !animationMovies.value) {
+  if (!popularMovies || !tvShowMovies || !animationMovies) {
     return <div>No popular movies found.</div>;
   }
 
-  const movie = PopularMovies.value.results[0];
+  const featuredMovie = popularMovies.results[0];
 
   return (
     <div className={cx("container")}>
       <main>
         <div className={cx("video")}>
-          <img src={`${TMDB_IMAGE}/original/${movie.backdrop_path}`}></img>
+          <img
+            src={`${TMDB_IMAGE}/original/${featuredMovie.backdrop_path}`}
+          ></img>
         </div>
         <div className={cx("description")}>
-          <h1>{movie.title}</h1>
+          <h1>{featuredMovie.title}</h1>
 
-          <p>{movie.overview}</p>
+          <p>{featuredMovie.overview}</p>
           <div className={cx("buttons")}>
             <button className={cx("play")}>
               <i className={cx("fa-solid", "fa-play")}></i>
@@ -115,15 +67,9 @@ export default function HomePage() {
         </div>
       </main>
       <section>
-        <MovieSlider
-          title="지금 뜨는 콘텐츠"
-          movies={PopularMovies.value.results}
-        />
-        <MovieSlider
-          title="TV 시리즈"
-          movies={tvShowMovies.value.results}
-        />
-        <MovieSlider title="애니메이션 영화" movies={animationMovies.value.results} />
+        <MovieSlider title="지금 뜨는 콘텐츠" movies={popularMovies.results} />
+        <MovieSlider title="TV 시리즈" movies={tvShowMovies.results} />
+        <MovieSlider title="애니메이션 영화" movies={animationMovies.results} />
       </section>
       <footer>
         <div className={cx("wrap")}>
@@ -153,3 +99,54 @@ export default function HomePage() {
     </div>
   );
 }
+
+function useFetchMovies(user: User | null) {
+  const { value, loading, error } = useAsync(
+    async () =>
+      user &&
+      Promise.all([
+        fetchPopularMovies(user),
+        fetchTvShows(user),
+        fetchAnimations(user),
+      ]),
+    [user]
+  );
+
+  const [popularMovies, tvShowMovies, animationMovies] = value ?? [];
+
+  return {
+    popularMovies,
+    tvShowMovies,
+    animationMovies,
+    loading,
+    error,
+  };
+}
+
+const fetchPopularMovies = (user: User) =>
+  api
+    .get("movie/popular", {
+      searchParams: {
+        api_key: user.apiKey,
+      },
+    })
+    .json<MovieResponse>();
+
+const fetchTvShows = (user: User) =>
+  api
+    .get("discover/tv", {
+      searchParams: {
+        api_key: user.apiKey,
+      },
+    })
+    .json<MovieResponse>();
+
+const fetchAnimations = (user: User) =>
+  api
+    .get("discover/movie", {
+      searchParams: {
+        api_key: user.apiKey,
+        with_genres: 16,
+      },
+    })
+    .json<MovieResponse>();
