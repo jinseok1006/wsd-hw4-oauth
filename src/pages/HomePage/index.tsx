@@ -7,7 +7,6 @@ import { useAsync } from "react-use";
 import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 
 import { useShallow } from "zustand/react/shallow";
-import { AsyncState } from "react-use/lib/useAsyncFn";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 
 /*

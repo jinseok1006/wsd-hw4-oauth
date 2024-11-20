@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, CircularProgress, Container, Fab } from "@mui/material";
+import { Box,  Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -15,7 +15,6 @@ import MovieFilter, {
   voteCode,
 } from "./MovieFitler";
 import MoviePosterInf from "../../components/MoviePosterInf";
-import CircularIndeterminate from "../../components/CircularIndeterminate";
 
 export default function SearchPage() {
   const [filters, setFilters] = useState(initialFilterState);
