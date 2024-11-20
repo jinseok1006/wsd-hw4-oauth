@@ -6,7 +6,6 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 
-
 export default function MovieInfiniteScroll({
   movies,
   setAdditionalMovies,

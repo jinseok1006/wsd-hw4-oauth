@@ -15,7 +15,7 @@ import useDialogStore from "../../store/useDialogStore";
 
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
-
+ 
 export default function SignInContainer() {
   const location = useLocation();
   const from = location.state?.from;
@@ -401,7 +401,7 @@ function SignInForm({
             />
 
             <Link
-              href="/forgot-password"
+              href="#"
               variant="body2"
               sx={{ color: "#5d6381" }}
             >

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-interface User {
+export interface User {
   email: string;
   apiKey: string;
 }

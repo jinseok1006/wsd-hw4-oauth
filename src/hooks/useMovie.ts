@@ -3,7 +3,7 @@ import { useSessionStore } from "../store/useSessionStore";
 import { useShallow } from "zustand/react/shallow";
 import api, { Movie, MovieResponse } from "../api";
 
-export default function useMovie(mounted: boolean) {
+export default function useMovie() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const user = useSessionStore(useShallow((state) => state.user));
   const page = useRef(1);
@@ -30,7 +30,7 @@ export default function useMovie(mounted: boolean) {
   };
 
   useEffect(() => {
-    if (mounted && !fetched.current) {
+    if (!fetched.current) {
       fetched.current = true;
       page.current = 1;
       for (let i = 0; i < 6; i++) setAdditionalMovies();
