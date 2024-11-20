@@ -5,7 +5,7 @@ import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
-
+import { CircularProgress } from "@mui/material";
 
 export default function MovieInfiniteScroll({
   movies,

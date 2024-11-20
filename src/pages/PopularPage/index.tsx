@@ -14,7 +14,7 @@ export default function PopularPage() {
   };
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [movies, setAdditionalMovies] = useMovie(true);
+  const [movies, setAdditionalMovies] = useMovie();
 
   return (
     <Container maxWidth="xl" ref={containerRef}>
