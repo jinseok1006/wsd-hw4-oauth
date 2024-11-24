@@ -24,6 +24,6 @@ const routes = createRoutesFromElements(
   </Route>
 );
 
-const router = createBrowserRouter(routes, { basename: '/wsd-hw3-fe'});
+const router = createBrowserRouter(routes, { basename: '/wsd-hw2-fe'});
 
 export default router;
