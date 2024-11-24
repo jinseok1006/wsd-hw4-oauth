@@ -8,7 +8,12 @@ export default function MoviePoster({ movie }: { movie: Movie }) {
   const isWishlisted = includeWishlist(movie);
 
   return (
-    <Box onClick={() => toggleWishlist(movie)} sx={{ height: "100%" }}>
+    <Box
+      onClick={() => toggleWishlist(movie)}
+      sx={{ height: "100%", 
+        position: "relative"
+       }}
+    >
       <Box
         component="img"
         src={`${TMDB_IMAGE}/w300/${movie.poster_path}`}
