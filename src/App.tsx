@@ -1,8 +1,15 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
-import { createTheme, CssBaseline } from "@mui/material";
+import {
+  createTheme,
+  CssBaseline,
+  GlobalStyles,
+  Snackbar,
+} from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import SimpleDialog from "./components/SimpleDialog";
+import { AnimatePresence } from "motion/react";
+import SimpleSnackBar from "./components/SnackBar";
 
 const fontFamily =
   '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif';
@@ -26,8 +33,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyles
+        styles={{
+          ".infinite-scroll-component": {
+            overflowY: "hidden !important",
+          },
+        }}
+      />
       <RouterProvider router={router} />
+
       <SimpleDialog />
+      <SimpleSnackBar />
+      {/* <Snackbar open={true}/> */}
     </ThemeProvider>
   );
 }
