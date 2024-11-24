@@ -16,6 +16,7 @@ export default function ScrollTop({ children }: { children: React.ReactNode }) {
 
     if (anchor) {
       anchor.scrollIntoView({
+        behavior: "smooth",  // 부드럽게 스크롤 이동
         block: "center",
       });
     }
