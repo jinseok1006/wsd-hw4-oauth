@@ -126,7 +126,7 @@
 }
 
 .container section .content-list {
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
   position: relative;
   padding-left: 10px;
   padding-right: 10px;
@@ -140,7 +140,7 @@
 
 .container section .content-list .item {
   width: auto;
-  height: 300px;
+  /* height: 300px; */
   /* object-fit: cover; */
   transition: transform 0.3s, box-shadow 0.3s; /* 애니메이션 효과 추가 */
 }
@@ -174,7 +174,7 @@
 .container footer .wrap .options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 1em;
+  grid-gap: 0.2em;
 }
 
 .container footer .wrap .options .option {
