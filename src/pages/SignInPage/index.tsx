@@ -12,10 +12,12 @@ import {
 import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useDialogStore from "../../store/useDialogStore";
-
+import { motion } from "motion/react";
+import { pageTransition } from "../../animation/pageTransition";
+import useSnackbarStore from "../../store/useSnakbarStore";
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
- 
+
 export default function SignInContainer() {
   const location = useLocation();
   const from = location.state?.from;
@@ -34,22 +36,15 @@ function SignIn() {
   const [isSignInFormActive, setIsSignInFormActive] = useState(false);
   const [isReturningToSignIn, setIsReturningToSignIn] = useState(false);
 
-  // const [isSignUpFormActive, setIsSignUpFormActive] = useState(false);
-  // const [isReturningToSignUp, setIsReturningToSignUp] = useState(false);
-
   const handleSignInToSignUpClick = (e: React.FormEvent) => {
     e.preventDefault();
     setIsReturningToSignIn(false);
     setIsSignInFormActive(true);
-    // setIsReturningToSignUp(false);
-    // setIsSignUpFormActive(true);
   };
 
   const handleSignUpToSignInClick = () => {
     setIsSignInFormActive(false);
     setIsReturningToSignIn(true);
-    // setIsSignUpFormActive(false);
-    // setIsReturningToSignUp(true);
   };
 
   useEffect(() => {
@@ -63,7 +58,7 @@ function SignIn() {
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
   return (
-    <>
+    <motion.div {...pageTransition}>
       <div className={cx("container")}>
         <SignInForm
           isReturningToSignIn={isReturningToSignIn}
@@ -76,7 +71,7 @@ function SignIn() {
           handleSignUpToSignInClick={handleSignUpToSignInClick}
         />
       </div>
-    </>
+    </motion.div>
   );
 }
 function SignUpForm({
@@ -100,7 +95,6 @@ function SignUpForm({
     setDialog: state.set,
   }));
 
-
   const handleSignUpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -122,7 +116,7 @@ function SignUpForm({
       // alert("이미 존재하는 이메일입니다.");
       setDialog("회원가입 실패", "이미 존재하는 이메일입니다.");
       openDialog();
-      
+
       return;
     }
     if (password !== confirmPassword) {
@@ -149,7 +143,6 @@ function SignUpForm({
     // alert("회원가입 성공!"); // 모달로 수정예정
     setDialog("회원가입 성공", "회원가입이 완료되었습니다.");
     openDialog();
-
 
     // 회원가입 후 로그인 페이지로 이동하는 함수 호출 (선택 사항)
     handleSignUpToSignInClick();
@@ -280,6 +273,10 @@ function SignInForm({
   const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
   };
+  const [setSnackbar, openSnackbar] = useSnackbarStore((state) => [
+    state.set,
+    state.open,
+  ]);
 
   // 다이얼로그 상태
   const { openDialog, setDialog } = useDialogStore((state) => ({
@@ -327,9 +324,11 @@ function SignInForm({
       }
 
       // alert("로그인 성공!");
-      setDialog("로그인 성공", "로그인이 완료되었습니다.");
-      openDialog();
-      
+      // setDialog("로그인 성공", "로그인이 완료되었습니다.");
+      // openDialog();
+      setSnackbar("로그인 성공");
+      openSnackbar();
+
       navigate("/");
     } else {
       // alert("이메일 또는 비밀번호가 일치하지 않습니다.");
@@ -400,11 +399,7 @@ function SignInForm({
               label="Remember me"
             />
 
-            <Link
-              href="#"
-              variant="body2"
-              sx={{ color: "#5d6381" }}
-            >
+            <Link href="#" variant="body2" sx={{ color: "#5d6381" }}>
               Forgot Password?
             </Link>
           </Box>

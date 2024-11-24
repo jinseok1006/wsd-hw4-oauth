@@ -16,6 +16,7 @@
     "@mui/material": "^6.1.6",
     "classnames": "^2.5.1",
     "ky": "^1.7.2",
+    "motion": "^11.11.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-infinite-scroll-component": "^6.1.0",
@@ -39,6 +40,8 @@
     "vite": "^5.4.9"
   },
   "eslintConfig": {
-    "ignorePatterns": ["**/*"]
+    "ignorePatterns": [
+      "**/*"
+    ]
   }
 }
