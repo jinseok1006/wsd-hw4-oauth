@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Alert, Box, Snackbar } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import { useShallow } from "zustand/react/shallow";
 import useSnackbarStore from "../store/useSnakbarStore";
 

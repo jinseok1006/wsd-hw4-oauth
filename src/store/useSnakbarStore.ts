@@ -8,7 +8,7 @@ interface SnackbarStore {
   close: () => void;
 }
 
-const useSnackbarStore = create<SnackbarStore>()((set, get) => ({
+const useSnackbarStore = create<SnackbarStore>()((set) => ({
   isOpen: false,
   desc: "",
   open: () => {
