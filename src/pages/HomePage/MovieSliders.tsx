@@ -7,10 +7,7 @@ import styles from "./index.module.css";
 import { Movie } from "../../api";
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import {
-  fadeInAnimation,
-  fadeInCommonOptions,
-} from "../../animation/pageTransition";
+import { fadeInCommonOptions } from "../../animation/pageTransition";
 import MoviePoster from "./MoviePoster";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
@@ -34,9 +31,7 @@ export default function MovieSlider({
   return (
     <div className={cx("content-list")}>
       <h1>{title}</h1>
-      <motion.div
-        {...fadeInCommonOptions}
-      >
+      <motion.div {...fadeInCommonOptions}>
         <Swiper
           modules={[Navigation, Mousewheel]}
           slidesPerView={"auto"}

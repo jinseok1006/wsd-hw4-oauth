@@ -9,10 +9,7 @@ import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
-import {
-  fadeInAnimation,
-  fadeInCommonOptions,
-} from "../../animation/pageTransition";
+import { fadeInCommonOptions } from "../../animation/pageTransition";
 // const zoomOutAnimation = {
 //   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
 //   animate: { scale: 1, opacity: 1 },   // 원래 크기와 불투명 상태로 이동

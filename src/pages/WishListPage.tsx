@@ -6,8 +6,6 @@ import { Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import useWishlistStore from "../store/useWishlistStore";
 import { AnimatePresence } from "motion/react";
-import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../animation/pageTransition";
 
 // const scrollStyle={
 //   marginT
