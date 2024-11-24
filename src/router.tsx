@@ -1,5 +1,5 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
@@ -24,6 +24,6 @@ const routes = createRoutesFromElements(
   </Route>
 );
 
-const router = createBrowserRouter(routes, { basename: '/wsd-hw2-fe'});
+const router = createHashRouter(routes, { basename: '/wsd-hw2-fe'});
 
 export default router;
