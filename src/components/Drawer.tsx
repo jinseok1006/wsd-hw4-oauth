@@ -6,7 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { PAGES } from "../constants"; // PAGES 및 ROUTES 상수 가져오기
-import { Divider, Toolbar } from "@mui/material";
+import { Divider, ListItemIcon, Toolbar } from "@mui/material";
 
 interface TemporaryDrawerProps {
   open: boolean;
@@ -31,6 +31,7 @@ export default function TemporaryDrawer({
           {PAGES.map((page) => (
             <ListItem key={page.title} disablePadding>
               <ListItemButton component={Link} to={page.route}>
+              <ListItemIcon>{<page.icon />}</ListItemIcon>
                 <ListItemText primary={page.title} />
               </ListItemButton>
             </ListItem>

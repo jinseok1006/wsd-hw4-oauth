@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Movie } from "../../api";
+import { Movie, TMDB_IMAGE } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 
@@ -118,7 +118,7 @@ function useImagePreload(page: number, itemsPerPage: number, movies: Movie[]) {
       (movie) =>
         new Promise<void>((resolve) => {
           const img = new Image();
-          img.src = movie.poster_path; // replace with actual poster URL field
+          img.src = `${TMDB_IMAGE}/w300/${movie.poster_path}`; // replace with actual poster URL field
           img.onload = () => resolve();
           img.onerror = () => resolve(); // 에러가 발생해도 처리
         })
