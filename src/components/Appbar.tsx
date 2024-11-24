@@ -18,7 +18,9 @@ import Drawer from "./Drawer";
 import { ROUTES, PAGES } from "../constants";
 import HideOnScroll from "./HideOnScroll";
 import { useSessionStore } from "../store/useSessionStore";
-
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ListItemIcon, ListItemText } from "@mui/material";
 export default function ResponsiveAppBar() {
   const { user, logout } = useSessionStore();
   const [drawerOpen, setOpen] = React.useState(false);
@@ -40,9 +42,6 @@ export default function ResponsiveAppBar() {
     logout();
     handleCloseUserMenu();
   };
-
-
-
 
   return (
     <>
@@ -73,6 +72,7 @@ export default function ResponsiveAppBar() {
                   <Button
                     component={Link}
                     key={page.title}
+                    startIcon={<page.icon />}
                     sx={{
                       color: "#a1a1aa",
                       minWidth: "inherit",
@@ -95,7 +95,7 @@ export default function ResponsiveAppBar() {
               {/* user button */}
               <Box sx={{ flexGrow: 0 }}>
                 {user ? (
-                  <Box display='flex' justifyContent='center' >
+                  <Box display="flex" justifyContent="center">
                     <Typography sx={{ color: "#fff", mr: 2 }}>
                       {user.email.split("@")[0]}
                     </Typography>
@@ -109,6 +109,7 @@ export default function ResponsiveAppBar() {
                     variant="text"
                     component={Link}
                     to={ROUTES.signin}
+                    startIcon={<LoginIcon />}
                   >
                     login
                   </Button>
@@ -132,7 +133,10 @@ export default function ResponsiveAppBar() {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem key="logout" onClick={handleLogout}>
-                    <Typography sx={{ textAlign: "center" }}>Logout</Typography>
+                    <ListItemIcon>
+                      <LogoutIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Logout</ListItemText>
                   </MenuItem>
                 </Menu>
               </Box>
