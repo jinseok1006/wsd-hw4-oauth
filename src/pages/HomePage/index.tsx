@@ -10,11 +10,14 @@ import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
 import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { Box, Typography } from "@mui/material";
 // const zoomOutAnimation = {
 //   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
 //   animate: { scale: 1, opacity: 1 },   // 원래 크기와 불투명 상태로 이동
 //   transition: { duration: 1, ease: "easeOut" }, // 1초 동안 자연스러운 전환
 // };
+
+const MotionBox = motion(Box as any);
 
 const heroImageZoomOut = {
   initial: { scale: 1.05, opacity: 0 },
@@ -64,7 +67,11 @@ export default function HomePage() {
             src={`${TMDB_IMAGE}/original/${featuredMovie.backdrop_path}`}
           ></img>
         </motion.div>
-        <motion.div className={cx("description")} {...heroDescriptionFadeIn(1)}>
+        <MotionBox
+          className={cx("description")}
+          {...heroDescriptionFadeIn(1)}
+          sx={{ display: { xs: "none", md: "block" } }}
+        >
           <h1>{featuredMovie.title}</h1>
 
           <p>{featuredMovie.overview}</p>
@@ -77,18 +84,37 @@ export default function HomePage() {
               <i className={cx("fa-solid", "fa-circle-info")}></i>상세 정보
             </button>
           </div>
-        </motion.div>
-        <div className={cx("age-info")}>
+        </MotionBox>
+        <MotionBox
+          className={cx("description")}
+          {...heroDescriptionFadeIn(1)}
+          sx={{ display: { xs: "block", md: "none" } }}
+        >
+          <h1>{featuredMovie.title}</h1>
+          <div className={cx("buttons")}>
+            <button className={cx("play")}>
+              <i className={cx("fa-solid", "fa-play")}></i>
+              <span>재생</span>
+            </button>
+            <button className={cx("detail")}>
+              <i className={cx("fa-solid", "fa-circle-info")}></i>상세 정보
+            </button>
+          </div>
+        </MotionBox>
+        <Box
+          className={cx("age-info")}
+          sx={{ display: { xs: "none !important", md: "flex !important" } }}
+        >
           <i className={cx("fa-solid", "fa-rotate-right")}></i>
           <div className={cx("age")}>15+</div>
-        </div>
+        </Box>
       </main>
       <section>
         <MovieSlider title="지금 뜨는 콘텐츠" movies={popularMovies.results} />
         <MovieSlider title="TV 시리즈" movies={tvShowMovies.results} />
         <MovieSlider title="애니메이션 영화" movies={animationMovies.results} />
       </section>
-      <footer>
+      <Box component="footer" sx={{ pt: 3 }}>
         <div className={cx("wrap")}>
           <motion.div className={cx("social-icons")} {...fadeInCommonOptions}>
             <i className={cx("fa-brands", "fa-facebook-square")}></i>
@@ -96,24 +122,109 @@ export default function HomePage() {
             <i className={cx("fa-brands", "fa-twitter")}></i>
             <i className={cx("fa-brands", "fa-youtube")}></i>
           </motion.div>
-          <motion.div className={cx("options")} {...fadeInCommonOptions}>
-            <div className={cx("option")}>자막 및 음성</div>
-            <div className={cx("option")}>음성 지원</div>
-            <div className={cx("option")}>고객 센터</div>
-            <div className={cx("option")}>기프트카드</div>
-            <div className={cx("option")}>미디어 센터</div>
-            <div className={cx("option")}>투자 정보(IR)</div>
-            <div className={cx("option")}>입사 정보</div>
-            <div className={cx("option")}>이용 약관</div>
-            <div className={cx("option")}>개인 정보</div>
-            <div className={cx("option")}>법적 고지</div>
-            <div className={cx("option")}>쿠키 설정</div>
-            <div className={cx("option")}>회사 정보</div>
-            <div className={cx("option")}>문의하기</div>
-          </motion.div>
+          <SimpleFooter />
         </div>
-      </footer>
+      </Box>
     </div>
+  );
+}
+
+function SimpleFooter() {
+  const cx = classNames.bind(styles);
+  return (
+    <motion.div className={cx("options")} {...fadeInCommonOptions}>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        자막 및 음성
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        음성 지원
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        고객 센터
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        기프트카드
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        미디어 센터
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        투자 정보(IR)
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        입사 정보
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        이용 약관
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        개인 정보
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        법적 고지
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        쿠키 설정
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        회사 정보
+      </Typography>
+      <Typography
+        sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
+        component="div"
+        className={cx("option")}
+      >
+        문의하기
+      </Typography>
+    </motion.div>
   );
 }
 
