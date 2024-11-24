@@ -6,7 +6,11 @@ import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import { Movie } from "../../api";
 import { useEffect } from "react";
-
+import { motion } from "motion/react";
+import {
+  fadeInAnimation,
+  fadeInCommonOptions,
+} from "../../animation/pageTransition";
 import MoviePoster from "./MoviePoster";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
@@ -30,21 +34,29 @@ export default function MovieSlider({
   return (
     <div className={cx("content-list")}>
       <h1>{title}</h1>
-      <Swiper
-        modules={[Navigation, Mousewheel]}
-        slidesPerView={"auto"}
-        navigation
-        spaceBetween={20}
-        slidesPerGroup={5}
-        mousewheel={true}
-        zoom={true}
+      <motion.div
+        {...fadeInCommonOptions}
       >
-        {movies.map((movie) => (
-          <SwiperSlide key={movie.id} className={cx("item")} style={slideStyle}>
-            <MoviePoster movie={movie} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Swiper
+          modules={[Navigation, Mousewheel]}
+          slidesPerView={"auto"}
+          navigation
+          spaceBetween={20}
+          slidesPerGroup={5}
+          // mousewheel={true}
+          zoom={true}
+        >
+          {movies.map((movie) => (
+            <SwiperSlide
+              key={movie.id}
+              className={cx("item")}
+              style={slideStyle}
+            >
+              <MoviePoster movie={movie} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </motion.div>
     </div>
   );
 }

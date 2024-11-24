@@ -8,13 +8,34 @@ import api, { TMDB_IMAGE, type MovieResponse } from "../../api";
 
 import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
+import { motion } from "motion/react";
+import {
+  fadeInAnimation,
+  fadeInCommonOptions,
+} from "../../animation/pageTransition";
+// const zoomOutAnimation = {
+//   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
+//   animate: { scale: 1, opacity: 1 },   // 원래 크기와 불투명 상태로 이동
+//   transition: { duration: 1, ease: "easeOut" }, // 1초 동안 자연스러운 전환
+// };
 
-/*
- https://nyagm.tistory.com/68
- */
+const heroImageZoomOut = {
+  initial: { scale: 1.05, opacity: 0 },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 1, ease: "easeOut" },
+  },
+};
 
-// slider js로 변경하기
-// mui로 헤더 푸터 메인 컴포넌트로 변경
+const heroDescriptionFadeIn = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 }, // 살짝 아래에서 등장
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, ease: "easeOut", delay }, // 지연 시간 추가
+  },
+});
 
 export default function HomePage() {
   const cx = classNames.bind(styles);
@@ -39,14 +60,14 @@ export default function HomePage() {
   const featuredMovie = popularMovies.results[0];
 
   return (
-    <div className={cx("container")}>
+    <div className={cx("container")} style={{ overflowY: "hidden" }}>
       <main>
-        <div className={cx("video")}>
+        <motion.div className={cx("video")} {...heroImageZoomOut}>
           <img
             src={`${TMDB_IMAGE}/original/${featuredMovie.backdrop_path}`}
           ></img>
-        </div>
-        <div className={cx("description")}>
+        </motion.div>
+        <motion.div className={cx("description")} {...heroDescriptionFadeIn(1)}>
           <h1>{featuredMovie.title}</h1>
 
           <p>{featuredMovie.overview}</p>
@@ -59,7 +80,7 @@ export default function HomePage() {
               <i className={cx("fa-solid", "fa-circle-info")}></i>상세 정보
             </button>
           </div>
-        </div>
+        </motion.div>
         <div className={cx("age-info")}>
           <i className={cx("fa-solid", "fa-rotate-right")}></i>
           <div className={cx("age")}>15+</div>
@@ -72,13 +93,13 @@ export default function HomePage() {
       </section>
       <footer>
         <div className={cx("wrap")}>
-          <div className={cx("social-icons")}>
+          <motion.div className={cx("social-icons")} {...fadeInCommonOptions}>
             <i className={cx("fa-brands", "fa-facebook-square")}></i>
             <i className={cx("fa-brands", "fa-instagram")}></i>
             <i className={cx("fa-brands", "fa-twitter")}></i>
             <i className={cx("fa-brands", "fa-youtube")}></i>
-          </div>
-          <div className={cx("options")}>
+          </motion.div>
+          <motion.div className={cx("options")} {...fadeInCommonOptions}>
             <div className={cx("option")}>자막 및 음성</div>
             <div className={cx("option")}>음성 지원</div>
             <div className={cx("option")}>고객 센터</div>
@@ -92,7 +113,7 @@ export default function HomePage() {
             <div className={cx("option")}>쿠키 설정</div>
             <div className={cx("option")}>회사 정보</div>
             <div className={cx("option")}>문의하기</div>
-          </div>
+          </motion.div>
         </div>
       </footer>
     </div>
