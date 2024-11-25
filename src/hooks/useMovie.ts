@@ -22,6 +22,12 @@ export default function useMovie() {
 
     // cache 값 내부의 중복되는 영화 ID 제거
     const movieIds = new Set<number>();
+    if (movies.length > 0) {
+      movies.slice(-20).forEach((movie) => {
+        movieIds.add(movie.id);
+      });
+    }
+
     const uniqueMoreMovies = cache.filter((movie) => {
       if (movieIds.has(movie.id)) {
         return false;
@@ -34,14 +40,9 @@ export default function useMovie() {
       return setMovies(uniqueMoreMovies);
     }
 
-    // 중복 제거: 이미 있는 영화 ID는 제외
-    const lastMovie = movies[movies.length - 1];
-    const uniqueMovies = uniqueMoreMovies.filter(
-      (movie) => movie.id !== lastMovie.id
-    );
 
     // 상태 업데이트
-    return setMovies((prevMovies) => [...prevMovies, ...uniqueMovies]);
+    return setMovies((prevMovies) => [...prevMovies, ...uniqueMoreMovies]);
   };
 
   const fetchMoreMovies = async () => {
