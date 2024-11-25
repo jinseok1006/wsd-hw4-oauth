@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import MoviePosterInf from "../components/MoviePosterInf";
 import ScrollTop from "../components/ScrollTop";
-import { Box, Container, Fab, Typography } from "@mui/material";
+import { Container, Fab, Typography } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import useWishlistStore from "../store/useWishlistStore";
 import { AnimatePresence } from "motion/react";
