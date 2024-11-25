@@ -7,6 +7,10 @@ export default function MoviePoster({ movie }: { movie: Movie }) {
 
   const isWishlisted = includeWishlist(movie);
 
+  if(!movie.poster_path) {
+    return null;
+  }
+
   return (
     <Box
       onClick={() => toggleWishlist(movie)}
