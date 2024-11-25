@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: '/wsd-hw2-fe/',
   plugins: [react()],
+  server: {
+    host: true
+  }
 })

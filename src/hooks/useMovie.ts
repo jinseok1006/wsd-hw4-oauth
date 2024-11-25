@@ -9,11 +9,40 @@ export default function useMovie() {
   const page = useRef(1);
   const fetched = useRef(false);
 
-  const setAdditionalMovies = async () => {
-    const moreMovies = await fetchMoreMovies();
-    if (moreMovies) {
-      setMovies((movies) => [...movies, ...moreMovies.results]);
+  const setAdditionalMovies = async (number: number) => {
+    const cache: Movie[] = [];
+
+    for (let i = 0; i < number; i++) {
+      const moreMovies = await fetchMoreMovies();
+      if (!moreMovies) {
+        continue;
+      }
+      cache.push(...moreMovies.results);
     }
+
+    // cache 값 내부의 중복되는 영화 ID 제거
+    const movieIds = new Set<number>();
+    if (movies.length > 0) {
+      movies.slice(-20).forEach((movie) => {
+        movieIds.add(movie.id);
+      });
+    }
+
+    const uniqueMoreMovies = cache.filter((movie) => {
+      if (movieIds.has(movie.id)) {
+        return false;
+      }
+      movieIds.add(movie.id);
+      return true;
+    });
+
+    if (movies.length === 0) {
+      return setMovies(uniqueMoreMovies);
+    }
+
+
+    // 상태 업데이트
+    return setMovies((prevMovies) => [...prevMovies, ...uniqueMoreMovies]);
   };
 
   const fetchMoreMovies = async () => {
@@ -33,7 +62,7 @@ export default function useMovie() {
     if (!fetched.current) {
       fetched.current = true;
       page.current = 1;
-      for (let i = 0; i < 6; i++) setAdditionalMovies();
+      setAdditionalMovies(10);
     }
   }, [fetched]);
 

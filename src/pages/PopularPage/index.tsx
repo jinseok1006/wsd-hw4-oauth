@@ -37,7 +37,7 @@ export default function PopularPage() {
       </Box>
       {/* 테이블뷰 or 무한스크롤뷰 */}
       {viewMode === "pagination" ? (
-        <MovieTable movies={movies} />
+        <MovieTable movies={movies} setAdditionalMovies={setAdditionalMovies} />
       ) : (
         <MovieInfiniteScroll
           movies={movies}

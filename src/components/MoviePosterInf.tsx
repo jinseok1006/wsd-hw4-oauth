@@ -1,7 +1,7 @@
 import useWishlistStore from "../store/useWishlistStore";
 import { Movie, TMDB_IMAGE } from "../api";
-import { Box, Typography } from "@mui/material";
-import { motion } from "motion/react";
+import { Box,  Typography } from "@mui/material";
+import {  motion } from "motion/react";
 import { fadeInCommonOptions } from "../animation/pageTransition";
 
 const motionDivStyle = { height: "100%" };
@@ -45,6 +45,7 @@ export default function MoviePosterInf({
             { width, height },
           ]}
         />
+
         <Typography
           variant="subtitle1"
           align="center"

@@ -328,6 +328,7 @@ function SignInForm({
       // openDialog();
       setSnackbar("로그인 성공");
       openSnackbar();
+      
 
       navigate("/");
     } else {
@@ -399,9 +400,7 @@ function SignInForm({
               label="Remember me"
             />
 
-            <Link href="#" variant="body2" sx={{ color: "#5d6381" }}>
-              Forgot Password?
-            </Link>
+
           </Box>
 
           <input type="submit" value="🔑로그인!!" />

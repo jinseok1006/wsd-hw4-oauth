@@ -8,9 +8,15 @@ import CircularIndeterminate from "../../components/CircularIndeterminate";
 
 const GAP = 2;
 
-export default function MovieTable({ movies }: { movies: Movie[] }) {
+export default function MovieTable({
+  movies,
+  setAdditionalMovies,
+}: {
+  movies: Movie[];
+  setAdditionalMovies: (number: number) => void;
+}) {
   const { tableViewRef, tableViewSize } = useTableViewSize();
-  const { page, onPageChange } = usePagination();
+  const { page, onPageChange, initPage } = usePagination();
 
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.up("sm")); // tablet
@@ -57,6 +63,16 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (page > pageCount - 4) {
+      setAdditionalMovies(1);
+    }
+  }, [page, pageCount]);
+
+  useEffect(()=>{
+    initPage();
+  }, [tableViewSize.height, tableViewSize.width])
+
   return (
     <>
       <Box
@@ -71,17 +87,15 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
         {preloading ? (
           <CircularIndeterminate />
         ) : (
-          movies
-            .slice(currentIdx, currentIdx + itemsPerPage)
-            .map((movie, index) => (
-              <Box key={index}>
-                <MoviePosterInf
-                  movie={movie}
-                  width={imgSize.width}
-                  height={imgSize.height}
-                />
-              </Box>
-            ))
+          movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
+            <Box key={movie.poster_path}>
+              <MoviePosterInf
+                movie={movie}
+                width={imgSize.width}
+                height={imgSize.height}
+              />
+            </Box>
+          ))
         )}
       </Box>
       <Box
@@ -170,5 +184,9 @@ function usePagination() {
     setPage(newPage);
   };
 
-  return { page, onPageChange };
+  const initPage = () => {
+    setPage(1);
+  }
+
+  return { page, onPageChange, initPage };
 }

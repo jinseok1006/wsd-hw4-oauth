@@ -6,20 +6,22 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 
+import { CircularProgress } from "@mui/material";
+
 export default function MovieInfiniteScroll({
   movies,
   setAdditionalMovies,
 }: {
   movies: Movie[];
-  setAdditionalMovies: () => void;
+  setAdditionalMovies: (number: number) => void;
 }) {
   return (
     <>
       <InfiniteScroll
         dataLength={movies.length}
-        next={setAdditionalMovies}
+        next={() => setAdditionalMovies(1)}
         hasMore={true}
-        loader={<div>loading...</div>}
+        loader={<CircularProgress />}
       >
         <Grid container spacing={2} mt={1}>
           {movies.map((movie, index) => (
