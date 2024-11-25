@@ -74,7 +74,7 @@ export default function MovieTable({ movies }: { movies: Movie[] }) {
           movies
             .slice(currentIdx, currentIdx + itemsPerPage)
             .map((movie, index) => (
-              <Box key={index}>
+              <Box key={movie.poster_path}>
                 <MoviePosterInf
                   movie={movie}
                   width={imgSize.width}
