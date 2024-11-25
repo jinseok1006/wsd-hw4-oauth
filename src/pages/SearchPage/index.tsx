@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box,  Container, Fab } from "@mui/material";
+import { Box,  CircularProgress,  Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -100,7 +100,7 @@ function MovieInfiniteScroll({
         dataLength={movies.length}
         next={next}
         hasMore={true}
-        loader={<div>loading...</div>}
+        loader={<CircularProgress />}
         endMessage={
           <p style={{ textAlign: "center" }}>
             <b>Yay! You have seen it all</b>
