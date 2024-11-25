@@ -5,7 +5,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { PAGES } from "../constants"; // PAGES 및 ROUTES 상수 가져오기
+import { PAGES } from "../utils/constants"; // PAGES 및 ROUTES 상수 가져오기
 import { Divider, ListItemIcon, Toolbar } from "@mui/material";
 
 interface TemporaryDrawerProps {
