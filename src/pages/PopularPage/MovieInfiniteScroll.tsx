@@ -13,13 +13,13 @@ export default function MovieInfiniteScroll({
   setAdditionalMovies,
 }: {
   movies: Movie[];
-  setAdditionalMovies: () => void;
+  setAdditionalMovies: (number: number) => void;
 }) {
   return (
     <>
       <InfiniteScroll
         dataLength={movies.length}
-        next={setAdditionalMovies}
+        next={() => setAdditionalMovies(1)}
         hasMore={true}
         loader={<CircularProgress />}
       >
