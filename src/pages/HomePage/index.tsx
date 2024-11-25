@@ -10,9 +10,8 @@ import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
 import { fadeInCommonOptions } from "../../animation/pageTransition";
-import { Box, Skeleton, Typography } from "@mui/material";
-import useImagePreload from "../../hooks/useImagePreload";
-import { useMemo } from "react";
+import { Box,  Typography } from "@mui/material";
+
 // const zoomOutAnimation = {
 //   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
 //   animate: { scale: 1, opacity: 1 },   // 원래 크기와 불투명 상태로 이동

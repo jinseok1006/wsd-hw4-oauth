@@ -5,10 +5,8 @@ import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
-import CircularIndeterminate from "../../components/CircularIndeterminate";
+
 import { CircularProgress } from "@mui/material";
-import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
 
 export default function MovieInfiniteScroll({
   movies,

@@ -7,7 +7,6 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import useWishlistStore from "../store/useWishlistStore";
 import { AnimatePresence } from "motion/react";
 
-import { useShallow } from "zustand/react/shallow";
 
 // const scrollStyle={
 //   marginT
@@ -26,7 +25,7 @@ export default function WishListPage() {
         >
           <Grid container spacing={2} sx={{ py: 2, px: 2 }}>
             <AnimatePresence>
-              {wishlist.map((movie, index) => (
+              {wishlist.map((movie ) => (
                 <Grid size={{ xs: 4, sm: 3, md: 1.5 }} key={movie.poster_path}>
                   <MoviePosterInf movie={movie} />
                 </Grid>
