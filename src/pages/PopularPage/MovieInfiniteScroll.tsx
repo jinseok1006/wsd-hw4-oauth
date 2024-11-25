@@ -5,6 +5,10 @@ import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
+import CircularIndeterminate from "../../components/CircularIndeterminate";
+import { CircularProgress } from "@mui/material";
+import { motion } from "motion/react";
+import { fadeInCommonOptions } from "../../animation/pageTransition";
 
 export default function MovieInfiniteScroll({
   movies,
@@ -19,7 +23,7 @@ export default function MovieInfiniteScroll({
         dataLength={movies.length}
         next={setAdditionalMovies}
         hasMore={true}
-        loader={<div>loading...</div>}
+        loader={<CircularProgress />}
       >
         <Grid container spacing={2} mt={1}>
           {movies.map((movie, index) => (
