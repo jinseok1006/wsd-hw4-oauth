@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { motion } from "motion/react";
 import { fadeInCommonOptions } from "../../animation/pageTransition";
 import MoviePoster from "./MoviePoster";
+import { Typography } from "@mui/material";
 
 const slideStyle = { paddingTop: "10px", paddingBottom: "10px" };
 
@@ -30,7 +31,18 @@ export default function MovieSlider({
 
   return (
     <div className={cx("content-list")}>
-      <h1>{title}</h1>
+      <Typography
+        component="h1"
+        sx={{
+          mx: 2.5,
+          mt: { xs: 2, md: 3 },
+          mb: { xs: 0, md: 1.5 },
+          fontSize: { xs: "1.2rem", md: "1.5rem" },
+          fontWeight: "bold",
+        }}
+      >
+        {title}
+      </Typography>
       <motion.div {...fadeInCommonOptions}>
         <Swiper
           modules={[Navigation, Mousewheel]}
