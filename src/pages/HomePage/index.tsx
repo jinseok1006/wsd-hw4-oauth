@@ -11,6 +11,7 @@ import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
 import { fadeInCommonOptions } from "../../animation/pageTransition";
 import { Box,  Typography } from "@mui/material";
+import { MotionBox } from "../../utils/motionBox";
 
 // const zoomOutAnimation = {
 //   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
@@ -18,7 +19,7 @@ import { Box,  Typography } from "@mui/material";
 //   transition: { duration: 1, ease: "easeOut" }, // 1초 동안 자연스러운 전환
 // };
 
-const MotionBox = motion(Box as any);
+
 
 const heroImageZoomOut = {
   initial: { scale: 1.05, opacity: 0 },

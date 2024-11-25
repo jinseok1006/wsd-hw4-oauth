@@ -7,27 +7,36 @@ import Grid from "@mui/material/Grid2";
 import ScrollTop from "../../components/ScrollTop";
 import api, { Movie, MovieResponse } from "../../api";
 import { useSessionStore } from "../../store/useSessionStore";
-import { useShallow } from "zustand/react/shallow";
-import MovieFilter, {
+import MovieFilter from "./MovieFitler";
+import {
+  FilterState,
   GenreCode,
-  initialFilterState,
+  GENRES,
   LanguageCode,
-  voteCode,
-} from "./MovieFitler";
-import MoviePosterInf from "../../components/MoviePosterInf";
+  LANGUAGES,
+} from "./filterConstant";
+import MoviePoster from "../../components/MoviePoster";
 import removeRedundantMovies from "../../utils/removeRedundantMovies";
+import MoviePosterInf from "../../components/MoviePosterInf";
+
+const initialFilterState = {
+  rating: { gte: 8, lte: 10 },
+  genre: GENRES[0],
+  language: LANGUAGES[0],
+};
 
 export default function SearchPage() {
-  const [filters, setFilters] = useState(initialFilterState);
+  const [filters, setFilters] = useState<FilterState>(initialFilterState);
 
   const [movies, setMovies] = useState<Movie[]>([]);
-  const user = useSessionStore(useShallow((state) => state.user));
+  const user = useSessionStore((state) => state.user);
   const page = useRef(1);
   // const [page, setPage] = useState(1);
 
   // 필터 변경 시 호출되는 함수
-  const handleFilterChange = (e: SelectChangeEvent) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+  const handleFilterChange = (type: keyof FilterState, value: any) => {
+    console.log(type, value);
+    setFilters({ ...filters, [type]: value });
   };
 
   // 필터 초기화 시 호출되는 함수
@@ -37,9 +46,6 @@ export default function SearchPage() {
 
   const setAdditionalMovies = async () => {
     const moreMovies = await fetchMoreMovies();
-    // if (moreMovies) {
-    //   setMovies([...movies, ...moreMovies.results]);
-    // }
     if (!moreMovies) return;
 
     const uniqueMoives = removeRedundantMovies(movies, moreMovies.results);
@@ -68,8 +74,8 @@ export default function SearchPage() {
             with_genres: GenreCode[filters.genre] ?? "",
             with_original_language: LanguageCode[filters.language],
             include_adult: false,
-            "vote_average.gte": voteCode[filters.rating]?.[0] ?? "",
-            "vote_average.lte": voteCode[filters.rating]?.[1] ?? "",
+            "vote_average.gte": filters.rating.gte,
+            "vote_average.lte": filters.rating.lte,
           },
         })
         .json<MovieResponse>();
@@ -78,13 +84,13 @@ export default function SearchPage() {
 
   return (
     <Container maxWidth={false} disableGutters>
-      <Box display="flex" flexDirection="row-reverse">
+      <Container maxWidth="lg" sx={{ my: 3 }}>
         <MovieFilter
           filters={filters}
           handleFilterChange={handleFilterChange}
           handleResetFilters={handleResetFilters}
         />
-      </Box>
+      </Container>
       <Container maxWidth="lg" disableGutters>
         <MovieInfiniteScroll next={setAdditionalMovies} movies={movies} />
       </Container>
@@ -115,7 +121,7 @@ function MovieInfiniteScroll({
         <Grid container spacing={2} sx={{ pt: 2, px: 2 }}>
           {movies.map((movie, index) => (
             <Grid size={{ xs: 4, sm: 3, md: 2 }} key={index}>
-              <MoviePosterInf movie={movie} />
+              <MoviePosterInf movie={movie} animate={true} />
             </Grid>
           ))}
         </Grid>

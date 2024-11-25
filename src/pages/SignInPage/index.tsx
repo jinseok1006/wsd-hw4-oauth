@@ -13,8 +13,10 @@ import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useDialogStore from "../../store/useDialogStore";
 import { motion } from "motion/react";
-import { pageTransition } from "../../animation/pageTransition";
+import { fadeInCommonOptions } from "../../animation/pageTransition";
 import useSnackbarStore from "../../store/useSnakbarStore";
+import useWishlistStore from "../../store/useWishlistStore";
+import { useShallow } from "zustand/react/shallow";
 // https://github.com/bikashdev01/First-Section-Code/tree/main/sign-in-out-form
 // TODO: 초기 진입시 Signup카드 아래로 밀려있는 현상 수정
 
@@ -58,7 +60,7 @@ function SignIn() {
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
   return (
-    <motion.div {...pageTransition}>
+    <motion.div {...fadeInCommonOptions}>
       <div className={cx("container")}>
         <SignInForm
           isReturningToSignIn={isReturningToSignIn}
@@ -90,10 +92,12 @@ function SignUpForm({
   const [agreeToTerms, setAgreeToTerms] = useState(false); // 약관 동의 상태 추가
 
   // 다이얼로그 상태
-  const { openDialog, setDialog } = useDialogStore((state) => ({
-    openDialog: state.open,
-    setDialog: state.set,
-  }));
+  const { openDialog, setDialog } = useDialogStore(
+    useShallow((state) => ({
+      openDialog: state.open,
+      setDialog: state.set,
+    }))
+  );
 
   const handleSignUpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -269,6 +273,7 @@ function SignInForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useSessionStore((state) => state.setUser);
+  const setWishlistEmail = useWishlistStore((state) => state.setEmail);
   const [rememberMe, setRememberMe] = useState(true);
   const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
@@ -279,10 +284,12 @@ function SignInForm({
   ]);
 
   // 다이얼로그 상태
-  const { openDialog, setDialog } = useDialogStore((state) => ({
-    openDialog: state.open,
-    setDialog: state.set,
-  }));
+  const { openDialog, setDialog } = useDialogStore(
+    useShallow((state) => ({
+      openDialog: state.open,
+      setDialog: state.set,
+    }))
+  );
 
   // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 rememberedEmail을 가져옴
   useEffect(() => {
@@ -315,6 +322,7 @@ function SignInForm({
     if (user) {
       // 전역상태에 유저 정보 저장
       setUser({ email: user.email, apiKey: user.password });
+      setWishlistEmail(user.email);
 
       // rememberMe 핸들링
       if (rememberMe) {
@@ -328,7 +336,6 @@ function SignInForm({
       // openDialog();
       setSnackbar("로그인 성공");
       openSnackbar();
-      
 
       navigate("/");
     } else {
@@ -399,8 +406,6 @@ function SignInForm({
               }
               label="Remember me"
             />
-
-
           </Box>
 
           <input type="submit" value="🔑로그인!!" />

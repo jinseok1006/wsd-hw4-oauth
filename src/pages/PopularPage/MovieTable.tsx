@@ -3,8 +3,10 @@ import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
-import MoviePosterInf from "../../components/MoviePosterInf";
+import MoviePoster from "../../components/MoviePoster";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
+import MoviePosterInf from "../../components/MoviePosterInf";
+import { fadeInCommonOptions } from "../../animation/pageTransition";
 
 const GAP = 2;
 
@@ -54,7 +56,7 @@ export default function MovieTable({
   const itemsPerPage = numImg.columns * numImg.rows;
   const currentIdx = (page - 1) * itemsPerPage;
   const pageCount = Math.ceil(movies.length / itemsPerPage);
-  const preloading = useImagePreload(page, itemsPerPage, movies);
+  // const preloading = useImagePreload(page, itemsPerPage, movies);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -83,20 +85,18 @@ export default function MovieTable({
         alignContent="center"
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
+        {...fadeInCommonOptions}
       >
-        {preloading ? (
-          <CircularIndeterminate />
-        ) : (
-          movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
-            <Box key={movie.poster_path}>
-              <MoviePosterInf
-                movie={movie}
-                width={imgSize.width}
-                height={imgSize.height}
-              />
-            </Box>
-          ))
-        )}
+        {movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
+          <Box key={movie.poster_path}>
+            <MoviePosterInf
+              movie={movie}
+              animate={false}
+              width={imgSize.width}
+              height={imgSize.height}
+            />
+          </Box>
+        ))}
       </Box>
       <Box
         pt={5}

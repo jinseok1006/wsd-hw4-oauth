@@ -1,13 +1,16 @@
 import useWishlistStore from "../../store/useWishlistStore";
 import { Movie, TMDB_IMAGE } from "../../api";
 import { Box } from "@mui/material";
+import { useShallow } from "zustand/react/shallow";
 
 export default function MoviePoster({ movie }: { movie: Movie }) {
-  const { toggleWishlist, includeWishlist } = useWishlistStore();
+  const [toggleWishlist, includeWishlist] = useWishlistStore(
+    useShallow((state) => [state.toggleWishlist, state.includeWishlist])
+  );
 
   const isWishlisted = includeWishlist(movie);
 
-  if(!movie.poster_path) {
+  if (!movie.poster_path) {
     return null;
   }
 

@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import useDialogStore from "../store/useDialogStore";
+import { useShallow } from "zustand/react/shallow";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -16,13 +17,8 @@ export interface SimpleDialogProps {
 }
 
 export default function SimpleDialog() {
-  const { isDialogOpen, dialogTitle, dialogDesc, closeDialog } = useDialogStore(
-    (state) => ({
-      isDialogOpen: state.isOpen,
-      dialogTitle: state.title,
-      dialogDesc: state.desc,
-      closeDialog: state.close,
-    })
+  const [isDialogOpen, dialogTitle, dialogDesc, closeDialog] = useDialogStore(
+    useShallow((state) => [state.isOpen, state.title, state.desc, state.close])
   );
 
   return (
