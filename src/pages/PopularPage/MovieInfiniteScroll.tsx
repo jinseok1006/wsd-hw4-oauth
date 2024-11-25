@@ -4,9 +4,9 @@ import ScrollTop from "../../components/ScrollTop";
 import Fab from "@mui/material/Fab";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { Movie } from "../../api";
-import MoviePoster from "../../components/MoviePoster";
 
 import { CircularProgress } from "@mui/material";
+import MoviePosterInf from "../../components/MoviePosterInf";
 
 export default function MovieInfiniteScroll({
   movies,
@@ -26,7 +26,7 @@ export default function MovieInfiniteScroll({
         <Grid container spacing={2} mt={1}>
           {movies.map((movie, index) => (
             <Grid size={{ md: 1.5, sm: 2.4, xs: 4 }} key={index}>
-              <MoviePoster movie={movie} />
+              <MoviePosterInf movie={movie} animate={true}/>
             </Grid>
           ))}
         </Grid>

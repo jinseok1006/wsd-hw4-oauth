@@ -61,6 +61,7 @@ const MoviePosterInf = ({
             sx={[
               {
                 width: width ?? "100%",
+                paddingBottom: width ? undefined : "150%", // 16:9 비율
                 height: height ?? 0,
                 borderRadius: "0.5rem",
                 bgcolor: (theme) => alpha(theme.palette.common.white, 0.05),
@@ -73,6 +74,7 @@ const MoviePosterInf = ({
             sx={[
               {
                 width: "100%",
+                paddingBottom: width ? undefined : "150%" , // 16:9 비율
                 height: 0,
                 borderRadius: "0.5rem",
                 display: "block",
@@ -89,8 +91,6 @@ const MoviePosterInf = ({
           />
         )}
 
-        {/* 제목 스켈레톤 또는 텍스트 */}
-        {/* 제목 스켈레톤 또는 텍스트 */}
         {isLoading ? (
           <Box
             sx={{
