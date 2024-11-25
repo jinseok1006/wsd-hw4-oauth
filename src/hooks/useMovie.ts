@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSessionStore } from "../store/useSessionStore";
 import { useShallow } from "zustand/react/shallow";
 import api, { Movie, MovieResponse } from "../api";
+import removeRedundantMovies from "../utils/removeRedundantMovies";
 
 export default function useMovie() {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -13,45 +14,30 @@ export default function useMovie() {
     const cache: Movie[] = [];
 
     for (let i = 0; i < number; i++) {
-      const moreMovies = await fetchMoreMovies();
+      const moreMovies = await fetchMoreMovies(page.current);
       if (!moreMovies) {
         continue;
       }
       cache.push(...moreMovies.results);
+      page.current++;
     }
 
-    // cache 값 내부의 중복되는 영화 ID 제거
-    const movieIds = new Set<number>();
-    if (movies.length > 0) {
-      movies.slice(-20).forEach((movie) => {
-        movieIds.add(movie.id);
-      });
-    }
-
-    const uniqueMoreMovies = cache.filter((movie) => {
-      if (movieIds.has(movie.id)) {
-        return false;
-      }
-      movieIds.add(movie.id);
-      return true;
-    });
-
-    if (movies.length === 0) {
-      return setMovies(uniqueMoreMovies);
-    }
+    // 중복된 영화 제거
+    const uniqueMoreMovies = removeRedundantMovies(movies, cache);
 
 
     // 상태 업데이트
-    return setMovies((prevMovies) => [...prevMovies, ...uniqueMoreMovies]);
+    return setMovies([...movies, ...uniqueMoreMovies]);
   };
 
-  const fetchMoreMovies = async () => {
+
+  const fetchMoreMovies = async (page:number) => {
     if (user) {
       return api
         .get("movie/popular", {
           searchParams: {
             api_key: user.apiKey,
-            page: page.current++,
+            page,
           },
         })
         .json<MovieResponse>();

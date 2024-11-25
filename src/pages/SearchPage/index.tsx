@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box,  CircularProgress,  Container, Fab } from "@mui/material";
+import { Box, CircularProgress, Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -15,6 +15,7 @@ import MovieFilter, {
   voteCode,
 } from "./MovieFitler";
 import MoviePosterInf from "../../components/MoviePosterInf";
+import removeRedundantMovies from "../../utils/removeRedundantMovies";
 
 export default function SearchPage() {
   const [filters, setFilters] = useState(initialFilterState);
@@ -36,12 +37,17 @@ export default function SearchPage() {
 
   const setAdditionalMovies = async () => {
     const moreMovies = await fetchMoreMovies();
-    if (moreMovies) {
-      setMovies([...movies, ...moreMovies.results]);
-    }
+    // if (moreMovies) {
+    //   setMovies([...movies, ...moreMovies.results]);
+    // }
+    if (!moreMovies) return;
+
+    const uniqueMoives = removeRedundantMovies(movies, moreMovies.results);
+    setMovies([...movies, ...uniqueMoives]);
   };
 
   const setNewMovies = async () => {
+    page.current = 1;
     const newMovies = await fetchMoreMovies();
     if (newMovies) {
       setMovies([...newMovies.results]);
@@ -49,7 +55,6 @@ export default function SearchPage() {
   };
 
   useEffect(() => {
-    page.current = 1;
     setNewMovies();
   }, [filters.rating, filters.genre, filters.language]);
 

@@ -64,14 +64,14 @@ export default function MovieTable({
   }, []);
 
   useEffect(() => {
-    if (page > pageCount - 4) {
+    if (pageCount > 5 && page > pageCount - 4) {
       setAdditionalMovies(1);
     }
   }, [page, pageCount]);
 
-  useEffect(()=>{
+  useEffect(() => {
     initPage();
-  }, [tableViewSize.height, tableViewSize.width])
+  }, [tableViewSize.height, tableViewSize.width]);
 
   return (
     <>
@@ -124,6 +124,11 @@ function useImagePreload(page: number, itemsPerPage: number, movies: Movie[]) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!movies || movies.length === 0) {
+      setLoading(false);
+      return;
+    }
+
     const startIdx = (page - 1) * itemsPerPage;
     const currentMovies = movies.slice(startIdx, startIdx + itemsPerPage);
 
@@ -186,7 +191,7 @@ function usePagination() {
 
   const initPage = () => {
     setPage(1);
-  }
+  };
 
   return { page, onPageChange, initPage };
 }
