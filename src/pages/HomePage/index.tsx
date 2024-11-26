@@ -9,8 +9,9 @@ import api, { Movie, TMDB_IMAGE, type MovieResponse } from "../../api";
 import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { fadeInCommonOption } from "../../animation/pageTransition";
 import { Box,  Typography } from "@mui/material";
+import { MotionBox } from "../../utils/motionBox";
 
 // const zoomOutAnimation = {
 //   initial: { scale: 1.05, opacity: 0 },  // 확대된 상태와 투명한 상태에서 시작
@@ -18,7 +19,7 @@ import { Box,  Typography } from "@mui/material";
 //   transition: { duration: 1, ease: "easeOut" }, // 1초 동안 자연스러운 전환
 // };
 
-const MotionBox = motion(Box as any);
+
 
 const heroImageZoomOut = {
   initial: { scale: 1.05, opacity: 0 },
@@ -89,7 +90,7 @@ export default function HomePage() {
       </section>
       <Box component="footer" sx={{ pt: 10 }}>
         <div className={cx("wrap")}>
-          <motion.div className={cx("social-icons")} {...fadeInCommonOptions}>
+          <motion.div className={cx("social-icons")} {...fadeInCommonOption}>
             <i className={cx("fa-brands", "fa-facebook-square")}></i>
             <i className={cx("fa-brands", "fa-instagram")}></i>
             <i className={cx("fa-brands", "fa-twitter")}></i>
@@ -189,7 +190,7 @@ function Hero({ featuredMovie }: { featuredMovie: Movie }) {
 function SimpleFooter() {
   const cx = classNames.bind(styles);
   return (
-    <motion.div className={cx("options")} {...fadeInCommonOptions}>
+    <motion.div className={cx("options")} {...fadeInCommonOption}>
       <Typography
         sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
         component="div"

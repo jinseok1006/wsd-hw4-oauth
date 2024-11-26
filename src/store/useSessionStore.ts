@@ -20,7 +20,7 @@ export const useSessionStore = create<SessionState>()(
     }),
     {
       name: "login-session",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => window.sessionStorage),
     }
   )
 );

@@ -3,8 +3,11 @@ import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
-import MoviePosterInf from "../../components/MoviePosterInf";
+import MoviePoster from "../../components/MoviePoster";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
+import MoviePosterInf from "../../components/MoviePosterInf";
+import { fadeInCommonOption } from "../../animation/pageTransition";
+import { motion } from "motion/react";
 
 const GAP = 2;
 
@@ -54,7 +57,7 @@ export default function MovieTable({
   const itemsPerPage = numImg.columns * numImg.rows;
   const currentIdx = (page - 1) * itemsPerPage;
   const pageCount = Math.ceil(movies.length / itemsPerPage);
-  const preloading = useImagePreload(page, itemsPerPage, movies);
+  // const preloading = useImagePreload(page, itemsPerPage, movies);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -64,14 +67,14 @@ export default function MovieTable({
   }, []);
 
   useEffect(() => {
-    if (page > pageCount - 4) {
+    if (pageCount > 5 && page > pageCount - 4) {
       setAdditionalMovies(1);
     }
   }, [page, pageCount]);
 
-  useEffect(()=>{
+  useEffect(() => {
     initPage();
-  }, [tableViewSize.height, tableViewSize.width])
+  }, [tableViewSize.height, tableViewSize.width]);
 
   return (
     <>
@@ -83,20 +86,19 @@ export default function MovieTable({
         alignContent="center"
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
+        component={motion.div}
+        {...fadeInCommonOption}
       >
-        {preloading ? (
-          <CircularIndeterminate />
-        ) : (
-          movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
-            <Box key={movie.poster_path}>
-              <MoviePosterInf
-                movie={movie}
-                width={imgSize.width}
-                height={imgSize.height}
-              />
-            </Box>
-          ))
-        )}
+        {movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
+          <Box key={movie.poster_path}>
+            <MoviePosterInf
+              movie={movie}
+              animate={false}
+              width={imgSize.width}
+              height={imgSize.height}
+            />
+          </Box>
+        ))}
       </Box>
       <Box
         pt={5}
@@ -124,6 +126,11 @@ function useImagePreload(page: number, itemsPerPage: number, movies: Movie[]) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!movies || movies.length === 0) {
+      setLoading(false);
+      return;
+    }
+
     const startIdx = (page - 1) * itemsPerPage;
     const currentMovies = movies.slice(startIdx, startIdx + itemsPerPage);
 
@@ -186,7 +193,7 @@ function usePagination() {
 
   const initPage = () => {
     setPage(1);
-  }
+  };
 
   return { page, onPageChange, initPage };
 }

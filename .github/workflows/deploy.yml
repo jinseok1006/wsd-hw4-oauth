@@ -14,14 +14,13 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Calculate version
-        id: versioning
-        uses: paulhatch/semantic-version@v5.0.2
-        with:
-          tag_prefix: "v"
-          major_pattern: "Major:"
-          minor_pattern: "Minor:"
-          format: "${major}.${minor}.${patch}"
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true            # 태그 앞에 'v' 접두사 추가 (v1.0.0)
+          DEFAULT_BUMP: patch     # 명시적인 커밋 메시지가 없을 경우 patch 버전 증가
+          RELEASE_BRANCHES: main  # main 브랜치에서만 동작
 
       - name: Checkout
         uses: actions/checkout@v4

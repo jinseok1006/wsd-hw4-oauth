@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import Drawer from "./Drawer";
 
-import { ROUTES, PAGES } from "../constants";
+import { ROUTES, PAGES } from "../utils/constants";
 import HideOnScroll from "./HideOnScroll";
 import { useSessionStore } from "../store/useSessionStore";
 import LoginIcon from "@mui/icons-material/Login";

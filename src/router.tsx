@@ -3,7 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import { ROUTES } from "./constants";
+import { ROUTES } from "./utils/constants";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import WishListPage from "./pages/WishListPage";

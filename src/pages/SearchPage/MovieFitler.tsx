@@ -1,87 +1,70 @@
+import React from "react";
 import {
-    Box,
+  Box,
+  Chip,
+  Typography,
+  Paper,
+  Slider,
+  Popover,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
+  Divider,
+  IconButton,
+  Stack,
+  useTheme,
+  alpha,
 } from "@mui/material";
 import {
-  FilterList as FilterListIcon,
-  Refresh as RefreshIcon,
+  Stars as StarsIcon,
+  LocalMovies as GenreIcon,
+  Language as LanguageIcon,
+  Close as CloseIcon,
+  TrendingUp as TrendingIcon,
+  Add as AddIcon,
 } from "@mui/icons-material";
+import { GENRES, LANGUAGES, RatingRange } from "./filterConstant";
+import { FilterState } from "./filterConstant";
 
 interface MovieFilterProps {
   filters: FilterState;
-  handleFilterChange: (e: SelectChangeEvent) => void;
+  handleFilterChange: (
+    type: "rating" | "genre" | "language",
+    value: any
+  ) => void;
   handleResetFilters: () => void;
 }
 
-interface FilterState {
-  rating: (typeof RATINGS)[number];
-  genre: (typeof GENRES)[number];
-  language: (typeof LANGUAGES)[number];
-}
+const FilterBadge = ({
+  label,
+  icon,
+  isActive,
+  onClick,
+  color = "primary",
+}: {
+  label: string;
+  icon?: React.ReactNode;
+  isActive?: boolean;
+  onClick?: () => void;
+  color?: "primary" | "secondary" | "error" | "info" | "success" | "warning";
+}) => {
+  const theme = useTheme();
 
-const LANGUAGES = ["언어 (전체)", "영어", "한국어"] as const;
-const RATINGS = [
-  "평점 (전체)",
-  "9-10",
-  "8-9",
-  "7-8",
-  "6-7",
-  "5-6",
-  "4-5",
-  "4점 이하",
-] as const;
-const GENRES = [
-  "장르 (전체)",
-  "액션",
-  "모험",
-  "코미디",
-  "드라마",
-  "판타지",
-  "호러",
-  "로맨스",
-  "공상 과학",
-  "스릴러",
-] as const;
-
-export const LanguageCode = {
-  "언어 (전체)": "en",
-  영어: "en",
-  한국어: "ko",
-} as const;
-
-export const GenreCode = {
-  "장르 (전체)": null, // 전체일 경우 null
-  액션: 28,
-  모험: 12,
-  코미디: 35,
-  드라마: 18,
-  판타지: 14,
-  호러: 27,
-  로맨스: 10749,
-  "공상 과학": 878,
-  스릴러: 53,
-};
-
-export const voteCode = {
-  "평점 (전체)": null,
-  "9-10": [9, 10],
-  "8-9": [8, 9],
-  "7-8": [7, 8],
-  "6-7": [6, 7],
-  "5-6": [5, 6],
-  "4-5": [4, 5],
-  "4점 이하": [0, 4],
-};
-
-export const initialFilterState: FilterState = {
-  rating: RATINGS[0],
-  genre: GENRES[0],
-  language: LANGUAGES[0],
+  return (
+    <Chip
+      icon={icon as any}
+      label={label}
+      onClick={onClick}
+      color={isActive ? color : "default"}
+      variant={isActive ? "filled" : "outlined"}
+      sx={{
+        borderRadius: "8px",
+        "&:hover": {
+          backgroundColor: isActive
+            ? theme.palette[color].main
+            : alpha(theme.palette[color].main, 0.1),
+        },
+      }}
+    />
+  );
 };
 
 const MovieFilter = ({
@@ -89,87 +72,246 @@ const MovieFilter = ({
   handleFilterChange,
   handleResetFilters,
 }: MovieFilterProps) => {
-  const { rating, genre, language } = filters;
+  const theme = useTheme();
+  const [ratingAnchorEl, setRatingAnchorEl] =
+    React.useState<HTMLElement | null>(null);
+  const [tempRating, setTempRating] = React.useState<RatingRange>({
+    gte: 0,
+    lte: 10,
+  });
+
+  // 평점 필터 팝오버 핸들링
+  const handleRatingClick = (event: React.MouseEvent<HTMLElement>) => {
+    setRatingAnchorEl(event.currentTarget);
+    if (filters.rating) {
+      setTempRating(filters.rating);
+    }
+  };
+
+  const handleRatingClose = () => {
+    setRatingAnchorEl(null);
+  };
+
+  const handleRatingApply = () => {
+    handleFilterChange("rating", tempRating);
+    handleRatingClose();
+  };
+
+  const handleRatingClear = () => {
+    handleFilterChange("rating", null);
+    handleRatingClose();
+  };
+
+  // 미리 정의된 평점 범위
+  const predefinedRatings = [
+    { label: "최고 평점 (8+)", range: { gte: 8, lte: 10 } },
+    { label: "좋은 평점 (6+)", range: { gte: 6, lte: 10 } },
+    { label: "평균 이상 (5+)", range: { gte: 5, lte: 10 } },
+  ];
+
   return (
-    <Box
-      display="flex"
-      gap={2}
-      p={2}
-      flexWrap="wrap"
+    <Paper
+      elevation={0}
       sx={{
-        flexDirection: {
-          xs: "column",
-          sm: "row",
-        },
-        alignItems: { sm: "center", xs: "stretch" },
-        width: { xs: "100%", sm: "inherit" },
+        p: 2,
+        border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+        borderRadius: 2,
       }}
     >
-      {/* 평점 필터 */}
-      <FormControl>
-        <InputLabel>평점</InputLabel>
-        <Select
-          value={rating}
-          label="평점"
-          name="rating"
-          onChange={handleFilterChange}
-          startAdornment={<FilterListIcon />}
-          fullWidth={true}
+      <Stack spacing={2}>
+        {/* 필터 헤더 */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          {RATINGS.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <Typography variant="subtitle1" fontWeight="medium">
+            필터
+          </Typography>
+          {Object.values(filters).some((value) => value !== null) && (
+            <Button
+              size="small"
+              startIcon={<CloseIcon />}
+              onClick={handleResetFilters}
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              초기화
+            </Button>
+          )}
+        </Box>
 
-      {/* 장르 필터 */}
-      <FormControl>
-        <InputLabel>장르</InputLabel>
-        <Select
-          label="장르"
-          value={genre}
-          name="genre"
-          onChange={handleFilterChange}
-          startAdornment={<FilterListIcon />}
+        {/* 필터 뱃지 그룹 */}
+        <Stack spacing={1.5}>
+          {/* 평점 필터 섹션 */}
+          <Box>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 1 }}
+            >
+              <StarsIcon fontSize="small" />
+              평점
+            </Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {predefinedRatings.map((item) => (
+                <FilterBadge
+                  key={item.label}
+                  label={item.label}
+                  isActive={filters.rating?.gte === item.range.gte}
+                  onClick={() => handleFilterChange("rating", item.range)}
+                  color="warning"
+                />
+              ))}
+              <Chip
+                icon={<AddIcon />}
+                label="직접 설정"
+                onClick={handleRatingClick}
+                variant={
+                  filters.rating &&
+                  !predefinedRatings.some(
+                    (r) => r.range.gte === filters.rating?.gte
+                  )
+                    ? "filled"
+                    : "outlined"
+                }
+                color="warning"
+                sx={{ borderRadius: "8px" }}
+              />
+            </Stack>
+          </Box>
+
+          {/* 장르 필터 섹션 */}
+          <Box>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 1 }}
+            >
+              <GenreIcon fontSize="small" />
+              장르
+            </Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {GENRES.map((genre) => (
+                <FilterBadge
+                  key={genre}
+                  label={genre}
+                  isActive={filters.genre === genre}
+                  onClick={() =>
+                    handleFilterChange(
+                      "genre",
+                      filters.genre === genre ? GENRES[0] : genre
+                    )
+                  }
+                  color="primary"
+                />
+              ))}
+            </Stack>
+          </Box>
+
+          {/* 언어 필터 섹션 */}
+          <Box>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 1 }}
+            >
+              <LanguageIcon fontSize="small" />
+              언어
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              {LANGUAGES.map((language) => (
+                <FilterBadge
+                  key={language}
+                  label={language}
+                  isActive={filters.language === language}
+                  onClick={() =>
+                    handleFilterChange(
+                      "language",
+                      filters.language === language ? LANGUAGES[0] : language
+                    )
+                  }
+                  color="info"
+                />
+              ))}
+            </Stack>
+          </Box>
+        </Stack>
+
+        {/* 평점 범위 설정 팝오버 */}
+        <Popover
+          open={Boolean(ratingAnchorEl)}
+          anchorEl={ratingAnchorEl}
+          onClose={handleRatingClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          slotProps={{
+            paper: {
+              sx: {
+                width: 300,
+                p: 3,
+                border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+              },
+            },
+          }}
+          PaperProps={{}}
         >
-          {GENRES.map((genre) => (
-            <MenuItem key={genre} value={genre}>
-              {genre}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* 언어 필터 */}
-      <FormControl>
-        <InputLabel>언어</InputLabel>
-        <Select
-          label="언어"
-          value={language}
-          name="language"
-          onChange={handleFilterChange}
-          startAdornment={<FilterListIcon />}
-        >
-          {LANGUAGES.map((option) => (
-            <MenuItem key={option} value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      {/* 초기화 버튼 */}
-      <Button
-        variant="contained"
-        // color="secondary"
-        onClick={handleResetFilters}
-        startIcon={<RefreshIcon />}
-      >
-        초기화
-      </Button>
-    </Box>
+          <Stack spacing={2}>
+            <Typography variant="subtitle2" fontWeight="medium">
+              평점 범위 설정
+            </Typography>
+            <Box>
+              <Slider
+                value={[tempRating.gte, tempRating.lte]}
+                onChange={(_, newValue) => {
+                  const [gte, lte] = newValue as number[];
+                  setTempRating({ gte, lte });
+                }}
+                min={0}
+                max={10}
+                step={0.5}
+                marks
+                valueLabelDisplay="auto"
+                color="warning"
+              />
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                align="center"
+              >
+                {tempRating.gte}점 ~ {tempRating.lte}점
+              </Typography>
+            </Box>
+            <Stack direction="row" spacing={1}>
+              <Button
+                fullWidth
+                variant="outlined"
+                size="small"
+                onClick={handleRatingClear}
+              >
+                초기화
+              </Button>
+              <Button
+                fullWidth
+                variant="contained"
+                size="small"
+                onClick={handleRatingApply}
+                color="warning"
+              >
+                적용하기
+              </Button>
+            </Stack>
+          </Stack>
+        </Popover>
+      </Stack>
+    </Paper>
   );
 };
 

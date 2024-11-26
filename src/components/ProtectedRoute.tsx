@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSessionStore } from "../store/useSessionStore";
-import { ROUTES } from "../constants";
+import { ROUTES } from "../utils/constants";
 import { useShallow } from "zustand/react/shallow";
 
 const ProtectedRoute: React.FC = () => {
