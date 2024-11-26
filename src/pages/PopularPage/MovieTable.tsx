@@ -7,6 +7,7 @@ import MoviePoster from "../../components/MoviePoster";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import MoviePosterInf from "../../components/MoviePosterInf";
 import { fadeInCommonOption } from "../../animation/pageTransition";
+import { motion } from "motion/react";
 
 const GAP = 2;
 
@@ -85,6 +86,7 @@ export default function MovieTable({
         alignContent="center"
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
+        component={motion.div}
         {...fadeInCommonOption}
       >
         {movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
