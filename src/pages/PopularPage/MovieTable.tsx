@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Movie, TMDB_IMAGE } from "../../api";
+import { Movie } from "../../api";
 import MoviePosterInf from "../../components/MoviePosterInf";
 import { fadeInCommonOption } from "../../animation/pageTransition";
 import { motion } from "motion/react";
@@ -120,37 +120,37 @@ export default function MovieTable({
   );
 }
 
-function useImagePreload(page: number, itemsPerPage: number, movies: Movie[]) {
-  const [loading, setLoading] = useState(true);
+// function useImagePreload(page: number, itemsPerPage: number, movies: Movie[]) {
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!movies || movies.length === 0) {
-      setLoading(false);
-      return;
-    }
+//   useEffect(() => {
+//     if (!movies || movies.length === 0) {
+//       setLoading(false);
+//       return;
+//     }
 
-    const startIdx = (page - 1) * itemsPerPage;
-    const currentMovies = movies.slice(startIdx, startIdx + itemsPerPage);
+//     const startIdx = (page - 1) * itemsPerPage;
+//     const currentMovies = movies.slice(startIdx, startIdx + itemsPerPage);
 
-    // 모든 이미지 로드 확인
-    const imageLoadPromises = currentMovies.map(
-      (movie) =>
-        new Promise<void>((resolve) => {
-          const img = new Image();
-          img.src = `${TMDB_IMAGE}/w300/${movie.poster_path}`; // replace with actual poster URL field
-          img.onload = () => resolve();
-          img.onerror = () => resolve(); // 에러가 발생해도 처리
-        })
-    );
+//     // 모든 이미지 로드 확인
+//     const imageLoadPromises = currentMovies.map(
+//       (movie) =>
+//         new Promise<void>((resolve) => {
+//           const img = new Image();
+//           img.src = `${TMDB_IMAGE}/w300/${movie.poster_path}`; // replace with actual poster URL field
+//           img.onload = () => resolve();
+//           img.onerror = () => resolve(); // 에러가 발생해도 처리
+//         })
+//     );
 
-    setLoading(true);
-    Promise.all(imageLoadPromises).then(() => {
-      setLoading(false);
-    });
-  }, [page, movies, itemsPerPage]);
+//     setLoading(true);
+//     Promise.all(imageLoadPromises).then(() => {
+//       setLoading(false);
+//     });
+//   }, [page, movies, itemsPerPage]);
 
-  return loading;
-}
+//   return loading;
+// }
 
 function useTableViewSize() {
   const tableViewRef = useRef<HTMLDivElement>(null);

@@ -7,8 +7,6 @@ import {
   Slider,
   Popover,
   Button,
-  Divider,
-  IconButton,
   Stack,
   useTheme,
   alpha,
@@ -18,7 +16,6 @@ import {
   LocalMovies as GenreIcon,
   Language as LanguageIcon,
   Close as CloseIcon,
-  TrendingUp as TrendingIcon,
   Add as AddIcon,
 } from "@mui/icons-material";
 import { GENRES, LANGUAGES, RatingRange } from "./filterConstant";
