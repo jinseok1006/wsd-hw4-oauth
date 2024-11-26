@@ -7,7 +7,10 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
 import useWishlistStore from "../store/useWishlistStore";
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../animation/pageTransition";
+import {
+  fadeInCommonOption,
+  fadeInInfiniteScrollOption,
+} from "../animation/pageTransition";
 import MoviePosterInf from "../components/MoviePosterInf";
 // const scrollStyle={
 //   marginT
@@ -27,20 +30,24 @@ export default function WishListPage() {
           <Grid container spacing={2} sx={{ py: 2, px: 2 }}>
             <AnimatePresence>
               {wishlist.length === 0 ? (
-                <Grid size={{ xs: 12 }}>
-                  <motion.div {...fadeInCommonOptions}>
-                    <Typography textAlign="center">
-                      저장된 영화가 없습니다.
-                    </Typography>
-                  </motion.div>
+                <Grid
+                  size={{ xs: 12 }}
+                  component={motion.div}
+                  {...fadeInInfiniteScrollOption}
+                >
+                  <Typography textAlign="center">
+                    저장된 영화가 없습니다.
+                  </Typography>
                 </Grid>
               ) : (
                 wishlist.map((movie) => (
                   <Grid
+                    component={motion.div}
                     size={{ xs: 4, sm: 3, md: 1.5 }}
                     key={movie.poster_path}
+                    {...fadeInInfiniteScrollOption}
                   >
-                    <MoviePosterInf movie={movie} animate={true}/>
+                    <MoviePosterInf movie={movie} animate={false} />
                   </Grid>
                 ))
               )}

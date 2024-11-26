@@ -7,7 +7,7 @@ import styles from "./index.module.css";
 import { Movie } from "../../api";
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { fadeInCommonOption } from "../../animation/pageTransition";
 import MoviePoster from "./MoviePoster";
 import { Typography } from "@mui/material";
 
@@ -43,7 +43,7 @@ export default function MovieSlider({
       >
         {title}
       </Typography>
-      <motion.div {...fadeInCommonOptions}>
+      <motion.div {...fadeInCommonOption}>
         <Swiper
           modules={[Navigation, Mousewheel]}
           slidesPerView={"auto"}

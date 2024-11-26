@@ -13,7 +13,7 @@ import { useSessionStore } from "../../store/useSessionStore";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import useDialogStore from "../../store/useDialogStore";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { fadeInCommonOption } from "../../animation/pageTransition";
 import useSnackbarStore from "../../store/useSnakbarStore";
 import useWishlistStore from "../../store/useWishlistStore";
 import { useShallow } from "zustand/react/shallow";
@@ -60,7 +60,7 @@ function SignIn() {
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트/언마운트 될 때만 실행
 
   return (
-    <motion.div {...fadeInCommonOptions}>
+    <motion.div {...fadeInCommonOption}>
       <div className={cx("container")}>
         <SignInForm
           isReturningToSignIn={isReturningToSignIn}

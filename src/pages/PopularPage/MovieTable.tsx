@@ -6,7 +6,7 @@ import { Movie, TMDB_IMAGE } from "../../api";
 import MoviePoster from "../../components/MoviePoster";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import MoviePosterInf from "../../components/MoviePosterInf";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { fadeInCommonOption } from "../../animation/pageTransition";
 
 const GAP = 2;
 
@@ -85,7 +85,7 @@ export default function MovieTable({
         alignContent="center"
         ref={tableViewRef}
         sx={{ height: tableViewSize.height }}
-        {...fadeInCommonOptions}
+        {...fadeInCommonOption}
       >
         {movies.slice(currentIdx, currentIdx + itemsPerPage).map((movie) => (
           <Box key={movie.poster_path}>

@@ -5,7 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 
 export default function MoviePoster({ movie }: { movie: Movie }) {
   const [toggleWishlist, includeWishlist] = useWishlistStore(
-    useShallow((state) => [state.toggleWishlist, state.includeWishlist])
+    useShallow((state) => [state.toggleWishlist, state.includeWishlist, state.wishlist])
   );
 
   const isWishlisted = includeWishlist(movie);

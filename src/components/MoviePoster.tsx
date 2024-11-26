@@ -2,7 +2,7 @@ import useWishlistStore from "../store/useWishlistStore";
 import { Movie, TMDB_IMAGE } from "../api";
 import { alpha, Box, IconButton, Typography } from "@mui/material";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../animation/pageTransition";
+import { fadeInCommonOption, fadeInInfiniteScrollOption } from "../animation/pageTransition";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 const motionDivStyle = { height: "100%" };
@@ -20,7 +20,7 @@ export default function MoviePoster({
   const isWishlisted = includeWishlist(movie);
 
   return (
-    <motion.div style={motionDivStyle} {...fadeInCommonOptions}>
+    <motion.div style={motionDivStyle} {...fadeInInfiniteScrollOption}>
       <Box
         onClick={() => toggleWishlist(movie)}
         sx={{

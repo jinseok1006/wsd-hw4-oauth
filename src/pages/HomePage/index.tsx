@@ -9,7 +9,7 @@ import api, { Movie, TMDB_IMAGE, type MovieResponse } from "../../api";
 import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
-import { fadeInCommonOptions } from "../../animation/pageTransition";
+import { fadeInCommonOption } from "../../animation/pageTransition";
 import { Box,  Typography } from "@mui/material";
 import { MotionBox } from "../../utils/motionBox";
 
@@ -90,7 +90,7 @@ export default function HomePage() {
       </section>
       <Box component="footer" sx={{ pt: 10 }}>
         <div className={cx("wrap")}>
-          <motion.div className={cx("social-icons")} {...fadeInCommonOptions}>
+          <motion.div className={cx("social-icons")} {...fadeInCommonOption}>
             <i className={cx("fa-brands", "fa-facebook-square")}></i>
             <i className={cx("fa-brands", "fa-instagram")}></i>
             <i className={cx("fa-brands", "fa-twitter")}></i>
@@ -190,7 +190,7 @@ function Hero({ featuredMovie }: { featuredMovie: Movie }) {
 function SimpleFooter() {
   const cx = classNames.bind(styles);
   return (
-    <motion.div className={cx("options")} {...fadeInCommonOptions}>
+    <motion.div className={cx("options")} {...fadeInCommonOption}>
       <Typography
         sx={{ fontSize: { xs: "0.85rem", md: "1rem" } }}
         component="div"

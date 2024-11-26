@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import { Movie, TMDB_IMAGE } from "../api";
 import useWishlistStore from "../store/useWishlistStore";
 import { useShallow } from "zustand/react/shallow";
-import { fadeInInfiniteScroll } from "../animation/pageTransition";
+import { fadeInInfiniteScrollOption } from "../animation/pageTransition";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
+const motionDivStyle = { height: "100%" };
 const MoviePosterInf = ({
   movie,
   animate,
@@ -18,7 +19,7 @@ const MoviePosterInf = ({
   width?: number;
   height?: number;
 }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [toggleWishlist, includeWishlist] = useWishlistStore(
     useShallow((state) => [
       state.toggleWishlist,
@@ -39,8 +40,8 @@ const MoviePosterInf = ({
 
   return (
     <motion.div
-      style={{ height: "100%" }}
-      {...(animate ? fadeInInfiniteScroll : {})}
+      // style={motionDivStyle}
+      {...(animate ? fadeInInfiniteScrollOption: {})}
     >
       <Box
         onClick={() => !isLoading && toggleWishlist(movie)}
