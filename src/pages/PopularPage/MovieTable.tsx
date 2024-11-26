@@ -3,8 +3,6 @@ import { Box, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Movie, TMDB_IMAGE } from "../../api";
-import MoviePoster from "../../components/MoviePoster";
-import CircularIndeterminate from "../../components/CircularIndeterminate";
 import MoviePosterInf from "../../components/MoviePosterInf";
 import { fadeInCommonOption } from "../../animation/pageTransition";
 import { motion } from "motion/react";

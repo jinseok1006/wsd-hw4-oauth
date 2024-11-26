@@ -7,7 +7,6 @@ import { useShallow } from "zustand/react/shallow";
 import { fadeInInfiniteScrollOption } from "../animation/pageTransition";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
-const motionDivStyle = { height: "100%" };
 const MoviePosterInf = ({
   movie,
   animate,

@@ -5,11 +5,6 @@ import BackupTableIcon from "@mui/icons-material/BackupTable";
 import MovieInfiniteScroll from "./MovieInfiniteScroll";
 import MovieTable from "./MovieTable";
 import useMovie from "../../hooks/useMovie";
-import { alpha } from "@mui/material";
-import {
-  GridView as GridViewIcon,
-  ViewList as ViewListIcon,
-} from "@mui/icons-material";
 
 export default function PopularPage() {
   const [viewMode, setViewMode] = useState("pagination"); // 초기 모드를 무한 스크롤로 설정
