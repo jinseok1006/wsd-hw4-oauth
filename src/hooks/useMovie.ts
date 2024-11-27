@@ -23,15 +23,15 @@ export default function useMovie() {
     }
 
     // 중복된 영화 제거
-    const uniqueMoreMovies = removeRedundantMovies(movies, cache);
-
+    const uniqueMoreMovies = removeRedundantMovies(movies, cache).filter(
+      (movie) => movie.poster_path !== null
+    );
 
     // 상태 업데이트
     return setMovies([...movies, ...uniqueMoreMovies]);
   };
 
-
-  const fetchMoreMovies = async (page:number) => {
+  const fetchMoreMovies = async (page: number) => {
     if (user) {
       return api
         .get("movie/popular", {

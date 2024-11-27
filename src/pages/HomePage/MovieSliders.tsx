@@ -22,12 +22,6 @@ export default function MovieSlider({
 }) {
   const cx = classNames.bind(styles);
 
-  useEffect(() => {
-    console.log("mount!");
-    return () => {
-      console.log("unmount?");
-    };
-  }, []);
 
   return (
     <div className={cx("content-list")}>

@@ -8,9 +8,6 @@ export default function SimpleSnackBar() {
     useShallow((state) => [state.isOpen, state.desc, state.close])
   );
 
-  useEffect(() => {
-    console.log(isOpen);
-  }, [isOpen]);
 
   return (
     <Snackbar
