@@ -26,6 +26,7 @@ export default function ResponsiveAppBar() {
   const [drawerOpen, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
+    document.body.style.overflow = newOpen ? "auto" : "hidden";
   };
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(

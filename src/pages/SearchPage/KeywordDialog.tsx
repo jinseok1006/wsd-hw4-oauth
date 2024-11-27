@@ -36,6 +36,7 @@ const fetchKeywordMovies = (user: User, keyword: string, page: number = 1) =>
 const KeywordDialog: React.FC<KeywordDialogProps> = ({ isOpen, onClose }) => {
   const [keyword, setKeyword] = React.useState("");
   const { history, addToHistory, clearHistory } = useSearchHistory();
+  const [shouldSearch, setShouldSearch] = useState(false);
 
   const user = useSessionStore((state) => state.user);
 
@@ -60,9 +61,16 @@ const KeywordDialog: React.FC<KeywordDialogProps> = ({ isOpen, onClose }) => {
     doFetch();
   };
 
+  useEffect(() => {
+    if (shouldSearch && keyword.trim()) {
+      doFetch();
+      setShouldSearch(false);
+    }
+  }, [keyword, shouldSearch]);
+
   const handleHistorySelect = (selectedKeyword: string) => {
     setKeyword(selectedKeyword);
-    handleSearch();
+    setShouldSearch(true);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -70,6 +78,12 @@ const KeywordDialog: React.FC<KeywordDialogProps> = ({ isOpen, onClose }) => {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    if (keyword === "") {
+      setSearchResults([]);
+    }
+  }, [keyword]);
 
   useEffect(() => {
     if (!isOpen) {

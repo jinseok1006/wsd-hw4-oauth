@@ -21,7 +21,7 @@ const initialFilterState = {
   rating: { gte: 8, lte: 10 },
   genre: GENRES[0],
   language: LANGUAGES[0],
-  searchTerm: '',
+  searchTerm: "",
 };
 
 export default function SearchPage() {
@@ -47,7 +47,10 @@ export default function SearchPage() {
     const moreMovies = await fetchMoreMovies();
     if (!moreMovies) return;
 
-    const uniqueMoives = removeRedundantMovies(movies, moreMovies.results);
+    const uniqueMoives = removeRedundantMovies(
+      movies,
+      moreMovies.results
+    ).filter((moive) => moive.poster_path !== null);
     setMovies([...movies, ...uniqueMoives]);
   };
 
