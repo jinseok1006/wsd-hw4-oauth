@@ -29,16 +29,16 @@ const theme = createTheme({
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 function App() {
-  const setUser = useSessionStore((state) => state.setUser);
-  const setEmail = useWishlistStore((state) => state.setEmail);
+  // const setUser = useSessionStore((state) => state.setUser);
+  // const setEmail = useWishlistStore((state) => state.setEmail);
 
-  useEffect(() => {
-    setUser({
-      email: "testuser@gmail.com",
-      apiKey: TMDB_API_KEY,
-    }),
-      setEmail("testuser@gmail.com");
-  }, [setUser, setEmail]);
+  // useEffect(() => {
+  //   setUser({
+  //     email: "testuser@gmail.com",
+  //     apiKey: TMDB_API_KEY,
+  //   }),
+  //     setEmail("testuser@gmail.com");
+  // }, [setUser, setEmail]);
 
   return (
     <ThemeProvider theme={theme}>
