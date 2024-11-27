@@ -1,5 +1,4 @@
 // components/SearchHistoryList.tsx
-import React from 'react';
 import { 
   List, 
   ListItem, 

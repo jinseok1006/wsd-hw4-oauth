@@ -5,19 +5,14 @@ import {
   Button,
   TextField,
   Box,
-  Typography,
   alpha,
   InputAdornment,
-  CircularProgress,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import api, { Movie, MovieResponse } from "../../api";
 import { useSearchHistory } from "../../hooks/useSearchHistory";
-import SearchResultList from "./SearchResultList";
-import SearchHistoryList from "./SearchHistoryList";
-import useKeywordMovie from "../../hooks/useKeyword";
 import { User, useSessionStore } from "../../store/useSessionStore";
-import { useAsync, useAsyncFn } from "react-use";
+import { useAsyncFn } from "react-use";
 import SearchResults from "./SearchResults";
 
 interface KeywordDialogProps {
@@ -84,8 +79,6 @@ const KeywordDialog: React.FC<KeywordDialogProps> = ({ isOpen, onClose }) => {
       }, 300);
     }
   }, [isOpen]);
-
-
 
   return (
     <Dialog

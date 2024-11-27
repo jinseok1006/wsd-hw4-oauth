@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, CircularProgress, alpha } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import SearchResultList from "./SearchResultList";
 import SearchHistoryList from "./SearchHistoryList";
 import { Movie } from "../../api";
