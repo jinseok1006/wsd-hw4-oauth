@@ -321,9 +321,10 @@ const fetchPopularMovies = (user: User) =>
 
 const fetchTvShows = (user: User) =>
   api
-    .get("discover/tv", {
+    .get("discover/movie", {
       searchParams: {
         api_key: user.apiKey,
+        with_genres: 10770,
       },
     })
     .json<MovieResponse>();

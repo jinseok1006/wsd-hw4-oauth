@@ -126,9 +126,6 @@ const MoviePosterInf = ({
               fontSize: "0.875rem",
               lineHeight: "1.25rem",
               letterSpacing: "-0.006em",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
             width={width}
           >
