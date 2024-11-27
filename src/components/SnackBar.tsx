@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Alert, Snackbar } from "@mui/material";
 import { useShallow } from "zustand/react/shallow";
 import useSnackbarStore from "../store/useSnakbarStore";
@@ -7,7 +6,6 @@ export default function SimpleSnackBar() {
   const [isOpen, desc, close] = useSnackbarStore(
     useShallow((state) => [state.isOpen, state.desc, state.close])
   );
-
 
   return (
     <Snackbar

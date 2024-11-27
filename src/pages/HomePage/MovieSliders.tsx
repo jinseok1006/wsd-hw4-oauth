@@ -5,7 +5,6 @@ import "swiper/css/navigation";
 import classNames from "classnames/bind";
 import styles from "./index.module.css";
 import { Movie } from "../../api";
-import { useEffect } from "react";
 import { motion } from "motion/react";
 import { fadeInCommonOption } from "../../animation/pageTransition";
 import MoviePoster from "./MoviePoster";
