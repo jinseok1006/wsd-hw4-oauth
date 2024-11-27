@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useSessionStore } from "../store/useSessionStore";
 import { useShallow } from "zustand/react/shallow";
 import api, { Movie, MovieResponse } from "../api";

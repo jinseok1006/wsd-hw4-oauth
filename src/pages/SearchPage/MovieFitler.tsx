@@ -10,7 +10,6 @@ import {
   Stack,
   useTheme,
   alpha,
-  TextField,
 } from "@mui/material";
 import {
   Stars as StarsIcon,
@@ -24,9 +23,6 @@ import { GENRES, LANGUAGES, RatingRange } from "./filterConstant";
 import { FilterState } from "./filterConstant";
 import useDialog from "./useDialog";
 import KeywordDialog from "./KeywordDialog";
-import { useAsyncFn } from "react-use";
-import { User, useSessionStore } from "../../store/useSessionStore";
-import api, { MovieResponse } from "../../api";
 
 interface MovieFilterProps {
   filters: FilterState;
@@ -36,17 +32,6 @@ interface MovieFilterProps {
   ) => void;
   handleResetFilters: () => void;
 }
-
-const fetchKeywordMovies = (user: User, keyword: string, page: number = 1) =>
-  api
-    .get("search/movie", {
-      searchParams: {
-        api_key: user.apiKey,
-        query: keyword,
-        page,
-      },
-    })
-    .json<MovieResponse>();
 
 const FilterBadge = ({
   label,

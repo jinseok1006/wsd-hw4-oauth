@@ -5,9 +5,6 @@ import { ThemeProvider } from "@emotion/react";
 import SimpleDialog from "./components/SimpleDialog";
 
 import SimpleSnackBar from "./components/SnackBar";
-import { useSessionStore } from "./store/useSessionStore";
-import { useEffect } from "react";
-import useWishlistStore from "./store/useWishlistStore";
 
 const fontFamily =
   '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif';
@@ -26,7 +23,6 @@ const theme = createTheme({
     fontFamily,
   },
 });
-const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 function App() {
   // const setUser = useSessionStore((state) => state.setUser);
