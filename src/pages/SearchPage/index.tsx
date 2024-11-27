@@ -21,6 +21,7 @@ const initialFilterState = {
   rating: { gte: 8, lte: 10 },
   genre: GENRES[0],
   language: LANGUAGES[0],
+  searchTerm: '',
 };
 
 export default function SearchPage() {

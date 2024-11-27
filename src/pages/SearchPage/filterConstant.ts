@@ -7,6 +7,7 @@ export interface FilterState {
   rating: RatingRange;
   genre: (typeof GENRES)[number];
   language: (typeof LANGUAGES)[number];
+  searchTerm: string;
 }
 
 export const LANGUAGES = ["영어", "한국어"] as const;
