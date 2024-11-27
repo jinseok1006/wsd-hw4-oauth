@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, CircularProgress, Container, Fab } from "@mui/material";
+import { CircularProgress, Container, Fab } from "@mui/material";
 import { KeyboardArrowUp as KeyboardArrowUpIcon } from "@mui/icons-material";
-import { SelectChangeEvent } from "@mui/material/Select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Grid from "@mui/material/Grid2";
 import ScrollTop from "../../components/ScrollTop";
@@ -15,7 +14,6 @@ import {
   LanguageCode,
   LANGUAGES,
 } from "./filterConstant";
-import MoviePoster from "../../components/MoviePoster";
 import removeRedundantMovies from "../../utils/removeRedundantMovies";
 import MoviePosterInf from "../../components/MoviePosterInf";
 
@@ -23,6 +21,7 @@ const initialFilterState = {
   rating: { gte: 8, lte: 10 },
   genre: GENRES[0],
   language: LANGUAGES[0],
+  searchTerm: '',
 };
 
 export default function SearchPage() {
