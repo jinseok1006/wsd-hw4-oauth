@@ -92,7 +92,7 @@
 
 4. 개발 서버를 실행합니다.
    ```
-   npm start
+   npm run dev
    ```
 
 5. 웹 브라우저에서 `http://localhost:5173`으로 접속합니다.
