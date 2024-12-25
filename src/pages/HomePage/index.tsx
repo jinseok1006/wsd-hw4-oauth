@@ -10,7 +10,7 @@ import { useShallow } from "zustand/react/shallow";
 import CircularIndeterminate from "../../components/CircularIndeterminate";
 import { motion } from "motion/react";
 import { fadeInCommonOption } from "../../animation/pageTransition";
-import { Box,  Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { MotionBox } from "../../utils/motionBox";
 
 // const zoomOutAnimation = {
@@ -18,8 +18,6 @@ import { MotionBox } from "../../utils/motionBox";
 //   animate: { scale: 1, opacity: 1 },   // 원래 크기와 불투명 상태로 이동
 //   transition: { duration: 1, ease: "easeOut" }, // 1초 동안 자연스러운 전환
 // };
-
-
 
 const heroImageZoomOut = {
   initial: { scale: 1.05, opacity: 0 },
@@ -136,7 +134,7 @@ function Hero({ featuredMovie }: { featuredMovie: Movie }) {
             backgroundSize: "cover", // 배경 이미지가 컨테이너를 완전히 덮도록 설정
             backgroundPosition: "center", // 배경 이미지를 컨테이너의 중앙에 위치
             backgroundRepeat: "no-repeat", // 배경 이미지 반복 방지
-            height: { md: "60vh", xs: "30vh"},
+            height: { md: "60vh", xs: "30vh" },
             width: "100%",
           }}
         />
@@ -160,21 +158,21 @@ function Hero({ featuredMovie }: { featuredMovie: Movie }) {
         </div>
       </MotionBox>
       <MotionBox
-          className={cx("description")}
-          {...heroDescriptionFadeIn(1)}
-          sx={{ display: { xs: "block", md: "none" } }}
-        >
-          <h1>{featuredMovie.title}</h1>
-          <div className={cx("buttons")}>
-            <button className={cx("play")}>
-              <i className={cx("fa-solid", "fa-play")}></i>
-              <span>재생</span>
-            </button>
-            <button className={cx("detail")}>
-              <i className={cx("fa-solid", "fa-circle-info")}></i>상세 정보
-            </button>
-          </div>
-        </MotionBox>
+        className={cx("description")}
+        {...heroDescriptionFadeIn(1)}
+        sx={{ display: { xs: "block", md: "none" } }}
+      >
+        <h1>{featuredMovie.title}</h1>
+        <div className={cx("buttons")}>
+          <button className={cx("play")}>
+            <i className={cx("fa-solid", "fa-play")}></i>
+            <span>재생</span>
+          </button>
+          <button className={cx("detail")}>
+            <i className={cx("fa-solid", "fa-circle-info")}></i>상세 정보
+          </button>
+        </div>
+      </MotionBox>
       <MotionBox
         className={cx("age-info")}
         sx={{ display: { xs: "none !important", md: "flex !important" } }}
@@ -291,9 +289,9 @@ function useFetchMovies(user: User | null) {
     async () =>
       user &&
       Promise.all([
-        fetchPopularMovies(user),
-        fetchTvShows(user),
-        fetchAnimations(user),
+        fetchPopularMovies(),
+        fetchTvShows(),
+        fetchAnimations(),
       ]),
     [user]
   );
@@ -310,30 +308,26 @@ function useFetchMovies(user: User | null) {
   };
 }
 
-const fetchPopularMovies = (user: User) =>
+const fetchPopularMovies = () =>
   api
     .get("movie/popular", {
-      searchParams: {
-        api_key: user.apiKey,
-      },
+      searchParams: {},
     })
     .json<MovieResponse>();
 
-const fetchTvShows = (user: User) =>
+const fetchTvShows = () =>
   api
     .get("discover/movie", {
       searchParams: {
-        api_key: user.apiKey,
         with_genres: 10770,
       },
     })
     .json<MovieResponse>();
 
-const fetchAnimations = (user: User) =>
+const fetchAnimations = () =>
   api
     .get("discover/movie", {
       searchParams: {
-        api_key: user.apiKey,
         with_genres: 16,
       },
     })

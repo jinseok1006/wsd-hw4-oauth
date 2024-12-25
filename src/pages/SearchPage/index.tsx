@@ -71,7 +71,7 @@ export default function SearchPage() {
       return api
         .get("discover/movie", {
           searchParams: {
-            api_key: user.apiKey,
+            // api_key: user.apiKey,
             page: page.current++,
             with_genres: GenreCode[filters.genre] ?? "",
             with_original_language: LanguageCode[filters.language],
