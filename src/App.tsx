@@ -5,6 +5,8 @@ import { ThemeProvider } from "@emotion/react";
 import SimpleDialog from "./components/SimpleDialog";
 
 import SimpleSnackBar from "./components/SnackBar";
+// import { useEffect } from "react";
+import useKakao from "./hooks/useKakao";
 
 const fontFamily =
   '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", sans-serif';
@@ -36,6 +38,13 @@ function App() {
   //     setEmail("testuser@gmail.com");
   // }, [setUser, setEmail]);
 
+  const loaded = useKakao();
+
+  if (!loaded) {
+    return <div>kakao sdk 로딩중</div>;
+  }
+
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -47,11 +56,11 @@ function App() {
         }}
       />
       <RouterProvider router={router} />
-
       <SimpleDialog />
       <SimpleSnackBar />
     </ThemeProvider>
   );
 }
+
 
 export default App;

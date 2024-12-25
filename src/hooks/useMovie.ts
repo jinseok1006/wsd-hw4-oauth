@@ -36,7 +36,7 @@ export default function useMovie() {
       return api
         .get("movie/popular", {
           searchParams: {
-            api_key: user.apiKey,
+            // api_key: user.apiKey,
             page,
           },
         })

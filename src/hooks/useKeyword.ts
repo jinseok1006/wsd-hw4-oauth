@@ -42,7 +42,7 @@ export default function useKeywordMovie() {
       return api
         .get("search/movie", {
           searchParams: {
-            api_key: user.apiKey,
+            // api_key: user.apiKey,
             page: page.current++,
             query: keyword,
           },
