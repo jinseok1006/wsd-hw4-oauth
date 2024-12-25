@@ -9,6 +9,7 @@ export const ROUTES = {
   wishlist: "whitelist",
   popular: "popular",
   search: "search",
+  userInfo: 'userInfo'
 } as const;
 
 export const PAGES = [

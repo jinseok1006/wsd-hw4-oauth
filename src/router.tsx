@@ -12,7 +12,8 @@ import SearchPage from "./pages/SearchPage";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import OauthCallbackPage from "./pages/OauthCallbackPage";
-import KakaoLoginPage from "./pages/KaKaoLoginPage";
+import KakaoLoginPage from "./pages/KakaoLoginPage";
+import UserInfo from "./pages/UserInfoPage";
 
 const routes = createRoutesFromElements(
   <Route path={ROUTES.root} element={<Layout />}>
@@ -22,6 +23,8 @@ const routes = createRoutesFromElements(
       <Route path={ROUTES.wishlist} element={<WishListPage />} />
       <Route path={ROUTES.popular} element={<PopularPage />} />
       <Route path={ROUTES.search} element={<SearchPage />} />
+      <Route path={ROUTES.userInfo} element={<UserInfo />} />
+
     </Route>
     
     <Route path='oauth/callback' element={<OauthCallbackPage />} />

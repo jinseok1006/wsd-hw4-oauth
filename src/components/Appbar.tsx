@@ -12,6 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 
 import Drawer from "./Drawer";
 
@@ -21,7 +22,7 @@ import { useSessionStore } from "../store/useSessionStore";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon, ListItemText } from "@mui/material";
-import logoImage from '../assets/logo.png';
+import logoImage from "../assets/logo.png";
 
 export default function ResponsiveAppBar() {
   const { user, logout } = useSessionStore();
@@ -136,6 +137,12 @@ export default function ResponsiveAppBar() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
+                  <MenuItem component={Link} to="/userInfo" key="userInfo" onClick={handleCloseUserMenu}>
+                    <ListItemIcon>
+                      <PermIdentityIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="내 정보" />
+                  </MenuItem>
                   <MenuItem key="logout" onClick={handleLogout}>
                     <ListItemIcon>
                       <LogoutIcon fontSize="small" />
