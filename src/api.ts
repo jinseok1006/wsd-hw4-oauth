@@ -3,11 +3,13 @@ import ky from "ky";
 
 const TMDB = "https://api.themoviedb.org/3/";
 export const TMDB_IMAGE = "https://image.tmdb.org/t/p";
+const TMDB_KEY=import.meta.env.VITE_TMDB_KEY;
 
 export default ky.create({
   prefixUrl: TMDB,
   searchParams: {
     language: "ko-KR",
+    api_key: TMDB_KEY
   },
 });
 

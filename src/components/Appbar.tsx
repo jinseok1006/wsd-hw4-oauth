@@ -98,7 +98,8 @@ export default function ResponsiveAppBar() {
                 {user ? (
                   <Box display="flex" justifyContent="center">
                     <Typography sx={{ color: "#fff", mr: 2 }}>
-                      {user.email.split("@")[0]}
+                      {/* {user.email.split("@")[0]} */}
+                      {user.name}
                     </Typography>
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <PersonIcon sx={{ color: "#fff" }} />
