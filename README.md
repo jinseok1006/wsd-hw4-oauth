@@ -2,43 +2,127 @@
 
 이 프로젝트는 React와 TypeScript를 사용하여 개발된 영화 정보 및 북마크 웹 애플리케이션입니다. 사용자는 회원가입 및 로그인을 할 수 있으며, 다양한 영화 정보를 확인하고 찜한 영화를 관리할 수 있습니다.
 
+## 설치
+
+1. 저장소를 클론합니다.
+
+```bash
+git clone https://www.github.com/jinseok1006/wsd-hw4-oauth.git
+```
+
+2. 프로젝트 디렉토리로 이동합니다.
+
+```bash
+cd wsd-hw4-oauth
+```
+
+3. 의존성 패키지를 설치합니다.
+```bash
+npm install
+```
+
+---
+
+### 개발환경
+
+1. 환경 설정 파일을 생성합니다.
+   프로젝트 루트 디렉토리에 `.env.development` 파일을 생성하고, 필요한 환경 변수들을 설정합니다. 예시:
+
+```
+VITE_KAKAO_REDIRECT_URI=https://example.com
+VITE_KAKAO_JSSDK_KEY=exmaplekey
+VITE_KAKAO_RESTAPI_KEY=exmaplekey
+VITE_TMDB_KEY=exmaplekey
+```
+
+2. 개발 서버를 실행합니다.
+
+```
+npm run dev
+```
+
+3. 웹 브라우저에서 아래 주소로 접속합니다:
+   `http://localhost:5173`
+
+---
+
+### 배포환경
+
+1. 환경 변수 설정 안내
+
+GitHub Pages로 배포할 때, `.env.production` 파일을 저장소에 포함하여 배포하면, 민감한 정보(예: API 키, 인증 토큰 등)가 외부에 노출될 위험이 있습니다.  
+이를 방지하기 위해 환경 변수는 `.env.production` 파일 대신 **GitHub Secrets**를 사용하여 관리해야 합니다.
+
+```shell
+# 다음 정보를 .env.production이 아닌 `Github Secrets`에 추가하십시오!!
+VITE_KAKAO_REDIRECT_URI=https://example.com
+VITE_KAKAO_JSSDK_KEY=exmaplekey
+VITE_KAKAO_RESTAPI_KEY=exmaplekey
+VITE_TMDB_KEY=exmaplekey
+```
+
+
+2. 작업 내용을 커밋한 뒤 원격 저장소에 푸시합니다.  
+```
+git add .
+git commit -m "작업 내용에 대한 설명"
+git push origin master
+```
+
+3. 배포된 페이지에 접속합니다:  
+`https://jinseok1006.github.io/wsd-hw4-oauth`
+
+
+
 ## 🌟 주요 기능
 
 ### 1. 회원가입 및 로그인
+
 ![login](https://github.com/user-attachments/assets/21435dbe-b2dd-4ed2-adb3-4ec7debffc09)
+
 - 사용자는 이메일과 TMDB API 키를 사용하여 회원가입을 할 수 있습니다.
 - 로그인 시 이메일과 TMDB API 키를 입력하여 인증합니다.
 - 로그인 상태가 유지되도록 세션 스토리지에 사용자 정보를 저장합니다.
 - 저장된 TMDB API 키를 사용하여 영화 데이터를 가져오는 API 요청을 보냅니다.
 
 ### 2. 홈 페이지
+
 ![main](https://github.com/user-attachments/assets/bfddabb3-e2d9-4064-84d4-7fe641261c61)
+
 - 최신 인기 영화, TV 시리즈, 애니메이션 영화 등 다양한 카테고리의 영화를 슬라이더 형태로 제공합니다.
 
-
 ### 3. 인기 영화 페이지
+
 ![table](https://github.com/user-attachments/assets/d75f9e3c-1e9f-447d-a42a-08cc5fde299c)
 ![inf](https://github.com/user-attachments/assets/1e11cda2-1b2b-44af-b1e5-ffccd8b236a8)
+
 - 현재 인기 있는 영화 목록을 제공합니다.
 - 테이블 뷰 또는 무한 스크롤 기능을 통해 추가 영화를 로드할 수 있습니다.
 
 ### 4. 영화 검색 페이지
+
 ![keyword](https://github.com/user-attachments/assets/c72c1797-7e2a-400e-8a49-0df34c812936)
 ![keyword2](https://github.com/user-attachments/assets/085bc323-f4fb-4d4a-b9dc-e7cf006cdd0a)
+
 - 사용자는 키워드를 입력하여 영화를 검색할 수 있습니다.
 - 검색 기록을 저장하고 관리할 수 있습니다.
 
 ### 5. 필터 기능
+
 ![search](https://github.com/user-attachments/assets/23846a2c-70dd-4436-9748-39cc1f88320b)
+
 - 영화 검색 시 평점, 장르, 언어 등의 필터를 적용할 수 있습니다.
 - 필터 조건을 변경하면 실시간으로 검색 결과가 업데이트됩니다.
 
 ### 6. 찜한 영화 페이지
+
 ![fav](https://github.com/user-attachments/assets/6e3da701-4920-41d7-aacb-fbed962a9d89)
+
 - 사용자가 찜한 영화 목록을 확인할 수 있습니다.
 - 찜한 영화를 클릭하면 즐겨 찾기가 해제됩니다.
 
 ## 📱 반응형 디자인
+
 ![pc](https://github.com/user-attachments/assets/708eeeb0-a8f7-4c1a-99bb-3ed47835dc0e)
 
 - 이 웹 애플리케이션은 반응형 디자인을 지원하여 데스크톱, 태블릿, 모바일 등 다양한 기기에서 최적화된 사용자 경험을 제공합니다.
@@ -46,6 +130,7 @@
 - 모바일 환경에서는 햄버거 메뉴를 통해 내비게이션 메뉴에 접근할 수 있으며, 터치에 최적화된 인터랙션을 제공합니다.
 
 ## ⚡️ 성능 최적화
+
 - 비동기 요청 시 스켈레톤 UI를 활용하여 로딩 상태를 시각적으로 표현하고, 사용자 경험을 향상시킵니다.
 - 컴포넌트 최초 마운트 시 애니메이션을 적용하여 자연스러운 페이지 전환 효과를 제공합니다.
 - 이미지 레이지 로딩과 코드 스플리팅을 통해 초기 로딩 속도를 개선하고, 불필요한 리소스 로딩을 최소화합니다.
@@ -72,32 +157,3 @@
 ## 🌐 데이터 출처
 
 - 영화 데이터는 [The Movie Database (TMDb) API](https://www.themoviedb.org/)를 사용하여 가져옵니다.
-
-## 설치 및 실행
-
-1. 저장소를 클론합니다.
-   ```
-   git clone https://www.github.com/jinseok1006/wsd-hw2-fe.git
-   ```
-
-2. 프로젝트 디렉토리로 이동합니다.
-   ```
-   cd wsd-hw2-fe
-   ```
-
-3. 의존성 패키지를 설치합니다.
-   ```
-   npm install
-   ```
-
-4. 개발 서버를 실행합니다.
-   ```
-   npm run dev
-   ```
-
-5. 웹 브라우저에서 `http://localhost:5173`으로 접속합니다.
-
-
-
-
-

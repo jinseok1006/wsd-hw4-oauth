@@ -37,7 +37,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
-          VITE_KAKAO_REDIRECT_URI: https://jinseok1006.github.io/wsd-hw4-oauth/oauth/callback
+          VITE_KAKAO_REDIRECT_URI: ${{ secrets.KAKAO_REDIRECT_URI }}
           VITE_KAKAO_JSSDK_KEY: ${{ secrets.KAKAO_JSSDK_KEY }}
           VITE_KAKAO_RESTAPI_KEY: ${{ secrets.KAKAO_RESTAPI_KEY }}
           VITE_TMDB_KEY: ${{ secrets.TMDB_KEY }}
