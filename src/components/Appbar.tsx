@@ -21,6 +21,8 @@ import { useSessionStore } from "../store/useSessionStore";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ListItemIcon, ListItemText } from "@mui/material";
+import logoImage from '../assets/logo.png';
+
 export default function ResponsiveAppBar() {
   const { user, logout } = useSessionStore();
   const [drawerOpen, setOpen] = React.useState(false);
@@ -62,7 +64,7 @@ export default function ResponsiveAppBar() {
               <Link to={ROUTES.root}>
                 <Box
                   component="img"
-                  src="logo.png"
+                  src={logoImage}
                   alt="logo"
                   sx={{ mr: 1, height: "35px", verticalAlign: "middle" }}
                 />

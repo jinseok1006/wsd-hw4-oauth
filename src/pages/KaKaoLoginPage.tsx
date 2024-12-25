@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
-
+import kakaoLoginImage from '../assets/kakao_login.png';
 const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 
 const KakaoLoginPage: React.FC = () => {
@@ -90,7 +90,7 @@ const KakaoLoginPage: React.FC = () => {
       onClick={handleKakaoLogin}
     >
       <img
-        src="kakao_login.png"
+        src={kakaoLoginImage}
         alt="카카오 로그인"
         style={{
           display: "block", // 이미지가 블록 요소로 표시되도록 설정
