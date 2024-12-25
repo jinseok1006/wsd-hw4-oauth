@@ -289,9 +289,9 @@ function useFetchMovies(user: User | null) {
     async () =>
       user &&
       Promise.all([
-        fetchPopularMovies(user),
-        fetchTvShows(user),
-        fetchAnimations(user),
+        fetchPopularMovies(),
+        fetchTvShows(),
+        fetchAnimations(),
       ]),
     [user]
   );
@@ -308,14 +308,14 @@ function useFetchMovies(user: User | null) {
   };
 }
 
-const fetchPopularMovies = (user: User) =>
+const fetchPopularMovies = () =>
   api
     .get("movie/popular", {
       searchParams: {},
     })
     .json<MovieResponse>();
 
-const fetchTvShows = (user: User) =>
+const fetchTvShows = () =>
   api
     .get("discover/movie", {
       searchParams: {
@@ -324,7 +324,7 @@ const fetchTvShows = (user: User) =>
     })
     .json<MovieResponse>();
 
-const fetchAnimations = (user: User) =>
+const fetchAnimations = () =>
   api
     .get("discover/movie", {
       searchParams: {

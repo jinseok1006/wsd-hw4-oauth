@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import useSnackbarStore from "./useSnakbarStore";
 
 export interface User {
   email: string;
@@ -14,20 +15,26 @@ interface SessionState {
   logout: () => void;
 }
 
-
-
+const triggerSnackbar = (message: string) => {
+  const snackbar = useSnackbarStore.getState();
+  snackbar.set(message);
+  snackbar.open();
+};
 
 export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
+      setUser: (user) => {
+        set({ user });
+        triggerSnackbar("로그인 성공");
+      },
       logout: async () => {
         // kakao sdk를 이용하여 확실하게 로그아웃
         // @ts-ignore
         await window.Kakao.Auth.logout();
-        console.log("로그아웃 성공");
         set({ user: null });
+        triggerSnackbar("로그아웃 성공");
       },
     }),
     {

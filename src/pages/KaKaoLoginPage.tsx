@@ -24,7 +24,7 @@ const KakaoLoginPage: React.FC = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh"
+      minHeight="95svh"
       bgcolor="background.default"
       px={3}
     >
@@ -49,7 +49,7 @@ const KakaoLoginPage: React.FC = () => {
         카카오로 로그인
       </Button> */}
 
-      <Button
+      {/* <Button
       onClick={handleKakaoLogin}
       sx={{
         textTransform: "none",
@@ -72,7 +72,31 @@ const KakaoLoginPage: React.FC = () => {
           style={{ width: "20px", height: "20px" }}
         />
       </Box>
-      카카오로 로그인
+      
+    </Button> */}
+<Button
+      sx={{
+        
+        
+        padding: 0, // 내부 패딩 제거
+        minWidth: 0, // 기본 최소 너비 제거
+        border: "none", // 테두리 제거
+        boxShadow: "none", // 그림자 제거
+        background: "none", // 기본 배경 제거
+        '&:hover': {
+          background: "none", // 호버 시 배경색 제거
+        },
+      }}
+      onClick={handleKakaoLogin}
+    >
+      <img
+        src="kakao_login.png"
+        alt="카카오 로그인"
+        style={{
+          display: "block", // 이미지가 블록 요소로 표시되도록 설정
+        
+        }}
+      />
     </Button>
     </Box>
   );

@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import { ROUTES } from "./utils/constants";
-import SignInPage from "./pages/SignInPage";
+// import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import WishListPage from "./pages/WishListPage";
 import PopularPage from "./pages/PopularPage";

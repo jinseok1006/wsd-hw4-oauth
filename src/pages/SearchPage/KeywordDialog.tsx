@@ -11,7 +11,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import api, { Movie, MovieResponse } from "../../api";
 import { useSearchHistory } from "../../hooks/useSearchHistory";
-import { User, useSessionStore } from "../../store/useSessionStore";
+import {  useSessionStore } from "../../store/useSessionStore";
 import { useAsyncFn } from "react-use";
 import SearchResults from "./SearchResults";
 
@@ -22,11 +22,11 @@ interface KeywordDialogProps {
   // fetchKeywordMovies: (user: User, keyword: string) => void;
 }
 
-const fetchKeywordMovies = (user: User, keyword: string, page: number = 1) =>
+const fetchKeywordMovies = ( keyword: string, page: number = 1) =>
   api
     .get("search/movie", {
       searchParams: {
-        api_key: user.apiKey,
+        // api_key: user.apiKey,
         query: keyword,
         page,
       },
@@ -42,7 +42,7 @@ const KeywordDialog: React.FC<KeywordDialogProps> = ({ isOpen, onClose }) => {
 
   const [state, doFetch] = useAsyncFn(async () => {
     if (user) {
-      return fetchKeywordMovies(user, keyword);
+      return fetchKeywordMovies( keyword);
     }
   }, [user, keyword]);
   const { loading: isLoading, error, value: SearchResponse } = state;
