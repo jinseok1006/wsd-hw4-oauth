@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ky from "ky";
 import { useSessionStore } from "../store/useSessionStore";
+import useSnackbarStore from "../store/useSnakbarStore";
 
 const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
 const KAKAO_RESTAPI_KEY = import.meta.env.VITE_KAKAO_RESTAPI_KEY;
@@ -35,10 +36,16 @@ interface KakaoAuthResponse {
   refresh_token_expires_in: number; // Time in seconds until the refresh token expires
 }
 
+const triggerSnackbar = (message: string, severity: "success" | "error") => {
+  const snackbar = useSnackbarStore.getState();
+  snackbar.set(message, severity);
+  snackbar.open();
+};
+
 const OauthCallbackPage: React.FC = () => {
   const location = useLocation();
   const setUser = useSessionStore((state) => state.setUser);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -50,7 +57,10 @@ const OauthCallbackPage: React.FC = () => {
       // Access Token 발급 요청
       fetchAccessToken(code);
     } else {
-      console.error("로그인 실패 또는 취소되었습니다.");
+      triggerSnackbar("로그인에 실패했습니다. 관리자에게 문의 바랍니다.", "error");
+
+
+      navigate("/");
     }
   }, [location.search]);
 
@@ -85,6 +95,7 @@ const OauthCallbackPage: React.FC = () => {
       }
     } catch (error) {
       console.error("Access Token 요청 실패:", error);
+      triggerSnackbar('Access Token 요청 실패', 'error');
     }
   };
 
@@ -110,9 +121,10 @@ const OauthCallbackPage: React.FC = () => {
         accessToken: authResponse.access_token,
         refreshToken: authResponse.refresh_token,
       });
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error("사용자 정보 요청 실패:", error);
+      triggerSnackbar('사용자 정보 요청 실패', 'error');
     }
   };
 

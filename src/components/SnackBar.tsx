@@ -3,8 +3,8 @@ import { useShallow } from "zustand/react/shallow";
 import useSnackbarStore from "../store/useSnakbarStore";
 
 export default function SimpleSnackBar() {
-  const [isOpen, desc, close] = useSnackbarStore(
-    useShallow((state) => [state.isOpen, state.desc, state.close])
+  const [isOpen, desc, close, severity] = useSnackbarStore(
+    useShallow((state) => [state.isOpen, state.desc, state.close, state.severity])
   );
 
   return (
@@ -16,7 +16,7 @@ export default function SimpleSnackBar() {
     >
       <Alert
         onClose={close}
-        severity="success"
+        severity={severity}
         variant="filled"
         sx={{ width: "100%", color: "#fff" }}
       >

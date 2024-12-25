@@ -17,7 +17,7 @@ interface SessionState {
 
 const triggerSnackbar = (message: string) => {
   const snackbar = useSnackbarStore.getState();
-  snackbar.set(message);
+  snackbar.set(message, 'success');
   snackbar.open();
 };
 
